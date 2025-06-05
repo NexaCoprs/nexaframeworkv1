@@ -277,12 +277,23 @@ Nexa Framework est conçu pour être rapide et efficace :
 
 ## 📚 Documentation
 
-- [Guide de démarrage](docs/getting-started.md)
-- [Documentation Phase 2](docs/PHASE2.md)
-- [Roadmap Phase 3](PHASE3_ROADMAP.md)
-- [API Reference](docs/api-reference.md)
-- [Exemples](examples/)
-- [FAQ](docs/faq.md)
+### Guides Essentiels
+- [🚀 Guide de Démarrage Rapide](docs/QUICK_START.md) - Commencez en 5 minutes
+- [📖 Documentation API Complète](docs/API_DOCUMENTATION.md) - Référence technique
+- [✨ Meilleures Pratiques](docs/BEST_PRACTICES.md) - Patterns et anti-patterns
+- [🎓 Tutoriels Détaillés](docs/TUTORIALS.md) - Apprenez par l'exemple
+
+### Développement
+- [🤝 Guide de Contribution](CONTRIBUTING.md) - Comment contribuer
+- [📝 Changelog](CHANGELOG.md) - Historique des versions
+- [🗺️ Phase 1 - Améliorations](PHASE1_IMPROVEMENTS.md)
+- [🗺️ Phase 2 - Roadmap](PHASE2_ROADMAP.md)
+- [🗺️ Phase 3 - Roadmap](PHASE3_ROADMAP.md)
+
+### Ressources
+- [🧪 Tests](tests/) - Suite de tests complète
+- [💡 Exemples](examples/) - Projets d'exemple
+- [🔧 Outils](tools/) - Utilitaires de développement
 
 ## 🤝 Contribution
 
