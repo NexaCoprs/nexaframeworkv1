@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexa Framework - Innovation PHP par Jean Setone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            --innovation-gradient: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
+        }
+        
+        * { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+        }
+        
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        
+        .innovation-bg {
+            background: var(--innovation-gradient);
+            background-size: 400% 400%;
+            animation: innovationFlow 15s ease infinite;
+        }
+        
+        @keyframes innovationFlow {
+            0% { background-position: 0% 50%; }
+            20% { background-position: 100% 50%; }
+            40% { background-position: 50% 100%; }
+            60% { background-position: 0% 100%; }
+            80% { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .glass-ultra {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .innovation-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .innovation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .innovation-card:hover::before {
+            left: 100%;
+        }
+        
+        .feature-innovation {
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .feature-innovation:hover {
+            transform: translateY(-20px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+        }
+        
+        .glow-text {
+            background: linear-gradient(45deg, #fff, #f0f9ff, #e0f2fe, #fff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 4s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255,255,255,0.5);
+        }
+        
+        @keyframes textGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .particle-float {
+            animation: particleFloat 8s ease-in-out infinite;
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            25% { transform: translateY(-30px) translateX(10px) rotate(90deg); }
+            50% { transform: translateY(-20px) translateX(-10px) rotate(180deg); }
+            75% { transform: translateY(-40px) translateX(5px) rotate(270deg); }
+        }
+        
+        .innovation-pulse {
+            animation: innovationPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes innovationPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.4), 0 0 40px rgba(118, 75, 162, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 80px rgba(118, 75, 162, 0.6);
+                transform: scale(1.05);
+            }
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            margin: 4rem 0;
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform-origin: left;
+            z-index: 9999;
+        }
+    </style>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="innovation-bg min-h-screen overflow-x-hidden relative">
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-ultra">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 innovation-pulse rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-xl code-font">N</span>
+                    </div>
+                    <span class="text-white font-bold text-xl">Nexa Framework</span>
+                    <span class="text-white/60 text-sm code-font ml-2">v3.0</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#bienvenue" class="text-white/90 hover:text-white transition-colors font-medium">Bienvenue</a>
+                    <a href="#presentation" class="text-white/90 hover:text-white transition-colors font-medium">Présentation</a>
+                    <a href="#fonctionnalites" class="text-white/90 hover:text-white transition-colors font-medium">Fonctionnalités</a>
+                    <a href="/documentation" class="text-white/90 hover:text-white transition-colors font-medium">Documentation</a>
+                    <a href="/about" class="text-white/90 hover:text-white transition-colors font-medium">À propos</a>
+                    <a href="/contact" class="text-white/90 hover:text-white transition-colors font-medium">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section Bienvenue -->
+    <section id="bienvenue" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+        <!-- Particules flottantes -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="particle-float absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+            <div class="particle-float absolute top-40 right-20 w-32 h-32 bg-purple-400/20 rounded-full blur-2xl" style="animation-delay: -2s;"></div>
+            <div class="particle-float absolute bottom-40 left-20 w-24 h-24 bg-blue-400/20 rounded-full blur-xl" style="animation-delay: -4s;"></div>
+            <div class="particle-float absolute bottom-20 right-10 w-16 h-16 bg-pink-400/20 rounded-full blur-xl" style="animation-delay: -1s;"></div>
+            <div class="particle-float absolute top-1/2 left-1/2 w-40 h-40 bg-cyan-400/10 rounded-full blur-3xl" style="animation-delay: -3s;"></div>
+        </div>
+
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <!-- Badge Innovation -->
+            <div class="inline-flex items-center px-8 py-4 rounded-full innovation-card mb-8 innovation-pulse">
+                <div class="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full mr-3 animate-pulse"></div>
+                <span class="text-white font-semibold text-lg">Framework PHP Nouvelle Génération</span>
+            </div>
+
+            <!-- Titre Principal -->
+            <h1 class="text-7xl md:text-9xl font-black mb-8">
+                <span class="glow-text block">Nexa</span>
+                <span class="text-white block">Framework</span>
+            </h1>
+
+            <!-- Sous-titre -->
+            <div class="mb-8">
+                <p class="text-2xl md:text-3xl text-white/90 font-light mb-4">
+                    L'Innovation PHP par <span class="font-bold glow-text">Jean Setone</span>
+                </p>
+                <p class="text-lg text-white/70 code-font">
+                    Révolutionnez votre développement web avec une architecture moderne
+                </p>
+            </div>
+
+            <!-- Description d'accueil -->
+            <p class="text-xl md:text-2xl text-white/90 mb-12 max-w-5xl mx-auto leading-relaxed">
+                Bienvenue dans l'écosystème Nexa Framework, où l'innovation rencontre la performance. 
+                Découvrez un framework PHP conçu pour les développeurs modernes qui exigent l'excellence.
+            </p>
+
+            <!-- Boutons d'action -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                <a href="#presentation" class="px-12 py-5 bg-white text-gray-900 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-2xl innovation-pulse">
+                    🚀 Découvrir Nexa
+                </a>
+                <a href="/documentation" class="px-12 py-5 innovation-card text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+                    📖 Documentation Complète
+                </a>
+            </div>
+
+            <!-- Statistiques d'innovation -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                <div class="innovation-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black glow-text mb-2">1000+</div>
+                    <div class="text-white/70 font-medium">Heures de Développement</div>
+                </div>
+                <div class="innovation-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black glow-text mb-2">25+</div>
+                    <div class="text-white/70 font-medium">Fonctionnalités Avancées</div>
+                </div>
+                <div class="innovation-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black glow-text mb-2">100%</div>
+                    <div class="text-white/70 font-medium">Code Testé</div>
+                </div>
+                <div class="innovation-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black glow-text mb-2">∞</div>
+                    <div class="text-white/70 font-medium">Possibilités</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Section Présentation -->
+    <section id="presentation" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    <span class="glow-text">Présentation</span>
+                </h2>
+                <p class="text-xl text-white/80 max-w-4xl mx-auto">
+                    Nexa Framework redéfinit les standards du développement PHP moderne
+                </p>
+            </div>
+
+            <div class="max-w-7xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+                    <div class="innovation-card p-12 rounded-3xl">
+                        <div class="flex items-center mb-8">
+                            <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mr-6">
+                                <span class="text-white font-bold text-3xl">🎯</span>
+                            </div>
+                            <div>
+                                <h3 class="text-3xl font-bold text-white mb-2">Vision Innovante</h3>
+                                <p class="text-white/70 text-lg">Par Jean Setone</p>
+                            </div>
+                        </div>
+                        <p class="text-white/90 text-lg leading-relaxed mb-8">
+                            Nexa Framework naît d'une vision claire : créer un écosystème PHP qui combine 
+                            la simplicité d'utilisation avec la puissance des technologies modernes. 
+                            Chaque composant a été pensé pour maximiser la productivité des développeurs.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center p-4 bg-white/5 rounded-xl">
+                                <div class="text-2xl font-bold glow-text">2024</div>
+                                <div class="text-white/70 text-sm">Année de création</div>
+                            </div>
+                            <div class="text-center p-4 bg-white/5 rounded-xl">
+                                <div class="text-2xl font-bold glow-text">PHP 8+</div>
+                                <div class="text-white/70 text-sm">Technologie moderne</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                            <h4 class="text-2xl font-bold text-white mb-4 flex items-center">
+                                <span class="mr-3">🏗️</span> Architecture Modulaire
+                            </h4>
+                            <p class="text-white/80 leading-relaxed">
+                                Une architecture flexible basée sur des modules indépendants, 
+                                permettant une scalabilité optimale et une maintenance simplifiée.
+                            </p>
+                        </div>
+                        
+                        <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                            <h4 class="text-2xl font-bold text-white mb-4 flex items-center">
+                                <span class="mr-3">⚡</span> Performance Optimisée
+                            </h4>
+                            <p class="text-white/80 leading-relaxed">
+                                Optimisations avancées, cache intelligent et gestion mémoire efficace 
+                                pour des applications ultra-rapides.
+                            </p>
+                        </div>
+                        
+                        <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                            <h4 class="text-2xl font-bold text-white mb-4 flex items-center">
+                                <span class="mr-3">🔒</span> Sécurité Renforcée
+                            </h4>
+                            <p class="text-white/80 leading-relaxed">
+                                Sécurité intégrée par défaut avec protection CSRF, validation automatique 
+                                et chiffrement avancé.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Philosophie de développement -->
+                <div class="innovation-card p-12 rounded-3xl text-center">
+                    <h3 class="text-3xl font-bold glow-text mb-6">Philosophie de Développement</h3>
+                    <p class="text-xl text-white/90 leading-relaxed max-w-4xl mx-auto mb-8">
+                        "Nexa Framework incarne ma philosophie du développement moderne : allier simplicité et puissance, 
+                        élégance et performance. Chaque fonctionnalité est conçue pour améliorer l'expérience développeur 
+                        tout en garantissant des applications robustes et évolutives."
+                    </p>
+                    <div class="flex justify-center">
+                        <div class="flex items-center px-6 py-3 bg-white/10 rounded-full">
+                            <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-white font-bold">JS</span>
+                            </div>
+                            <span class="text-white font-semibold">Jean Setone, Créateur</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Creator Section -->
+    <section id="creator" class="py-20 px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Le Créateur</h2>
+                <p class="text-xl text-white/80 max-w-3xl mx-auto">Découvrez l'histoire et la vision derrière Nexa Framework</p>
+            </div>
+            
+            <div class="creator-card rounded-3xl p-10 md:p-16 text-center">
+                <div class="mb-8">
+                    <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-6xl">👨‍💻</div>
+                    <h3 class="text-3xl font-bold text-white mb-4">Jean Setone Seri</h3>
+                    <p class="text-xl text-white/80 mb-6">Développeur Full-Stack & Architecte Logiciel</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-4">🎯 Vision</h4>
+                        <p class="text-white/80 leading-relaxed">
+                            Créer un framework PHP moderne qui combine simplicité d'utilisation et puissance technique, 
+                            permettant aux développeurs de construire des applications robustes avec élégance.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-4">🚀 Innovation</h4>
+                        <p class="text-white/80 leading-relaxed">
+                            Nexa Framework intègre les dernières technologies et meilleures pratiques du développement web, 
+                            avec une architecture modulaire et des performances optimisées.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="mt-12 pt-8 border-t border-white/20">
+                    <p class="text-lg text-white/90 italic">
+                        "Mon objectif avec Nexa est de démocratiser le développement web moderne en PHP, 
+                        en offrant aux développeurs les outils qu'ils méritent."
+                    </p>
+                    <p class="text-white/70 mt-4">- Jean Setone Seri, Créateur de Nexa Framework</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Section Fonctionnalités -->
+    <section id="fonctionnalites" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    <span class="glow-text">Fonctionnalités</span>
+                </h2>
+                <p class="text-xl text-white/80 max-w-4xl mx-auto leading-relaxed">
+                    Découvrez l'arsenal technologique complet qui propulse Nexa Framework 
+                    vers l'excellence du développement moderne
+                </p>
+            </div>
+
+            <!-- Fonctionnalités Core -->
+            <div class="mb-20">
+                <h3 class="text-3xl font-bold text-center mb-12">
+                    <span class="glow-text">🚀 Fonctionnalités Core</span>
+                </h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <!-- Architecture MVC -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🏗️</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Architecture MVC</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Modèle-Vue-Contrôleur moderne avec séparation claire des responsabilités 
+                            et injection de dépendances avancée.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">MVC</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">DI Container</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Auto-loading</span>
+                        </div>
+                    </div>
+
+                    <!-- ORM Avancé -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🗄️</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">ORM Intelligent</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            ORM avec requêtes optimisées, relations complexes, migrations automatiques 
+                            et cache de requêtes intégré.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Active Record</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Query Builder</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Migrations</span>
+                        </div>
+                    </div>
+
+                    <!-- Routing Intelligent -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🛣️</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Routing Avancé</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Système de routage flexible avec middleware, groupes de routes, 
+                            paramètres dynamiques et cache de routes.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">RESTful</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Middleware</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Route Caching</span>
+                        </div>
+                    </div>
+
+                    <!-- Sécurité -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🔒</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Sécurité Intégrée</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Protection CSRF, validation automatique, chiffrement, authentification 
+                            et autorisation granulaire.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">CSRF</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">JWT</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Encryption</span>
+                        </div>
+                    </div>
+
+                    <!-- Performance -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">⚡</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Performance Optimisée</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Cache multi-niveaux, optimisation automatique, compression, 
+                            et monitoring des performances en temps réel.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Redis Cache</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">OpCache</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Compression</span>
+                        </div>
+                    </div>
+
+                    <!-- Testing -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🧪</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Testing Intégré</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Suite de tests complète avec tests unitaires, d'intégration, 
+                            mocking avancé et couverture de code.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">PHPUnit</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Mocking</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Coverage</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fonctionnalités Avancées -->
+            <div class="mb-20">
+                <h3 class="text-3xl font-bold text-center mb-12">
+                    <span class="glow-text">🔥 Technologies Avancées</span>
+                </h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <!-- GraphQL -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">📊</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">GraphQL Native</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Intégration GraphQL complète avec schéma automatique, résolveurs optimisés, 
+                            subscriptions et playground intégré.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Schema Builder</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Subscriptions</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Playground</span>
+                        </div>
+                    </div>
+
+                    <!-- WebSockets -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🔄</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">WebSockets</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Communication temps réel avec serveur WebSocket intégré, 
+                            broadcasting, rooms et authentification.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Real-time</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Broadcasting</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Rooms</span>
+                        </div>
+                    </div>
+
+                    <!-- Microservices -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🏢</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Microservices</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Architecture microservices avec découverte de services, 
+                            load balancing et communication inter-services.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Service Discovery</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Load Balancing</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Circuit Breaker</span>
+                        </div>
+                    </div>
+
+                    <!-- Event Sourcing -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">📝</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Event Sourcing</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Système d'événements avec sourcing, CQRS, projections 
+                            et replay d'événements pour audit complet.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">CQRS</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Event Store</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Projections</span>
+                        </div>
+                    </div>
+
+                    <!-- Machine Learning -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">🤖</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">ML Integration</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Intégration Machine Learning avec TensorFlow PHP, 
+                            modèles pré-entraînés et pipeline ML automatisé.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">TensorFlow</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Pre-trained</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">AutoML</span>
+                        </div>
+                    </div>
+
+                    <!-- Blockchain -->
+                    <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                        <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                            <span class="text-white text-3xl">⛓️</span>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white mb-4">Blockchain Ready</h4>
+                        <p class="text-white/80 leading-relaxed mb-4">
+                            Support blockchain avec smart contracts, Web3 integration, 
+                            et outils de développement DeFi intégrés.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Smart Contracts</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">Web3</span>
+                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs text-white/70">DeFi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center">
+                <div class="innovation-card p-12 rounded-3xl max-w-4xl mx-auto">
+                    <h3 class="text-3xl font-bold glow-text mb-6">Prêt à Révolutionner Votre Développement ?</h3>
+                    <p class="text-xl text-white/90 mb-8 leading-relaxed">
+                        Explorez la documentation complète et découvrez comment Nexa Framework 
+                        peut transformer votre approche du développement PHP.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                        <a href="/documentation" class="px-10 py-4 bg-white text-gray-900 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-2xl">
+                            📚 Documentation Détaillée
+                        </a>
+                        <a href="#fonctionnalites-futures" class="px-10 py-4 innovation-card text-white rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
+                            🔮 Fonctionnalités Futures
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Section Fonctionnalités Futures -->
+    <section id="fonctionnalites-futures" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    <span class="glow-text">🔮 Fonctionnalités Futures</span>
+                </h2>
+                <p class="text-xl text-white/80 max-w-4xl mx-auto leading-relaxed">
+                    L'innovation ne s'arrête jamais. Découvrez les technologies révolutionnaires 
+                    qui arrivent dans les prochaines versions de Nexa Framework.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16">
+                <!-- Quantum Computing -->
+                <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                    <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-white text-3xl">⚛️</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-4">Quantum Computing</h4>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        Intégration des algorithmes quantiques pour des calculs ultra-rapides 
+                        et des optimisations révolutionnaires.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-purple-500/20 rounded-full text-xs text-purple-300">Version 4.0</span>
+                        <span class="text-white/60 text-sm">2025 Q2</span>
+                    </div>
+                </div>
+
+                <!-- Neural Networks -->
+                <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                    <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-white text-3xl">🧠</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-4">Neural Networks</h4>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        Réseaux de neurones intégrés pour l'auto-optimisation du code 
+                        et la prédiction des performances.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-blue-500/20 rounded-full text-xs text-blue-300">Version 4.5</span>
+                        <span class="text-white/60 text-sm">2025 Q4</span>
+                    </div>
+                </div>
+
+                <!-- Holographic UI -->
+                <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                    <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-white text-3xl">🌈</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-4">Holographic UI</h4>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        Interfaces utilisateur holographiques 3D pour une expérience 
+                        de développement immersive.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-green-500/20 rounded-full text-xs text-green-300">Version 5.0</span>
+                        <span class="text-white/60 text-sm">2026 Q1</span>
+                    </div>
+                </div>
+
+                <!-- Space Computing -->
+                <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                    <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-white text-3xl">🚀</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-4">Space Computing</h4>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        Calcul distribué dans l'espace avec satellites dédiés 
+                        pour une latence ultra-faible globale.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-orange-500/20 rounded-full text-xs text-orange-300">Version 6.0</span>
+                        <span class="text-white/60 text-sm">2027</span>
+                    </div>
+                </div>
+
+                <!-- Time Travel Debug -->
+                <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                    <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-white text-3xl">⏰</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-4">Time Travel Debug</h4>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        Débogage temporel permettant de remonter dans l'historique 
+                        d'exécution pour identifier les bugs.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-pink-500/20 rounded-full text-xs text-pink-300">Version 7.0</span>
+                        <span class="text-white/60 text-sm">2028</span>
+                    </div>
+                </div>
+
+                <!-- Consciousness AI -->
+                <div class="innovation-card p-8 rounded-2xl feature-innovation">
+                    <div class="w-20 h-20 innovation-pulse rounded-2xl flex items-center justify-center mb-6">
+                        <span class="text-white text-3xl">🤯</span>
+                    </div>
+                    <h4 class="text-2xl font-bold text-white mb-4">Consciousness AI</h4>
+                    <p class="text-white/80 leading-relaxed mb-4">
+                        IA consciente intégrée capable de comprendre les intentions 
+                        et de coder de manière autonome.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-cyan-500/20 rounded-full text-xs text-cyan-300">Version ∞</span>
+                        <span class="text-white/60 text-sm">2030+</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roadmap Timeline -->
+            <div class="innovation-card p-12 rounded-3xl">
+                <h3 class="text-3xl font-bold glow-text text-center mb-12">Roadmap d'Innovation</h3>
+                <div class="relative">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 rounded-full"></div>
+                    
+                    <div class="space-y-12">
+                        <div class="flex items-center">
+                            <div class="w-1/2 pr-8 text-right">
+                                <h4 class="text-xl font-bold text-white mb-2">Version 3.5 - Enhanced AI</h4>
+                                <p class="text-white/70">IA avancée pour l'auto-complétion et l'optimisation</p>
+                            </div>
+                            <div class="w-4 h-4 bg-blue-500 rounded-full relative z-10"></div>
+                            <div class="w-1/2 pl-8">
+                                <span class="text-blue-300 font-semibold">Q1 2025</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-1/2 pr-8 text-right">
+                                <span class="text-purple-300 font-semibold">Q3 2025</span>
+                            </div>
+                            <div class="w-4 h-4 bg-purple-500 rounded-full relative z-10"></div>
+                            <div class="w-1/2 pl-8">
+                                <h4 class="text-xl font-bold text-white mb-2">Version 4.0 - Quantum Era</h4>
+                                <p class="text-white/70">Première intégration du calcul quantique</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-1/2 pr-8 text-right">
+                                <h4 class="text-xl font-bold text-white mb-2">Version 5.0 - Immersive</h4>
+                                <p class="text-white/70">Réalité virtuelle et interfaces holographiques</p>
+                            </div>
+                            <div class="w-4 h-4 bg-pink-500 rounded-full relative z-10"></div>
+                            <div class="w-1/2 pl-8">
+                                <span class="text-pink-300 font-semibold">2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Call to Action Section -->
+    <section class="py-20 px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="glass-morphism rounded-3xl p-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Prêt à commencer ?</h2>
+                <p class="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
+                    Rejoignez la révolution du développement PHP moderne avec Nexa Framework, 
+                    créé par Jean Setone pour les développeurs exigeants.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                    <a href="/documentation" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl transform hover:scale-105 transition-all duration-300">
+                        📚 Documentation Complète
+                    </a>
+                    <a href="/about" class="glass-morphism text-white px-10 py-5 rounded-2xl font-bold text-lg border border-white/30 hover:border-white/50 transition-all duration-300">
+                        👨‍💻 En savoir plus
+                    </a>
+                    <a href="/contact" class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl transform hover:scale-105 transition-all duration-300">
+                        💬 Nous contacter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Innovant -->
+    <footer class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <div class="innovation-card p-16 rounded-3xl">
+                <!-- Header Footer -->
+                <div class="text-center mb-16">
+                    <div class="flex items-center justify-center mb-6">
+                        <div class="w-16 h-16 innovation-pulse rounded-2xl flex items-center justify-center mr-4">
+                            <span class="text-white font-bold text-2xl code-font">N</span>
+                        </div>
+                        <h3 class="text-4xl font-black glow-text">Nexa Framework</h3>
+                    </div>
+                    <p class="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
+                        L'innovation PHP par Jean Setone - Révolutionnant le développement web depuis 2024
+                    </p>
+                </div>
+
+                <!-- Grid Footer -->
+                <div class="grid md:grid-cols-4 gap-12 mb-16">
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-6 flex items-center">
+                            <span class="mr-2">🚀</span> Framework
+                        </h4>
+                        <ul class="space-y-3">
+                            <li><a href="#bienvenue" class="text-white/70 hover:text-white transition-colors hover:translate-x-2 transform duration-300 block">Bienvenue</a></li>
+                            <li><a href="#presentation" class="text-white/70 hover:text-white transition-colors hover:translate-x-2 transform duration-300 block">Présentation</a></li>
+                            <li><a href="#fonctionnalites" class="text-white/70 hover:text-white transition-colors hover:translate-x-2 transform duration-300 block">Fonctionnalités</a></li>
+                            <li><a href="#fonctionnalites-futures" class="text-white/70 hover:text-white transition-colors hover:translate-x-2 transform duration-300 block">Futures</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-6 flex items-center">
+                            <span class="mr-2">📚</span> Ressources
+                        </h4>
+                        <ul class="space-y-3">
+                            <li><a href="/documentation" class="text-white/70 hover:text-white transition-colors hover:translate-x-2 transform duration-300 block">Documentation</a></li>
+                            <li><a href="/about" class="text-white/70 hover:text-white transition-colors hover:translate-x-2 transform duration-300 block">À propos</a></li>
+                            <li><a href="/contact" class="text-white/70 hover:text-white transition-colors hover:translate-x-2 transform duration-300 block">Contact</a></li>
+                            <li><span class="text-white/50">API Reference</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-6 flex items-center">
+                            <span class="mr-2">⚡</span> Technologies
+                        </h4>
+                        <ul class="space-y-3">
+                            <li><span class="text-white/70">PHP 8.3+</span></li>
+                            <li><span class="text-white/70">GraphQL Native</span></li>
+                            <li><span class="text-white/70">WebSockets</span></li>
+                            <li><span class="text-white/70">Microservices</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xl font-bold text-white mb-6 flex items-center">
+                            <span class="mr-2">📊</span> Statistiques
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="bg-white/5 p-4 rounded-xl">
+                                <div class="text-2xl font-bold glow-text">1000+</div>
+                                <div class="text-white/70 text-sm">Heures de Dev</div>
+                            </div>
+                            <div class="bg-white/5 p-4 rounded-xl">
+                                <div class="text-2xl font-bold glow-text">100%</div>
+                                <div class="text-white/70 text-sm">Code Testé</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Créateur Section -->
+                <div class="border-t border-white/20 pt-12 mb-12">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-6 md:mb-0">
+                            <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-white font-bold">JS</span>
+                            </div>
+                            <div>
+                                <h5 class="text-lg font-bold text-white">Jean Setone</h5>
+                                <p class="text-white/70">Créateur & Architecte Principal</p>
+                            </div>
+                        </div>
+                        <div class="text-center md:text-right">
+                            <p class="text-white/80 italic mb-2">"L'innovation n'a pas de limites"</p>
+                            <p class="text-white/60 text-sm">Philosophie de développement</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-center">
+                    <p class="text-white/60">
+                        © 2024 Nexa Framework - Créé avec ❤️ et ☕ par Jean Setone
+                    </p>
+                    <p class="text-white/40 text-sm mt-2">
+                        Révolutionnant le PHP, une ligne de code à la fois
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script pour l'indicateur de scroll -->
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollIndicator').style.transform = `scaleX(${scrolled / 100})`;
+        });
+    </script>
+</body>
+</html>

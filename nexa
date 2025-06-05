@@ -1,0 +1,50 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Nexa Framework CLI Tool
+ * 
+ * This is the command-line interface for the Nexa Framework.
+ * It provides various commands for development, testing, and maintenance.
+ */
+
+// Check if running from command line
+if (php_sapi_name() !== 'cli') {
+    echo "This script can only be run from the command line.\n";
+    exit(1);
+}
+
+// Define base path
+define('BASE_PATH', __DIR__);
+
+// Load autoloader
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Load environment variables
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+}
+
+// Set error reporting for CLI
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Set timezone
+date_default_timezone_set($_ENV['APP_TIMEZONE'] ?? 'UTC');
+
+// Import CLI class
+use Nexa\Console\NexaCLI;
+
+try {
+    // Create and run CLI
+    $cli = new NexaCLI();
+    $cli->run($argv);
+} catch (Exception $e) {
+    echo "\033[31mError: " . $e->getMessage() . "\033[0m\n";
+    exit(1);
+} catch (Error $e) {
+    echo "\033[31mFatal Error: " . $e->getMessage() . "\033[0m\n";
+    echo "File: " . $e->getFile() . " Line: " . $e->getLine() . "\n";
+    exit(1);
+}
