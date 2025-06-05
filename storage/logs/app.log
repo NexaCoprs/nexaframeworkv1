@@ -352,3 +352,38 @@
 [2025-06-05 20:57:16] info: Documentation page accessed
 [2025-06-05 21:01:36] info: Documentation page accessed
 [2025-06-05 21:01:38] info: Documentation page accessed
+[2025-06-05 21:19:00] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 21:21:13] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 21:22:33] info: Documentation page accessed
+[2025-06-05 21:22:35] info: About page accessed
+[2025-06-05 21:22:37] info: About page accessed
+[2025-06-05 21:24:17] info: About page accessed
+[2025-06-05 21:27:09] info: About page accessed
+[2025-06-05 21:30:03] info: About page accessed
+[2025-06-05 21:30:08] info: Documentation page accessed
+[2025-06-05 21:31:58] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 21:39:50] info: Documentation page accessed
+[2025-06-05 21:40:29] info: About page accessed
+[2025-06-05 21:41:57] info: Documentation page accessed
+[2025-06-05 21:44:27] info: Documentation page accessed
+[2025-06-05 21:44:44] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 21:48:03] info: About page accessed
+[2025-06-05 21:48:21] info: Documentation page accessed
+[2025-06-05 21:56:02] info: About page accessed
+[2025-06-05 22:07:04] info: About page accessed
+[2025-06-05 22:31:20] info: About page accessed
+[2025-06-05 22:31:51] info: About page accessed
+[2025-06-05 22:32:14] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 22:32:52] info: About page accessed
+[2025-06-05 22:33:24] info: About page accessed
+[2025-06-05 22:34:42] info: About page accessed
+[2025-06-05 22:36:21] info: About page accessed
+[2025-06-05 22:37:22] info: About page accessed
+[2025-06-05 22:38:48] info: About page accessed
+[2025-06-05 22:38:50] info: About page accessed
+[2025-06-05 22:38:51] info: Documentation page accessed
+[2025-06-05 22:38:52] info: About page accessed
+[2025-06-05 22:44:41] info: About page accessed
+[2025-06-05 22:50:31] info: About page accessed
+[2025-06-05 22:50:53] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 23:03:03] info: About page accessed

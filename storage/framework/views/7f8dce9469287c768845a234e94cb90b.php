@@ -4,90 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation - Nexa Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        :root {
+            --innovation-gradient: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        
+        .innovation-bg {
+            background: var(--innovation-gradient);
+        }
+        
+        .innovation-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
         .code-block {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.8);
             color: #e2e8f0;
             border-radius: 8px;
             padding: 1rem;
             overflow-x: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform-origin: left;
+            z-index: 9999;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
         }
     </style>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="gradient-bg text-white py-16">
+<body class="innovation-bg text-white min-h-screen">
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator"></div>
+    
+    <!-- Fixed Glass Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 innovation-card backdrop-blur-md">
         <div class="container mx-auto px-6">
-            <div class="text-center">
-                <h1 class="text-5xl font-bold mb-4">Documentation Nexa</h1>
-                <p class="text-xl opacity-90">Guide complet pour développer avec le framework Nexa</p>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b sticky top-0 z-10">
-        <div class="container mx-auto px-6">
-            <div class="flex space-x-6 py-4 overflow-x-auto">
-                <a href="#installation" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Installation</a>
-                <a href="#routing" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Routage</a>
-                <a href="#controllers" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Contrôleurs</a>
-                <a href="#views" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Vues</a>
-                <a href="#database" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">ORM & Base de données</a>
-                <a href="#validation" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Validation</a>
-                <a href="#middleware" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Middleware</a>
-                <a href="#auth" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">JWT Auth</a>
-                <a href="#events" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Événements</a>
-                <a href="#queues" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Files d'attente</a>
-                <a href="#modules" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Modules</a>
-                <a href="#plugins" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Plugins</a>
-                <a href="#graphql" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">GraphQL</a>
-                <a href="#websockets" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">WebSockets</a>
-                <a href="#microservices" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Microservices</a>
-                <a href="#testing" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Tests</a>
-                <a href="#cache" class="text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap">Cache & Logging</a>
-                <a href="#" class="text-gray-600 hover:text-gray-800 whitespace-nowrap">← Retour à l'accueil</a>
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-8">
+                    <a href="/" class="text-xl font-bold glow-text">NexaFramework</a>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="/" class="text-white/80 hover:text-white transition-colors">Accueil</a>
+                        <a href="/about" class="text-white/80 hover:text-white transition-colors">À propos</a>
+                        <a href="/documentation" class="text-white hover:text-white transition-colors border-b border-white/30">Documentation</a>
+                        <a href="/contact" class="text-white/80 hover:text-white transition-colors">Contact</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="https://github.com/nexaframework" class="text-white/80 hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
+    
+    <!-- Header -->
+    <header class="pt-24 pb-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-4 glow-text">Documentation Nexa</h1>
+                <p class="text-xl text-white/80">Guide complet pour développer avec le framework Nexa</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Quick Navigation -->
+    <div class="container mx-auto px-6 mb-8">
+        <div class="innovation-card rounded-lg p-4">
+            <div class="flex flex-wrap gap-2 justify-center">
+                <a href="#installation" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Installation</a>
+                <a href="#routing" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Routage</a>
+                <a href="#controllers" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Contrôleurs</a>
+                <a href="#views" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Vues</a>
+                <a href="#database" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">ORM & Base de données</a>
+                <a href="#validation" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Validation</a>
+                <a href="#middleware" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Middleware</a>
+                <a href="#auth" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">JWT Auth</a>
+                <a href="#events" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Événements</a>
+                <a href="#queues" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Files d'attente</a>
+                <a href="#modules" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Modules</a>
+                <a href="#plugins" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Plugins</a>
+                <a href="#graphql" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">GraphQL</a>
+                <a href="#websockets" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">WebSockets</a>
+                <a href="#microservices" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Microservices</a>
+                <a href="#testing" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Tests</a>
+                <a href="#cache" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Cache & Logging</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Content -->
     <main class="container mx-auto px-6 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <!-- Sidebar -->
             <aside class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-                    <h3 class="font-bold text-gray-900 mb-4">Table des matières</h3>
+                <div class="innovation-card rounded-lg p-6 sticky top-24">
+                    <h3 class="font-bold text-white mb-4 glow-text">Table des matières</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#introduction" class="text-blue-600 hover:text-blue-800">Introduction</a></li>
-                        <li><a href="#installation" class="text-blue-600 hover:text-blue-800">Installation</a></li>
-                        <li><a href="#structure" class="text-blue-600 hover:text-blue-800">Structure du projet</a></li>
-                        <li><a href="#routing" class="text-blue-600 hover:text-blue-800">Système de routage</a></li>
-                        <li><a href="#controllers" class="text-blue-600 hover:text-blue-800">Contrôleurs</a></li>
-                        <li><a href="#views" class="text-blue-600 hover:text-blue-800">Moteur de vues</a></li>
-                        <li><a href="#database" class="text-blue-600 hover:text-blue-800">ORM & Base de données</a></li>
-                        <li><a href="#relations" class="text-blue-600 hover:text-blue-800">Relations de modèles</a></li>
-                        <li><a href="#querybuilder" class="text-blue-600 hover:text-blue-800">Query Builder</a></li>
-                        <li><a href="#validation" class="text-blue-600 hover:text-blue-800">Système de validation</a></li>
-                        <li><a href="#middleware" class="text-blue-600 hover:text-blue-800">Middleware & Sécurité</a></li>
-                        <li><a href="#auth" class="text-blue-600 hover:text-blue-800">Authentification JWT</a></li>
-                        <li><a href="#events" class="text-blue-600 hover:text-blue-800">Système d'événements</a></li>
-                        <li><a href="#queues" class="text-blue-600 hover:text-blue-800">Files d'attente</a></li>
-                        <li><a href="#modules" class="text-blue-600 hover:text-blue-800">Système de modules</a></li>
-                        <li><a href="#plugins" class="text-blue-600 hover:text-blue-800">Système de plugins</a></li>
-                        <li><a href="#graphql" class="text-blue-600 hover:text-blue-800">GraphQL API</a></li>
-                        <li><a href="#websockets" class="text-blue-600 hover:text-blue-800">WebSockets</a></li>
-                        <li><a href="#microservices" class="text-blue-600 hover:text-blue-800">Microservices</a></li>
-                        <li><a href="#testing" class="text-blue-600 hover:text-blue-800">Framework de tests</a></li>
-                        <li><a href="#cli" class="text-blue-600 hover:text-blue-800">Interface CLI</a></li>
-                        <li><a href="#cache" class="text-blue-600 hover:text-blue-800">Cache</a></li>
-                        <li><a href="#logging" class="text-blue-600 hover:text-blue-800">Logging</a></li>
-                        <li><a href="#services" class="text-blue-600 hover:text-blue-800">Services</a></li>
+                        <li><a href="#introduction" class="text-white/80 hover:text-white transition-colors">Introduction</a></li>
+                        <li><a href="#installation" class="text-white/80 hover:text-white transition-colors">Installation</a></li>
+                        <li><a href="#structure" class="text-white/80 hover:text-white transition-colors">Structure du projet</a></li>
+                        <li><a href="#routing" class="text-white/80 hover:text-white transition-colors">Système de routage</a></li>
+                        <li><a href="#controllers" class="text-white/80 hover:text-white transition-colors">Contrôleurs</a></li>
+                        <li><a href="#views" class="text-white/80 hover:text-white transition-colors">Moteur de vues</a></li>
+                        <li><a href="#database" class="text-white/80 hover:text-white transition-colors">ORM & Base de données</a></li>
+                        <li><a href="#relations" class="text-white/80 hover:text-white transition-colors">Relations de modèles</a></li>
+                        <li><a href="#querybuilder" class="text-white/80 hover:text-white transition-colors">Query Builder</a></li>
+                        <li><a href="#validation" class="text-white/80 hover:text-white transition-colors">Système de validation</a></li>
+                        <li><a href="#middleware" class="text-white/80 hover:text-white transition-colors">Middleware & Sécurité</a></li>
+                        <li><a href="#auth" class="text-white/80 hover:text-white transition-colors">Authentification JWT</a></li>
+                        <li><a href="#events" class="text-white/80 hover:text-white transition-colors">Système d'événements</a></li>
+                        <li><a href="#queues" class="text-white/80 hover:text-white transition-colors">Files d'attente</a></li>
+                        <li><a href="#modules" class="text-white/80 hover:text-white transition-colors">Système de modules</a></li>
+                        <li><a href="#plugins" class="text-white/80 hover:text-white transition-colors">Système de plugins</a></li>
+                        <li><a href="#graphql" class="text-white/80 hover:text-white transition-colors">GraphQL API</a></li>
+                        <li><a href="#websockets" class="text-white/80 hover:text-white transition-colors">WebSockets</a></li>
+                        <li><a href="#microservices" class="text-white/80 hover:text-white transition-colors">Microservices</a></li>
+                        <li><a href="#testing" class="text-white/80 hover:text-white transition-colors">Framework de tests</a></li>
+                        <li><a href="#cli" class="text-white/80 hover:text-white transition-colors">Interface CLI</a></li>
+                        <li><a href="#cache" class="text-white/80 hover:text-white transition-colors">Cache</a></li>
+                        <li><a href="#logging" class="text-white/80 hover:text-white transition-colors">Logging</a></li>
+                        <li><a href="#services" class="text-white/80 hover:text-white transition-colors">Services</a></li>
                     </ul>
                 </div>
             </aside>
@@ -96,9 +158,9 @@
             <div class="lg:col-span-3">
                 <!-- Introduction -->
                 <section id="introduction" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Introduction à Nexa</h2>
-                        <p class="text-gray-700 mb-4">
+                    <div class="innovation-card rounded-lg p-8">
+                        <h2 class="text-3xl font-bold text-white mb-6 glow-text">Introduction à Nexa</h2>
+                        <p class="text-white/80 mb-4">
                             Nexa est un framework PHP moderne et riche en fonctionnalités, conçu pour offrir une expérience de développement exceptionnelle. 
                             Il suit les principes de l'architecture MVC et propose un écosystème complet pour créer des applications web robustes et performantes.
                         </p>
