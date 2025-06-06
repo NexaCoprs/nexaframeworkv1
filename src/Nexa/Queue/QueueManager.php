@@ -70,7 +70,7 @@ class QueueManager
         foreach ($this->config['connections'] as $name => $config) {
             switch ($config['driver']) {
                 case 'database':
-                    $this->drivers[$name] = new DatabaseQueueDriver(null, $config, $this->logger);
+                    $this->drivers[$name] = new DatabaseQueueDriver($config, $this->logger);
                     break;
                 case 'redis':
                     // Fallback to sync driver if redis is not available
@@ -332,16 +332,9 @@ class QueueManager
 
         // Check if job should be retried
         if ($job->shouldRetry($exception)) {
-            // Retry job with minimal delay for testing
-            $delay = 0; // No delay for immediate retry
+            // Retry job with exponential backoff
+            $delay = pow(2, $job->getAttempts()) * 60; // 1min, 2min, 4min, etc.
             $job->setDelay($delay);
-            
-            // Generate new ID for retry to avoid unique constraint violation
-            $reflection = new \ReflectionClass($job);
-            $idProperty = $reflection->getProperty('id');
-            $idProperty->setAccessible(true);
-            $idProperty->setValue($job, uniqid('job_', true));
-            
             $driver->push($job, $queue);
 
             if ($this->logger) {

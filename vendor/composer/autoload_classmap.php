@@ -161,6 +161,8 @@ return array(
     'Nexa\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/src/Nexa/Http/Middleware/VerifyCsrfToken.php',
     'Nexa\\Http\\Request' => $baseDir . '/src/Nexa/Http/Request.php',
     'Nexa\\Http\\Response' => $baseDir . '/src/Nexa/Http/Response.php',
+    'Nexa\\Microservices\\ServiceClient' => $baseDir . '/src/Nexa/Microservices/ServiceClient.php',
+    'Nexa\\Microservices\\ServiceRegistry' => $baseDir . '/src/Nexa/Microservices/ServiceRegistry.php',
     'Nexa\\Middleware\\JWTAuthMiddleware' => $baseDir . '/src/Nexa/Middleware/JWTAuthMiddleware.php',
     'Nexa\\Queue\\DatabaseQueueDriver' => $baseDir . '/src/Nexa/Queue/DatabaseQueueDriver.php',
     'Nexa\\Queue\\Job' => $baseDir . '/src/Nexa/Queue/Job.php',

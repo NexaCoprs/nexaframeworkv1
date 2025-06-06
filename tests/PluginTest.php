@@ -109,8 +109,8 @@ class ' . $this->testClassName . ' extends Plugin
         $loadedPlugins = $this->pluginManager->getLoadedPlugins();
         
         $this->assertNotEmpty($loadedPlugins);
-        $this->assertArrayHasKey($this->testClassName, $loadedPlugins);
-        $this->assertInstanceOf(Plugin::class, $loadedPlugins[$this->testClassName]);
+        $this->assertArrayHasKey('TestPlugin', $loadedPlugins);
+        $this->assertInstanceOf(Plugin::class, $loadedPlugins['TestPlugin']);
     }
     
     public function testPluginActivation()
@@ -120,10 +120,10 @@ class ' . $this->testClassName . ' extends Plugin
         $this->pluginManager->loadPlugins();
         
         // Activate plugin
-        $result = $this->pluginManager->activatePlugin($this->testClassName);
-
+        $result = $this->pluginManager->activatePlugin('TestPlugin');
+        
         $this->assertTrue($result);
-        $this->assertTrue($this->pluginManager->isPluginEnabled($this->testClassName));
+        $this->assertTrue($this->pluginManager->isPluginEnabled('TestPlugin'));
     }
     
     public function testPluginDeactivation()
@@ -131,13 +131,13 @@ class ' . $this->testClassName . ' extends Plugin
         // Load and activate plugin first
         $this->pluginManager->scanPlugins($this->testPluginPath);
         $this->pluginManager->loadPlugins();
-        $this->pluginManager->activatePlugin($this->testClassName);
+        $this->pluginManager->activatePlugin('TestPlugin');
         
         // Deactivate plugin
-        $result = $this->pluginManager->deactivatePlugin($this->testClassName);
+        $result = $this->pluginManager->deactivatePlugin('TestPlugin');
         
         $this->assertTrue($result);
-        $this->assertFalse($this->pluginManager->isPluginEnabled($this->testClassName));
+        $this->assertFalse($this->pluginManager->isPluginEnabled('TestPlugin'));
     }
     
     public function testPluginInfo()

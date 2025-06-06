@@ -11,7 +11,6 @@ class ServiceClient
     private $retryPolicies = [];
     private $loadBalancingStrategy = 'round_robin';
     private $loadBalancingState = [];
-    private $loadBalancer = [];
     private $metrics = [];
     private $authTokens = [];
     private $tracingEnabled = false;
@@ -61,16 +60,6 @@ class ServiceClient
             throw new \Exception("Service '{$serviceName}' not found in registry");
         }
 
-        // Check if circuit breaker is open
-        if ($this->isCircuitOpen($serviceName)) {
-            return [
-                'status' => 503,
-                'error' => 'Circuit breaker is open',
-                'service' => $serviceName,
-                'mock' => true
-            ];
-        }
-
         $url = "http://{$service['host']}:{$service['port']}{$endpoint}";
         
         // Add tracing headers if enabled
@@ -79,13 +68,7 @@ class ServiceClient
             $responseHeaders['X-Trace-Id'] = $this->traceId;
         }
         
-        // Add authentication header if configured
-        $authToken = $this->getAuthToken($serviceName);
-        if ($authToken) {
-            $responseHeaders['Authorization'] = 'Bearer ' . $authToken;
-        }
-        
-        $response = $mockResponse ?: [
+        return $mockResponse ?: [
             'status' => 200,
             'data' => ['message' => 'Mock GET response from ' . $serviceName],
             'url' => $url,
@@ -93,11 +76,6 @@ class ServiceClient
             'headers' => $responseHeaders,
             'mock' => true
         ];
-        
-        // Record metrics
-        $this->recordMetrics($serviceName, 100, $response['status'] < 400);
-        
-        return $response;
     }
 
     /**
@@ -120,7 +98,7 @@ class ServiceClient
 
         $url = "http://{$service['host']}:{$service['port']}{$endpoint}";
         
-        $response = $mockResponse ?: [
+        return $mockResponse ?: [
             'status' => 201,
             'data' => ['message' => 'Mock POST response from ' . $serviceName, 'created' => true],
             'url' => $url,
@@ -128,11 +106,6 @@ class ServiceClient
             'request_data' => $data,
             'mock' => true
         ];
-        
-        // Record metrics
-        $this->recordMetrics($serviceName, 100, $response['status'] < 400);
-        
-        return $response;
     }
 
     /**
@@ -156,12 +129,7 @@ class ServiceClient
      */
     public function setTimeout($timeout)
     {
-        // If timeout is greater than 100, assume it's in milliseconds and convert to seconds
-        if ($timeout > 100) {
-            $this->timeout = $timeout / 1000;
-        } else {
-            $this->timeout = $timeout;
-        }
+        $this->timeout = $timeout;
         return $this;
     }
 
@@ -254,9 +222,6 @@ class ServiceClient
             }
         }
 
-        // Record metrics for failed request
-        $this->recordMetrics($serviceName, 100, false);
-        
         return [
             'status' => 500,
             'error' => 'Service unavailable',
@@ -306,41 +271,35 @@ class ServiceClient
     /**
      * Mock a retryable request for testing
      */
-    public function mockRetryableRequest($serviceName, $endpoint, $maxRetries = 3)
+    public function mockRetryableRequest($serviceName, $endpoint, $shouldSucceed = false)
     {
-        $attempts = 0;
-        $lastError = null;
+        $service = $this->serviceRegistry->get($serviceName);
+        if (!$service) {
+            throw new \Exception("Service '{$serviceName}' not found in registry");
+        }
+
+        $retryPolicy = $this->getRetryPolicy($serviceName);
+        $maxAttempts = $retryPolicy['max_attempts'] ?? 3;
         
-        while ($attempts < $maxRetries) {
-            $attempts++;
-            
-            // Simulate failure on first few attempts
-            if ($attempts < $maxRetries) {
-                $lastError = "Attempt {$attempts} failed";
-                continue;
-            }
-            
-            // Success on final attempt
-            $response = [
+        if ($shouldSucceed) {
+            return [
                 'status' => 200,
-                'data' => ['message' => 'Success after retries'],
-                'attempts' => $attempts,
+                'data' => ['message' => 'Success after retry'],
+                'attempts' => $maxAttempts,
+                'service' => $serviceName,
+                'endpoint' => $endpoint,
                 'mock' => true
             ];
-            
-            // Record metrics
-            $this->recordMetrics($serviceName, 100, true);
-            
-            return $response;
+        } else {
+            return [
+                'status' => 500,
+                'error' => 'Failed after all retry attempts',
+                'attempts' => $maxAttempts,
+                'service' => $serviceName,
+                'endpoint' => $endpoint,
+                'mock' => true
+            ];
         }
-        
-        // This should never be reached with proper retry logic
-        return [
-            'status' => 200,
-            'data' => ['message' => 'Success after retries'],
-            'attempts' => $maxRetries,
-            'mock' => true
-        ];
     }
 
     /**
@@ -394,31 +353,11 @@ class ServiceClient
     }
 
     /**
-     * Select a service instance using load balancing
+     * Alias for selectServiceInstance
      */
     public function selectInstance($serviceName)
     {
-        $instances = $this->serviceRegistry->getInstances($serviceName);
-        if (empty($instances)) {
-            return null;
-        }
-
-        // Simple round-robin load balancing
-        if (!isset($this->loadBalancer[$serviceName])) {
-            $this->loadBalancer[$serviceName] = 0;
-        }
-
-        $index = $this->loadBalancer[$serviceName] % count($instances);
-        $this->loadBalancer[$serviceName]++;
-
-        $instance = $instances[$index];
-        
-        // Ensure port is an integer
-        if (isset($instance['port'])) {
-            $instance['port'] = (int)$instance['port'];
-        }
-
-        return $instance;
+        return $this->selectServiceInstance($serviceName);
     }
 
     /**
@@ -427,27 +366,17 @@ class ServiceClient
     public function getMetrics($serviceName = null)
     {
         if ($serviceName) {
-            $metrics = $this->metrics[$serviceName] ?? [
-                'total_requests' => 0,
+            return $this->metrics[$serviceName] ?? [
+                'requests' => 0,
                 'successful_requests' => 0,
                 'failed_requests' => 0,
                 'average_response_time' => 0,
                 'circuit_breaker_trips' => 0,
                 'retry_attempts' => 0
             ];
-            
-            return $metrics;
         }
         
-        // Add total_requests to all service metrics
-        $allMetrics = $this->metrics;
-        foreach ($allMetrics as $service => &$serviceMetrics) {
-            if (!isset($serviceMetrics['total_requests'])) {
-                $serviceMetrics['total_requests'] = $serviceMetrics['requests'] ?? 0;
-            }
-        }
-        
-        return $allMetrics;
+        return $this->metrics;
     }
 
     /**
@@ -457,7 +386,7 @@ class ServiceClient
     {
         if (!isset($this->metrics[$serviceName])) {
             $this->metrics[$serviceName] = [
-                'total_requests' => 0,
+                'requests' => 0,
                 'successful_requests' => 0,
                 'failed_requests' => 0,
                 'total_response_time' => 0,
@@ -467,10 +396,10 @@ class ServiceClient
             ];
         }
         
-        $this->metrics[$serviceName]['total_requests']++;
+        $this->metrics[$serviceName]['requests']++;
         $this->metrics[$serviceName]['total_response_time'] += $responseTime;
         $this->metrics[$serviceName]['average_response_time'] = 
-            $this->metrics[$serviceName]['total_response_time'] / $this->metrics[$serviceName]['total_requests'];
+            $this->metrics[$serviceName]['total_response_time'] / $this->metrics[$serviceName]['requests'];
         
         if ($success) {
             $this->metrics[$serviceName]['successful_requests']++;
@@ -492,37 +421,21 @@ class ServiceClient
     }
 
     /**
-     * Mock a slow request for testing timeouts
+     * Mock a slow request for timeout testing
      */
-    public function mockSlowRequest($serviceName, $endpoint, $delay = 2000)
+    public function mockSlowRequest($serviceName, $endpoint, $delay = 5)
     {
         $service = $this->serviceRegistry->get($serviceName);
         if (!$service) {
             throw new \Exception("Service '{$serviceName}' not found in registry");
         }
 
-        // Convert timeout to milliseconds for comparison
-        $timeoutMs = $this->timeout * 1000;
-        
-        // Check if request would timeout
-        if ($delay >= $timeoutMs) {
-            $response = [
-                'status' => 408,
-                'error' => 'Request timeout',
-                'delay' => $delay,
-                'timeout' => $timeoutMs,
-                'service' => $serviceName,
-                'endpoint' => $endpoint,
-                'mock' => true
-            ];
-            
-            // Record metrics for timeout
-            $this->recordMetrics($serviceName, $delay, false);
-            
-            return $response;
+        // Simulate timeout if delay exceeds configured timeout
+        if ($delay > $this->timeout) {
+            throw new \Exception("Request timeout after {$this->timeout} seconds");
         }
-
-        $response = [
+        
+        return [
             'status' => 200,
             'data' => ['message' => 'Slow response'],
             'delay' => $delay,
@@ -530,11 +443,6 @@ class ServiceClient
             'endpoint' => $endpoint,
             'mock' => true
         ];
-        
-        // Record metrics for successful slow request
-        $this->recordMetrics($serviceName, $delay, true);
-        
-        return $response;
     }
 
     /**

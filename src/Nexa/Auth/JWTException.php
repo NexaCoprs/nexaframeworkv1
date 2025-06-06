@@ -32,7 +32,7 @@ class JWTException extends Exception
      */
     public static function missing()
     {
-        return new static('Token not provided', 401);
+        return new static('No token provided', 401);
     }
 
     /**

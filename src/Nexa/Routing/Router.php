@@ -67,11 +67,22 @@ class Router
 
         foreach ($this->currentGroup as $group) {
             if (isset($group['prefix'])) {
-                $prefix = trim($group['prefix'], '/').'/'.$prefix;
+                $prefix = trim($group['prefix'], '/') . '/' . trim($prefix, '/');
             }
         }
 
-        return trim($prefix.'/'.trim($uri, '/'), '/') ?: '/';
+        $prefix = trim($prefix, '/');
+        $uri = trim($uri, '/');
+        
+        if (empty($prefix)) {
+            return $uri ?: '/';
+        }
+        
+        if (empty($uri)) {
+            return '/' . $prefix;  // Ajout du slash initial
+        }
+        
+        return '/' . $prefix . '/' . $uri;  // Ajout du slash initial
     }
 
     public function dispatch($method, $uri)
@@ -87,5 +98,34 @@ class Router
         }
 
         throw new \Exception("Route not found for URI: $uri");
+    }
+
+    /**
+     * Merge routes from another router instance
+     *
+     * @param Router $router
+     * @return void
+     */
+    public function mergeRouters(Router $router)
+    {
+        $otherRoutes = $router->getRoutes();
+        
+        foreach ($otherRoutes as $method => $routes) {
+            if (!isset($this->routes[$method])) {
+                $this->routes[$method] = [];
+            }
+            
+            $this->routes[$method] = array_merge($this->routes[$method], $routes);
+        }
+    }
+
+    /**
+     * Get all routes
+     *
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 }

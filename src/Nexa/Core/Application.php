@@ -180,6 +180,9 @@ class Application
             $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             $method = $_SERVER['REQUEST_METHOD'];
             
+            // Log the request for debugging
+            Logger::info("Request: {$method} {$uri}");
+            
             // Dispatch the request
             $response = $router->dispatch($method, $uri);
             
@@ -191,13 +194,25 @@ class Application
                 echo json_encode($response);
             }
         } catch (\Exception $e) {
+            // Log the error
+            Logger::error('Application error: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'uri' => $_SERVER['REQUEST_URI'] ?? 'unknown',
+                'method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown'
+            ]);
+            
             // Handle exceptions
             if ($this->config['app']['debug'] ?? false) {
                 echo '<h1>Error</h1>';
-                echo '<p>' . $e->getMessage() . '</p>';
-                echo '<pre>' . $e->getTraceAsString() . '</pre>';
+                echo '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
+                echo '<pre>' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
             } else {
+                // In production, show a generic error page
+                http_response_code(500);
                 echo '<h1>500 - Internal Server Error</h1>';
+                echo '<p>Une erreur est survenue. Veuillez réessayer plus tard.</p>';
             }
         }
     }

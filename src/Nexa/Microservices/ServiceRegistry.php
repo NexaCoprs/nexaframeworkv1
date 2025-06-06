@@ -24,21 +24,7 @@ class ServiceRegistry
             $serviceConfig['name'] = $name;
             $serviceConfig['host'] = $host;
             $serviceConfig['port'] = $port;
-            
-            // Handle multiple instances of the same service
-            if (isset($this->services[$name])) {
-                $existing = $this->services[$name];
-                
-                // If existing service is not an array of instances, convert it
-                if (!isset($existing[0])) {
-                    $this->services[$name] = [$existing];
-                }
-                
-                // Add new instance
-                $this->services[$name][] = $serviceConfig;
-            } else {
-                $this->services[$name] = $serviceConfig;
-            }
+            $this->services[$name] = $serviceConfig;
         }
         return $this;
     }
@@ -104,60 +90,11 @@ class ServiceRegistry
     }
 
     /**
-     * Discover services by name or type
+     * Discover services by type (alias for getByType)
      */
-    public function discover($nameOrType)
+    public function discover($type)
     {
-        // First try to find by exact service name
-        if (isset($this->services[$nameOrType])) {
-            $service = $this->services[$nameOrType];
-            // If it's an array of instances, return the first healthy one
-            if (is_array($service) && isset($service[0])) {
-                foreach ($service as $instance) {
-                    if ($this->isHealthy($instance)) {
-                        return $instance;
-                    }
-                }
-                return $service[0]; // Return first if none are healthy
-            }
-            // If it's a single service, return it if healthy
-            if ($this->isHealthy($service)) {
-                return $service;
-            }
-            return $service;
-        }
-        
-        // If not found by name, try to find by type
-        $servicesByType = $this->getByType($nameOrType);
-        if (!empty($servicesByType)) {
-            return array_values($servicesByType)[0];
-        }
-        
-        return null;
-    }
-
-    /**
-     * Get service instances for load balancing
-     */
-    public function getInstances($serviceName)
-    {
-        $service = $this->get($serviceName);
-        if (!$service) {
-            return [];
-        }
-        
-        // If service is an array of instances (multiple registrations)
-        if (isset($service[0]) && is_array($service[0])) {
-            return $service;
-        }
-        
-        // If service has multiple instances, return them
-        if (isset($service['instances']) && is_array($service['instances'])) {
-            return $service['instances'];
-        }
-        
-        // Otherwise, return the service itself as a single instance
-        return [$service];
+        return $this->getByType($type);
     }
 
     /**
@@ -169,49 +106,15 @@ class ServiceRegistry
             return null;
         }
 
-        $service = $this->services[$serviceName];
-        if (empty($service)) {
+        $instances = $this->services[$serviceName];
+        if (empty($instances)) {
             return null;
         }
 
-        // If it's an array of instances (multiple registrations)
-        if (isset($service[0]) && is_array($service[0])) {
-            foreach ($service as $instance) {
-                if (isset($instance['version']) && $instance['version'] === $version) {
-                    // Ensure port is an integer
-                    if (isset($instance['port'])) {
-                        $instance['port'] = (int)$instance['port'];
-                    }
-                    return $instance;
-                }
-            }
-            return null;
-        }
-
-        // If it's a single service (not an array of instances)
-        if (isset($service['name']) && !isset($service[0])) {
-            if (isset($service['version']) && $service['version'] === $version) {
-                // Ensure port is an integer
-                if (isset($service['port'])) {
-                    $service['port'] = (int)$service['port'];
-                }
-                return $service;
-            }
-            return null;
-        }
-
-        // If it's an array of instances (legacy format)
-        if (is_array($service)) {
-            foreach ($service as $instance) {
-                if (isset($instance['version']) && $instance['version'] === $version) {
-                    if ($this->isHealthy($instance)) {
-                        // Ensure port is an integer
-                        if (isset($instance['port'])) {
-                            $instance['port'] = (int)$instance['port'];
-                        }
-                        return $instance;
-                    }
-                }
+        // Find instance with matching version
+        foreach ($instances as $instance) {
+            if (isset($instance['version']) && $instance['version'] === $version && $this->isHealthy($instance)) {
+                return $instance;
             }
         }
 
@@ -339,38 +242,6 @@ class ServiceRegistry
     public function getAllHealthStatuses()
     {
         return $this->healthChecks;
-    }
-
-    /**
-     * Check if a service instance is healthy
-     */
-    public function isHealthy($instance)
-    {
-        // If instance is a string (service name), get the service
-        if (is_string($instance)) {
-            $serviceName = $instance;
-            $healthStatus = $this->getHealthStatus($serviceName);
-        } else {
-            // If instance is an array with service config
-            $serviceName = $instance['name'] ?? null;
-            if ($serviceName) {
-                $healthStatus = $this->getHealthStatus($serviceName);
-            } else {
-                // No service name, assume healthy for basic instances
-                return true;
-            }
-        }
-
-        // If no health check data, assume healthy
-        if (!$healthStatus) {
-            return true;
-        }
-
-        // Check if status is healthy and not too old (within 5 minutes)
-        $isStatusHealthy = $healthStatus['status'] === 'healthy';
-        $isRecent = (time() - $healthStatus['timestamp']) < 300; // 5 minutes
-        
-        return $isStatusHealthy && $isRecent;
     }
 
     /**

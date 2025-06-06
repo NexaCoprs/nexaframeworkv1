@@ -369,6 +369,8 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'Nexa\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/src/Nexa/Http/Middleware/VerifyCsrfToken.php',
         'Nexa\\Http\\Request' => __DIR__ . '/../..' . '/src/Nexa/Http/Request.php',
         'Nexa\\Http\\Response' => __DIR__ . '/../..' . '/src/Nexa/Http/Response.php',
+        'Nexa\\Microservices\\ServiceClient' => __DIR__ . '/../..' . '/src/Nexa/Microservices/ServiceClient.php',
+        'Nexa\\Microservices\\ServiceRegistry' => __DIR__ . '/../..' . '/src/Nexa/Microservices/ServiceRegistry.php',
         'Nexa\\Middleware\\JWTAuthMiddleware' => __DIR__ . '/../..' . '/src/Nexa/Middleware/JWTAuthMiddleware.php',
         'Nexa\\Queue\\DatabaseQueueDriver' => __DIR__ . '/../..' . '/src/Nexa/Queue/DatabaseQueueDriver.php',
         'Nexa\\Queue\\Job' => __DIR__ . '/../..' . '/src/Nexa/Queue/Job.php',

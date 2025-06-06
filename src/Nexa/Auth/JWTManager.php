@@ -142,29 +142,22 @@ class JWTManager
     }
 
     /**
-     * Refresh a token using a refresh token
+     * Refresh an access token using a refresh token
      */
     public function refreshToken($refreshToken)
     {
-        try {
-            $payload = $this->decodeToken($refreshToken);
-            
-            if ($payload['type'] !== 'refresh') {
-                return false;
-            }
-
-            if (time() > $payload['exp']) {
-                return false;
-            }
-
-            // Add a delay to ensure different timestamp
-            sleep(1); // 1 second delay
-            
-            // Generate new token pair
-            return $this->generateTokenPair($payload['sub'], $payload['email']);
-        } catch (Exception $e) {
-            return false;
+        $payload = $this->decodeToken($refreshToken);
+        
+        if ($payload['type'] !== 'refresh') {
+            throw new JWTException('Invalid refresh token type');
         }
+
+        if (time() > $payload['exp']) {
+            throw new JWTException('Refresh token expired');
+        }
+
+        // Generate new token pair
+        return $this->generateTokenPair($payload['sub'], $payload['email']);
     }
 
     /**

@@ -387,3 +387,353 @@
 [2025-06-05 22:50:31] info: About page accessed
 [2025-06-05 22:50:53] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
 [2025-06-05 23:03:03] info: About page accessed
+[2025-06-05 23:25:01] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 23:46:16] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 23:46:19] info: Examples page accessed
+[2025-06-05 23:46:19] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:190 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":190,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(62): Nexa\\View\\TemplateEngine->render('examples')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->examples(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'examples')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/examples')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-05 23:46:40] info: Examples page accessed
+[2025-06-05 23:46:40] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:190 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":190,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(62): Nexa\\View\\TemplateEngine->render('examples')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->examples(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'examples')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/examples')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-05 23:48:06] info: Examples page accessed
+[2025-06-05 23:48:06] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:190 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":190,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(62): Nexa\\View\\TemplateEngine->render('examples')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->examples(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'examples')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/examples')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-05 23:48:24] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-05 23:48:35] info: Examples page accessed
+[2025-06-05 23:48:35] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:190 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":190,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(62): Nexa\\View\\TemplateEngine->render('examples')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->examples(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'examples')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/examples')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-05 23:50:33] info: Examples page accessed
+[2025-06-05 23:50:33] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:190 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":190,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(62): Nexa\\View\\TemplateEngine->render('examples')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->examples(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'examples')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/examples')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-05 23:50:34] info: Examples page accessed
+[2025-06-05 23:50:34] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:190 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":190,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(62): Nexa\\View\\TemplateEngine->render('examples')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->examples(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'examples')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/examples')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-05 23:51:30] info: Examples page accessed
+[2025-06-05 23:51:30] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:282 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":282,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(62): Nexa\\View\\TemplateEngine->render('examples')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->examples(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'examples')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/examples')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-05 23:52:01] info: Examples page accessed
+[2025-06-05 23:52:07] info: Examples page accessed
+[2025-06-05 23:52:13] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-05 23:52:16] info: Examples page accessed
+[2025-06-05 23:53:26] info: Documentation page accessed
+[2025-06-05 23:53:32] info: Examples page accessed
+[2025-06-05 23:53:43] info: Examples page accessed
+[2025-06-05 23:54:21] info: Examples page accessed
+[2025-06-05 23:54:53] info: Documentation page accessed
+[2025-06-05 23:54:58] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-05 23:55:11] info: Examples page accessed
+[2025-06-05 23:58:06] info: Examples page accessed
+[2025-06-05 23:58:09] info: Examples page accessed
+[2025-06-05 23:58:12] info: Examples page accessed
+[2025-06-05 23:58:16] info: Examples page accessed
+[2025-06-05 23:59:29] info: Examples page accessed
+[2025-06-05 23:59:49] info: Examples page accessed
+[2025-06-06 00:01:25] info: Examples page accessed
+[2025-06-06 00:01:34] info: Examples page accessed
+[2025-06-06 00:02:01] info: Examples page accessed
+[2025-06-06 00:02:34] info: Examples page accessed
+[2025-06-06 00:02:37] info: Examples page accessed
+[2025-06-06 00:05:20] info: Examples page accessed
+[2025-06-06 00:05:25] info: Examples page accessed
+[2025-06-06 00:05:27] info: Examples page accessed
+[2025-06-06 00:08:01] info: Examples page accessed
+[2025-06-06 00:10:25] info: Examples page accessed
+[2025-06-06 00:12:05] info: Examples page accessed
+[2025-06-06 00:13:38] info: Examples page accessed
+[2025-06-06 00:14:35] info: Examples page accessed
+[2025-06-06 00:16:05] info: Examples page accessed
+[2025-06-06 00:17:18] info: Examples page accessed
+[2025-06-06 00:17:33] info: Examples page accessed
+[2025-06-06 00:19:37] info: Examples page accessed
+[2025-06-06 00:21:10] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-06 00:31:01] info: Examples page accessed
+[2025-06-06 00:31:09] info: Examples page accessed
+[2025-06-06 00:31:14] info: Examples page accessed
+[2025-06-06 00:33:04] info: Examples page accessed
+[2025-06-06 00:36:54] info: Examples page accessed
+[2025-06-06 00:38:19] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 00:39:06] info: Examples page accessed
+[2025-06-06 00:41:09] info: Examples page accessed
+[2025-06-06 00:42:33] info: Examples page accessed
+[2025-06-06 00:44:54] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 00:45:28] info: Documentation page accessed
+[2025-06-06 00:45:59] info: Examples page accessed
+[2025-06-06 00:47:23] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 00:53:34] info: Examples page accessed
+[2025-06-06 00:53:40] info: Examples page accessed
+[2025-06-06 02:15:06] info: Examples page accessed
+[2025-06-06 02:23:02] info: Examples page accessed
+[2025-06-06 02:34:46] info: Examples page accessed
+[2025-06-06 02:34:55] info: Tutorials page accessed
+[2025-06-06 02:35:05] info: Examples page accessed
+[2025-06-06 02:35:12] info: Documentation page accessed
+[2025-06-06 02:35:30] info: Examples page accessed
+[2025-06-06 02:35:31] info: Tutorials page accessed
+[2025-06-06 02:35:43] info: Examples page accessed
+[2025-06-06 02:35:55] info: About page accessed
+[2025-06-06 02:36:01] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-06 02:36:13] info: Documentation page accessed
+[2025-06-06 02:39:27] info: About page accessed
+[2025-06-06 02:39:35] info: About page accessed
+[2025-06-06 02:42:45] info: About page accessed
+[2025-06-06 02:42:48] info: Tutorials page accessed
+[2025-06-06 02:42:51] info: Examples page accessed
+[2025-06-06 02:42:52] info: About page accessed
+[2025-06-06 02:42:57] info: Documentation page accessed
+[2025-06-06 02:42:59] info: Examples page accessed
+[2025-06-06 02:43:02] info: Tutorials page accessed
+[2025-06-06 02:43:06] info: Documentation page accessed
+[2025-06-06 02:43:08] info: Examples page accessed
+[2025-06-06 02:48:15] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 02:49:29] info: Tutorials page accessed
+[2025-06-06 02:49:39] info: Documentation page accessed
+[2025-06-06 02:49:40] info: Examples page accessed
+[2025-06-06 02:49:43] info: Documentation page accessed
+[2025-06-06 02:50:16] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 02:52:04] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 02:52:34] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 02:52:38] info: Examples page accessed
+[2025-06-06 02:52:47] info: Documentation page accessed
+[2025-06-06 02:52:56] info: Examples page accessed
+[2025-06-06 02:53:17] info: Examples page accessed
+[2025-06-06 02:53:46] info: Examples page accessed
+[2025-06-06 02:54:01] info: About page accessed
+[2025-06-06 02:54:03] info: Documentation page accessed
+[2025-06-06 02:54:04] info: Examples page accessed
+[2025-06-06 02:54:07] info: Tutorials page accessed
+[2025-06-06 02:54:55] info: Documentation page accessed
+[2025-06-06 02:55:45] info: About page accessed
+[2025-06-06 02:55:50] info: Documentation page accessed
+[2025-06-06 02:55:50] info: Examples page accessed
+[2025-06-06 02:57:14] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-06 03:00:34] info: About page accessed
+[2025-06-06 03:00:37] info: Documentation page accessed
+[2025-06-06 03:00:38] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 03:02:10] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 03:02:20] info: Documentation page accessed
+[2025-06-06 03:02:21] info: Examples page accessed
+[2025-06-06 03:02:28] info: Documentation page accessed
+[2025-06-06 03:02:35] info: Examples page accessed
+[2025-06-06 03:03:39] info: Tutorials page accessed
+[2025-06-06 03:06:02] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 03:06:05] info: Tutorials page accessed
+[2025-06-06 03:07:32] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 12:40:06] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-06 12:51:16] info: Tutorials page accessed
+[2025-06-06 12:51:17] info: Examples page accessed
+[2025-06-06 12:51:18] info: Documentation page accessed
+[2025-06-06 12:51:19] info: About page accessed
+[2025-06-06 12:51:20] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-06 12:51:29] info: Documentation page accessed
+[2025-06-06 12:51:29] info: Examples page accessed
+[2025-06-06 13:06:27] info: Tutorials page accessed
+[2025-06-06 13:06:35] info: Tutorials page accessed
+[2025-06-06 13:07:03] info: Tutorials page accessed
+[2025-06-06 13:07:05] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 13:07:09] info: Tutorials page accessed
+[2025-06-06 13:07:48] info: Examples page accessed
+[2025-06-06 13:19:29] info: Tutorials page accessed
+[2025-06-06 13:19:47] info: Tutorials page accessed
+[2025-06-06 13:19:51] info: Tutorials page accessed
+[2025-06-06 13:20:24] info: Documentation page accessed
+[2025-06-06 13:20:33] info: Examples page accessed
+[2025-06-06 13:26:04] info: Tutorials page accessed
+[2025-06-06 13:28:28] info: Tutorials page accessed
+[2025-06-06 13:28:28] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:31:34] info: Tutorials page accessed
+[2025-06-06 13:31:34] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:31:36] info: Tutorials page accessed
+[2025-06-06 13:31:36] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:33:59] info: Tutorials page accessed
+[2025-06-06 13:33:59] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:35:56] info: Tutorials page accessed
+[2025-06-06 13:35:56] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:39:04] info: Tutorials page accessed
+[2025-06-06 13:39:04] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:39:05] info: Tutorials page accessed
+[2025-06-06 13:39:05] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:39:25] info: Tutorials page accessed
+[2025-06-06 13:39:25] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:40:28] info: Tutorials page accessed
+[2025-06-06 13:40:28] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:41:36] info: Tutorials page accessed
+[2025-06-06 13:41:36] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:45:15] info: Tutorials page accessed
+[2025-06-06 13:45:15] error: Exception: syntax error, unexpected token "<", expecting end of file in C:\Users\jeans\Downloads\slide\nexframework\src\Nexa\View\TemplateEngine.php(48) : eval()'d code:183 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\View\\TemplateEngine.php(48) : eval()'d code","line":183,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\app\\Http\\Controllers\\WelcomeController.php(70): Nexa\\View\\TemplateEngine->render('tutorials')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(86): App\\Http\\Controllers\\WelcomeController->tutorials(Object(Nexa\\Http\\Request))\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Route.php(43): Nexa\\Routing\\Route->runControllerArray('App\\\\Http\\\\Contro...', 'tutorials')\n#3 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php(85): Nexa\\Routing\\Route->run()\n#4 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(184): Nexa\\Routing\\Router->dispatch('GET', '\/tutorials')\n#5 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#6 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#7 {main}"}
+[2025-06-06 13:48:51] info: Tutorials page accessed
+[2025-06-06 13:50:00] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36"}
+[2025-06-06 13:51:57] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 13:53:04] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 13:54:42] info: About page accessed
+[2025-06-06 13:54:49] info: Documentation page accessed
+[2025-06-06 13:54:54] info: Examples page accessed
+[2025-06-06 13:55:02] info: Tutorials page accessed
+[2025-06-06 14:02:22] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:02:29] info: About page accessed
+[2025-06-06 14:02:33] info: Documentation page accessed
+[2025-06-06 14:02:34] info: Examples page accessed
+[2025-06-06 14:02:35] info: Tutorials page accessed
+[2025-06-06 14:03:34] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:03:46] info: Tutorials page accessed
+[2025-06-06 14:03:48] info: Examples page accessed
+[2025-06-06 14:03:50] info: Documentation page accessed
+[2025-06-06 14:03:51] info: About page accessed
+[2025-06-06 14:03:52] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:06:32] info: Examples page accessed
+[2025-06-06 14:09:34] info: Examples page accessed
+[2025-06-06 14:09:36] info: Tutorials page accessed
+[2025-06-06 14:09:55] info: Documentation page accessed
+[2025-06-06 14:10:05] info: Examples page accessed
+[2025-06-06 14:10:06] info: Tutorials page accessed
+[2025-06-06 14:12:03] info: Tutorials page accessed
+[2025-06-06 14:14:27] info: Tutorials page accessed
+[2025-06-06 14:14:38] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:14:39] info: About page accessed
+[2025-06-06 14:14:40] info: Documentation page accessed
+[2025-06-06 14:14:41] info: Examples page accessed
+[2025-06-06 14:14:42] info: Tutorials page accessed
+[2025-06-06 14:14:58] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:17:35] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:18:08] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:20:12] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:20:43] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:22:09] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:22:42] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:23:11] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:24:45] info: About page accessed
+[2025-06-06 14:28:22] info: About page accessed
+[2025-06-06 14:29:08] info: About page accessed
+[2025-06-06 14:29:09] info: Documentation page accessed
+[2025-06-06 14:29:11] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36"}
+[2025-06-06 14:31:50] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:33:23] info: Examples page accessed
+[2025-06-06 14:33:45] info: Examples page accessed
+[2025-06-06 14:34:16] info: Examples page accessed
+[2025-06-06 14:34:26] info: Examples page accessed
+[2025-06-06 14:35:04] info: Examples page accessed
+[2025-06-06 14:35:22] info: Examples page accessed
+[2025-06-06 14:35:55] info: Examples page accessed
+[2025-06-06 14:36:23] info: Examples page accessed
+[2025-06-06 14:36:32] info: Tutorials page accessed
+[2025-06-06 14:36:36] info: Examples page accessed
+[2025-06-06 14:36:41] info: Documentation page accessed
+[2025-06-06 14:37:02] info: Documentation page accessed
+[2025-06-06 14:37:03] info: Examples page accessed
+[2025-06-06 14:37:23] info: Examples page accessed
+[2025-06-06 14:39:31] info: Examples page accessed
+[2025-06-06 14:44:28] info: Examples page accessed
+[2025-06-06 14:45:04] info: Examples page accessed
+[2025-06-06 14:55:36] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:56:20] info: Examples page accessed
+[2025-06-06 14:57:42] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 14:58:17] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 15:00:51] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 15:09:47] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 15:21:22] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 15:21:41] info: Tutorials page accessed
+[2025-06-06 15:48:04] info: Tutorials page accessed
+[2025-06-06 15:48:12] info: Examples page accessed
+[2025-06-06 15:48:18] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 15:48:19] info: About page accessed
+[2025-06-06 15:48:25] info: Tutorials page accessed
+[2025-06-06 15:56:42] info: About page accessed
+[2025-06-06 15:56:44] info: Documentation page accessed
+[2025-06-06 15:56:46] info: Examples page accessed
+[2025-06-06 15:57:55] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 15:57:56] info: About page accessed
+[2025-06-06 15:57:58] info: Documentation page accessed
+[2025-06-06 15:57:59] info: Examples page accessed
+[2025-06-06 15:58:00] info: Tutorials page accessed
+[2025-06-06 15:58:04] info: Examples page accessed
+[2025-06-06 15:58:05] info: Documentation page accessed
+[2025-06-06 15:58:06] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 16:02:01] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 16:02:03] info: About page accessed
+[2025-06-06 16:04:26] info: Request: GET /about
+[2025-06-06 16:04:26] info: About page accessed
+[2025-06-06 16:04:28] info: Request: GET /documentation
+[2025-06-06 16:04:28] info: Documentation page accessed
+[2025-06-06 16:04:29] info: Request: GET /examples
+[2025-06-06 16:04:29] info: Examples page accessed
+[2025-06-06 16:04:30] info: Request: GET /tutorials
+[2025-06-06 16:04:30] info: Tutorials page accessed
+[2025-06-06 16:04:31] info: Request: GET /contact
+[2025-06-06 16:08:53] info: Request: GET /contact
+[2025-06-06 16:13:00] info: Request: GET /about
+[2025-06-06 16:13:00] info: About page accessed
+[2025-06-06 16:13:01] info: Request: GET /documentation
+[2025-06-06 16:13:01] info: Documentation page accessed
+[2025-06-06 16:13:02] info: Request: GET /examples
+[2025-06-06 16:13:02] info: Examples page accessed
+[2025-06-06 16:13:02] info: Request: GET /tutorials
+[2025-06-06 16:13:02] info: Tutorials page accessed
+[2025-06-06 16:13:04] info: Request: GET /contact
+[2025-06-06 16:15:30] info: Request: GET /public
+[2025-06-06 16:15:30] error: Application error: Route not found for URI: /public {"file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Routing\\Router.php","line":89,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\src\\Nexa\\Core\\Application.php(187): Nexa\\Routing\\Router->dispatch('GET', '\/public')\n#1 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php(9): Nexa\\Core\\Application->run()\n#2 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require('C:\\\\Users\\\\jeans\\\\...')\n#3 {main}","uri":"\/public","method":"GET"}
+[2025-06-06 16:15:57] info: Request: GET /contact
+[2025-06-06 16:15:59] info: Request: GET /
+[2025-06-06 16:15:59] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Edg\/136.0.0.0"}
+[2025-06-06 16:16:00] info: Request: GET /about
+[2025-06-06 16:16:00] info: About page accessed
+[2025-06-06 16:16:00] info: Request: GET /documentation
+[2025-06-06 16:16:00] info: Documentation page accessed
+[2025-06-06 16:16:01] info: Request: GET /examples
+[2025-06-06 16:16:01] info: Examples page accessed
+[2025-06-06 16:16:02] info: Request: GET /tutorials
+[2025-06-06 16:16:02] info: Tutorials page accessed
+[2025-06-06 16:16:09] info: Request: GET /tutorials
+[2025-06-06 16:16:09] info: Tutorials page accessed
+[2025-06-06 16:16:12] info: Request: GET /
+[2025-06-06 16:16:12] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/136.0.0.0 Safari\/537.36 Avast\/136.0.0.0"}
+[2025-06-06 16:21:27] info: Request: GET /about
+[2025-06-06 16:21:27] info: About page accessed
+[2025-06-06 16:51:41] error: Exception: Call to undefined method Nexa\Http\Request::getMethod() in C:\Users\jeans\Downloads\slide\nexframework\index.php:32 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php","line":32,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require()\n#1 {main}"}
+[2025-06-06 16:51:57] error: Exception: Call to undefined method Nexa\Http\Request::getMethod() in C:\Users\jeans\Downloads\slide\nexframework\index.php:32 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php","line":32,"trace":"#0 {main}"}
+[2025-06-06 16:59:54] error: Exception: Call to a member function dispatch() on bool in C:\Users\jeans\Downloads\slide\nexframework\index.php:46 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php","line":46,"trace":"#0 {main}"}
+[2025-06-06 16:59:54] error: Exception: Call to a member function dispatch() on bool in C:\Users\jeans\Downloads\slide\nexframework\index.php:46 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php","line":46,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexframework\\public\\index.php(3): require()\n#1 {main}"}
+[2025-06-06 17:00:20] info: Documentation page accessed
+[2025-06-06 17:00:22] info: Examples page accessed
+[2025-06-06 17:00:24] info: Tutorials page accessed
+[2025-06-06 17:00:34] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-06 17:01:07] info: About page accessed
+[2025-06-06 17:01:08] info: Documentation page accessed
+[2025-06-06 17:01:08] info: Examples page accessed
+[2025-06-06 17:01:09] info: Tutorials page accessed
+[2025-06-06 17:01:12] info: Examples page accessed
+[2025-06-06 17:01:13] info: About page accessed
+[2025-06-06 17:14:48] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-06 17:37:53] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-06 17:42:06] error: Exception: Call to undefined method Nexa\Routing\Router::mergeRouters() in C:\Users\jeans\Downloads\slide\nexframework\index.php:57 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexframework\\index.php","line":57,"trace":"#0 {main}"}
+[2025-06-06 17:42:47] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-06 17:47:09] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-06 17:50:34] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-06 17:55:36] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}
+[2025-06-06 18:13:47] info: Documentation page accessed
+[2025-06-06 18:13:48] info: About page accessed
+[2025-06-06 18:13:49] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}
+[2025-06-06 18:13:51] info: Examples page accessed
+[2025-06-06 18:13:51] info: Tutorials page accessed
+[2025-06-06 18:13:57] info: About page accessed
+[2025-06-06 18:13:58] info: Documentation page accessed
+[2025-06-06 18:13:59] info: Examples page accessed
+[2025-06-06 18:20:14] info: Tutorials page accessed
+[2025-06-06 18:34:26] info: Documentation page accessed
+[2025-06-06 18:34:30] info: Tutorials page accessed
+[2025-06-06 18:34:58] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}
+[2025-06-06 18:34:59] info: Examples page accessed
+[2025-06-06 18:35:01] info: Tutorials page accessed
+[2025-06-06 18:35:06] info: Tutorials page accessed
+[2025-06-06 18:35:07] info: Examples page accessed
+[2025-06-06 18:35:08] info: Documentation page accessed
+[2025-06-06 18:35:09] info: About page accessed
+[2025-06-06 18:35:19] info: Tutorials page accessed
+[2025-06-06 18:37:21] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}
+[2025-06-06 18:39:01] info: About page accessed
+[2025-06-06 18:39:03] info: Documentation page accessed
+[2025-06-06 18:39:04] info: Examples page accessed
+[2025-06-06 18:39:05] info: Tutorials page accessed
+[2025-06-06 18:39:07] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}
+[2025-06-06 18:39:30] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}
+[2025-06-06 18:39:33] info: About page accessed
+[2025-06-06 18:53:42] info: About page accessed
+[2025-06-06 18:53:55] info: Tutorials page accessed
+[2025-06-06 18:53:58] info: Documentation page accessed
+[2025-06-06 18:53:59] info: Examples page accessed
+[2025-06-06 18:58:05] info: Examples page accessed
+[2025-06-06 19:00:24] info: Examples page accessed
+[2025-06-06 19:01:13] info: Examples page accessed
+[2025-06-06 19:04:30] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}
+[2025-06-06 19:05:05] info: Welcome page accessed {"ip":"127.0.0.1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36 Edg\/137.0.0.0"}

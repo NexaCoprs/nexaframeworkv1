@@ -102,16 +102,12 @@ class QueueTest extends TestCase
         $this->queueManager->push($job, 'test');
         
         // Process job multiple times (should retry)
-        $attemptCount = 0;
         for ($i = 0; $i < 4; $i++) {
-            $processedJob = $this->queueManager->processJob('test');
-            if ($processedJob) {
-                $attemptCount++;
-            }
+            $this->queueManager->processJob('test');
         }
         
-        // Job should have been attempted 3 times (max attempts)
-        $this->assertEquals(3, $attemptCount);
+        // Job should have been attempted 3 times
+        $this->assertEquals(3, $job->getAttempts());
     }
     
     public function testDelayedJobExecution()

@@ -3,12 +3,12 @@
 use Nexa\Routing\Router;
 use App\Http\Controllers\WelcomeController;
 
-$router = new Router();
+$webRouter = new Router();
 
-$router->get('/', [WelcomeController::class, 'index']);
-$router->get('/about', [WelcomeController::class, 'about']);
-$router->get('/documentation', [WelcomeController::class, 'documentation']);
-$router->get('/contact', [WelcomeController::class, 'contact']);
-$router->post('/contact', [WelcomeController::class, 'contact']);
+$webRouter->get('/', [WelcomeController::class, 'index']);
+$webRouter->get('/about', [WelcomeController::class, 'about']);
+$webRouter->get('/documentation', [WelcomeController::class, 'documentation']);
+$webRouter->get('/contact', [WelcomeController::class, 'contact']);
+$webRouter->post('/contact', [WelcomeController::class, 'contact']);
 
-return $router;
+return $webRouter;

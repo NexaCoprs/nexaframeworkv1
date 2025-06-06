@@ -28,7 +28,7 @@ abstract class Event
     {
         $this->data = $data;
         $this->timestamp = microtime(true);
-        $this->name = basename(str_replace('\\', '/', static::class));
+        $this->name = static::class;
     }
 
     /**

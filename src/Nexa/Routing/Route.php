@@ -20,10 +20,11 @@ class Route
 
     public function matches($uri)
     {
-        $pattern = preg_replace('/\{(.*?)\}/', '([^\/]+)', $this->uri);
+        $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $this->uri);
         $pattern = str_replace('/', '\/', $pattern);
+        $pattern = '/^' . $pattern . '$/';
         
-        if (preg_match('/^'.$pattern.'$/', $uri, $matches)) {
+        if (preg_match($pattern, $uri, $matches)) {
             array_shift($matches);
             $this->parameters = $matches;
             return true;
@@ -84,5 +85,15 @@ class Route
         $parameters = array_merge([$request], $this->parameters);
         
         return $instance->$method(...$parameters);
+    }
+
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
     }
 }

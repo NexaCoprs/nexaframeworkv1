@@ -47,11 +47,40 @@ Nexa Framework est conçu pour offrir une expérience de développement fluide t
 
 ### Installation
 
+1. Clonez le repository :
 ```bash
-composer create-project nexa/framework my-project
-cd my-project
+git clone https://github.com/votre-username/nexa-framework.git
+cd nexa-framework
+```
+
+2. Installez les dépendances :
+```bash
+composer install
+```
+
+3. Configurez votre environnement :
+```bash
+cp .env.example .env
+# Éditez le fichier .env avec vos paramètres
+```
+
+4. Nettoyez et organisez le projet :
+```bash
+php scripts/cleanup.php
+```
+
+5. Lancez le serveur de développement :
+```bash
 php -S localhost:8000 -t public
 ```
+
+## Documentation
+
+- 📁 [Structure du Projet](PROJECT_STRUCTURE.md) - Organisation des fichiers
+- 🚀 [Guide de Déploiement](DEPLOYMENT.md) - Instructions pour OVH
+- 🔒 [Guide de Sécurité](SECURITY.md) - Configuration sécurisée
+- 📚 [Documentation API](docs/API_DOCUMENTATION.md) - Référence API
+- ⚡ [Démarrage Rapide](docs/QUICK_START.md) - Guide de démarrage
 
 ### Exemple de Routage
 

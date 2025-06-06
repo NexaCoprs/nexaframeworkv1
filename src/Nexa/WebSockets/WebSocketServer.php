@@ -67,16 +67,6 @@ class WebSocketServer
         return true;
     }
     
-    public function canAcceptConnection(): bool
-    {
-        return count($this->clients) < $this->config['max_connections'];
-    }
-    
-    public function addMockClient($client): void
-    {
-        $this->clients[] = $client;
-    }
-    
     public function mockStop(): void
     {
         // Mock implementation for testing
@@ -109,9 +99,6 @@ class WebSocketServer
     {
         return [
             'total_connections' => count($this->clients),
-            'active_connections' => count($this->clients),
-            'messages_sent' => $this->messagesSent ?? 0,
-            'messages_received' => $this->messagesReceived ?? 0,
             'active_channels' => count($this->channelMembers),
             'uptime' => time(),
             'memory_usage' => memory_get_usage(true)
@@ -158,18 +145,13 @@ class WebSocketServer
         }
     }
     
-    public function stop(): bool
+    public function stop(): void
     {
-        try {
-            if ($this->socket) {
-                socket_close($this->socket);
-            }
-            $this->running = false;
-            $this->clients = [];
-            return true;
-        } catch (Exception $e) {
-            return false;
+        if ($this->socket) {
+            socket_close($this->socket);
         }
+        $this->running = false;
+        $this->clients = [];
     }
     
     public function broadcast(string $message): void
@@ -179,17 +161,12 @@ class WebSocketServer
         }
     }
     
-    public function broadcastToChannel(string $channel, string $message): bool
+    public function broadcastToChannel(string $channel, string $message): void
     {
-        try {
-            // Mock implementation for testing
-            // In a real implementation, this would broadcast to clients in the specific channel
-            foreach ($this->clients as $client) {
-                $this->sendToClient($client, $message);
-            }
-            return true;
-        } catch (Exception $e) {
-            return false;
+        // Mock implementation for testing
+        // In a real implementation, this would broadcast to clients in the specific channel
+        foreach ($this->clients as $client) {
+            $this->sendToClient($client, $message);
         }
     }
     

@@ -144,10 +144,8 @@ class EventDispatcher
             ]);
         }
 
-        // Get listeners for this event and wildcard listeners
+        // Get listeners for this event
         $listeners = $this->listeners[$eventName] ?? [];
-        $wildcardListeners = $this->listeners['*'] ?? [];
-        $listeners = array_merge($listeners, $wildcardListeners);
 
         // Execute listeners
         foreach ($listeners as $index => $listenerData) {
@@ -235,10 +233,7 @@ class EventDispatcher
      */
     public function getListeners($eventName)
     {
-        $listeners = $this->listeners[$eventName] ?? [];
-        return array_map(function($listenerData) {
-            return $listenerData['listener'];
-        }, $listeners);
+        return $this->listeners[$eventName] ?? [];
     }
 
     /**

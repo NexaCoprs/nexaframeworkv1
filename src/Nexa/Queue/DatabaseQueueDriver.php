@@ -15,7 +15,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
 
     /**
      * Database connection
-     * @var PDO|null
      */
     private $db;
 
@@ -34,14 +33,8 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     private $failedTable;
 
-    public function __construct($db = null, $config = [], $logger = null)
+    public function __construct($config = [], $logger = null)
     {
-        // Handle different parameter orders for backward compatibility
-        if (is_array($db) && $config === []) {
-            $config = $db;
-            $db = null;
-        }
-        
         $this->config = array_merge([
             'table' => 'jobs',
             'failed_table' => 'failed_jobs',
@@ -53,16 +46,12 @@ class DatabaseQueueDriver implements QueueDriverInterface
         $this->failedTable = $this->config['failed_table'];
         $this->logger = $logger;
         
-        if ($db) {
-            $this->db = $db;
-        } else {
-            try {
-                // $this->db = Database::getInstance(); // Database class doesn't exist yet
-                $this->db = new PDO('sqlite::memory:'); // Temporary placeholder
-            } catch (\Exception $e) {
-                // Fallback for testing
-                $this->db = null;
-            }
+        try {
+            // $this->db = Database::getInstance(); // Database class doesn't exist yet
+            $this->db = new PDO('sqlite::memory:'); // Temporary placeholder
+        } catch (\Exception $e) {
+            // Fallback for testing
+            $this->db = null;
         }
 
         $this->createTablesIfNotExists();
@@ -131,15 +120,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function push(JobInterface $job, $queue)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for pushing job", [
-                    'job_id' => $job->getId()
-                ]);
-            }
-            return false;
-        }
-
         $now = time();
         $availableAt = $now + $job->getDelay();
         
@@ -188,15 +168,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function pop($queue)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for popping job", [
-                    'queue' => $queue
-                ]);
-            }
-            return null;
-        }
-
         $now = time();
         $retryAfter = $this->config['retry_after'];
 
@@ -269,15 +240,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function delete(JobInterface $job, $queue)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for deleting job", [
-                    'job_id' => $job->getId()
-                ]);
-            }
-            return false;
-        }
-
         $sql = "DELETE FROM {$this->table} WHERE job_id = ?";
 
         try {
@@ -314,15 +276,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function fail(JobInterface $job, $queue, \Exception $exception)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for failing job", [
-                    'job_id' => $job->getId()
-                ]);
-            }
-            return false;
-        }
-
         $now = time();
 
         // Insert into failed jobs table
@@ -385,15 +338,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function size($queue)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for getting queue size", [
-                    'queue' => $queue
-                ]);
-            }
-            return 0;
-        }
-
         $sql = "SELECT COUNT(*) FROM {$this->table} WHERE queue = ? AND reserved_at IS NULL";
 
         try {
@@ -420,15 +364,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function clear($queue)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for clearing queue", [
-                    'queue' => $queue
-                ]);
-            }
-            return 0;
-        }
-
         $sql = "DELETE FROM {$this->table} WHERE queue = ?";
 
         try {
@@ -464,10 +399,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     private function releaseReservedJobs($retryAfter)
     {
-        if (!$this->db) {
-            return 0;
-        }
-
         $expiredTime = time() - $retryAfter;
         $sql = "
             UPDATE {$this->table}
@@ -507,15 +438,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function getFailedJobs($queue = null)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for getting failed jobs", [
-                    'queue' => $queue
-                ]);
-            }
-            return [];
-        }
-
         if ($queue) {
             $sql = "SELECT * FROM {$this->failedTable} WHERE queue = ? ORDER BY failed_at DESC";
         } else {
@@ -549,15 +471,6 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function retry($jobId)
     {
-        if (!$this->db) {
-            if ($this->logger) {
-                $this->logger->error("No database connection available for retrying job", [
-                    'job_id' => $jobId
-                ]);
-            }
-            return false;
-        }
-
         // Get failed job
         $selectSql = "SELECT * FROM {$this->failedTable} WHERE job_id = ?";
         
