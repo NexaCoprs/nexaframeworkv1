@@ -69,8 +69,6 @@
                         <a href="/" class="text-white/80 hover:text-white transition-colors">Accueil</a>
                         <a href="/about" class="text-white/80 hover:text-white transition-colors">À propos</a>
                         <a href="/documentation" class="text-white hover:text-white transition-colors border-b border-white/30">Documentation</a>
-                        <a href="/demo" class="text-white/80 hover:text-white transition-colors">Démo</a>
-                        <a href="/tutorials" class="text-white/80 hover:text-white transition-colors">Tutoriels</a>
                         <a href="/contact" class="text-white/80 hover:text-white transition-colors">Contact</a>
                     </div>
                 </div>

@@ -14,6 +14,27 @@ define('PUBLIC_PATH', BASE_PATH . '/public');
 // Charger l'autoloader de Composer
 require_once BASE_PATH . '/vendor/autoload.php';
 
+// Charger les variables d'environnement
+if (file_exists(BASE_PATH . '/.env')) {
+    $lines = file(BASE_PATH . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue; // Ignorer les commentaires
+        }
+        if (strpos($line, '=') !== false) {
+            list($name, $value) = explode('=', $line, 2);
+            $name = trim($name);
+            $value = trim($value);
+            // Supprimer les guillemets si présents
+            if (preg_match('/^"(.*)"$/', $value, $matches)) {
+                $value = $matches[1];
+            }
+            $_ENV[$name] = $value;
+            putenv("$name=$value");
+        }
+    }
+}
+
 // Charger les helpers
 require_once BASE_PATH . '/src/Nexa/Core/helpers.php';
 

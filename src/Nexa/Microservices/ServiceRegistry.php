@@ -245,6 +245,36 @@ class ServiceRegistry
     }
 
     /**
+     * Check if a service instance is healthy
+     *
+     * @param array $instance Service instance data
+     * @return bool
+     */
+    public function isHealthy($instance)
+    {
+        if (!isset($instance['name'])) {
+            return false;
+        }
+
+        $name = $instance['name'];
+        
+        // Check if we have health check data
+        if (!isset($this->healthChecks[$name])) {
+            // If no health check data, assume healthy for new services
+            return true;
+        }
+
+        $healthData = $this->healthChecks[$name];
+        
+        // Check if status is healthy
+        if (isset($healthData['status']) && $healthData['status'] === 'healthy') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Clear all services
      */
     public function clear()

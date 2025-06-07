@@ -3,6 +3,7 @@
 namespace Nexa\Routing;
 
 use Nexa\Http\Request;
+use Closure;
 
 class Route
 {
@@ -10,6 +11,11 @@ class Route
     protected $uri;
     protected $action;
     protected $parameters = [];
+    protected $middleware = [];
+    protected $name;
+    protected $namespace;
+    protected $where = [];
+    protected $defaults = [];
 
     public function __construct($method, $uri, $action)
     {
@@ -17,16 +23,75 @@ class Route
         $this->uri = $uri;
         $this->action = $action;
     }
+    
+    // Fluent API methods
+    public function name($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+    
+    public function middleware($middleware)
+    {
+        if (is_string($middleware)) {
+            $this->middleware[] = $middleware;
+        } elseif (is_array($middleware)) {
+            $this->middleware = array_merge($this->middleware, $middleware);
+        }
+        return $this;
+    }
+    
+    public function namespace($namespace)
+    {
+        $this->namespace = $namespace;
+        return $this;
+    }
+    
+    public function where($parameter, $pattern = null)
+    {
+        if (is_array($parameter)) {
+            $this->where = array_merge($this->where, $parameter);
+        } else {
+            $this->where[$parameter] = $pattern;
+        }
+        return $this;
+    }
+    
+    public function defaults($key, $value = null)
+    {
+        if (is_array($key)) {
+            $this->defaults = array_merge($this->defaults, $key);
+        } else {
+            $this->defaults[$key] = $value;
+        }
+        return $this;
+    }
 
     public function matches($uri)
     {
-        $pattern = preg_replace('/\{[^}]+\}/', '([^/]+)', $this->uri);
+        // Extract parameter names from URI
+        preg_match_all('/\{([^}]+)\}/', $this->uri, $paramNames);
+        $paramNames = $paramNames[1];
+        
+        // Build pattern with constraints
+        $pattern = $this->uri;
+        foreach ($paramNames as $paramName) {
+            $constraint = $this->where[$paramName] ?? '[^/]+';
+            $pattern = str_replace('{' . $paramName . '}', '(' . $constraint . ')', $pattern);
+        }
+        
         $pattern = str_replace('/', '\/', $pattern);
         $pattern = '/^' . $pattern . '$/';
         
         if (preg_match($pattern, $uri, $matches)) {
             array_shift($matches);
-            $this->parameters = $matches;
+            
+            // Combine parameter names with values
+            $this->parameters = [];
+            foreach ($paramNames as $index => $name) {
+                $this->parameters[$name] = $matches[$index] ?? $this->defaults[$name] ?? null;
+            }
+            
             return true;
         }
         
@@ -35,6 +100,9 @@ class Route
 
     public function run()
     {
+        // Execute middleware before running the route
+        $this->runMiddleware();
+        
         if (is_string($this->action)) {
             return $this->runController($this->action);
         }
@@ -49,6 +117,20 @@ class Route
         }
         
         throw new \Exception("Invalid route action");
+    }
+    
+    protected function runMiddleware()
+    {
+        foreach ($this->middleware as $middleware) {
+            if (is_string($middleware) && class_exists($middleware)) {
+                $instance = new $middleware();
+                if (method_exists($instance, 'handle')) {
+                    $instance->handle();
+                }
+            } elseif (is_callable($middleware)) {
+                call_user_func($middleware);
+            }
+        }
     }
 
     protected function runController($controller)
@@ -65,7 +147,7 @@ class Route
             throw new \Exception("Method {$method} not found in controller {$class}");
         }
         
-        return $instance->$method(...$this->parameters);
+        return $instance->$method(...array_values($this->parameters));
     }
     
     protected function runControllerArray($class, $method)
@@ -82,7 +164,7 @@ class Route
         
         // Create Request instance and inject it as the first parameter
         $request = Request::capture();
-        $parameters = array_merge([$request], $this->parameters);
+        $parameters = array_merge([$request], array_values($this->parameters));
         
         return $instance->$method(...$parameters);
     }
@@ -95,5 +177,35 @@ class Route
     public function getMethod()
     {
         return $this->method;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    public function getMiddleware()
+    {
+        return $this->middleware;
+    }
+    
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+    
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+    
+    public function getWhere()
+    {
+        return $this->where;
+    }
+    
+    public function getDefaults()
+    {
+        return $this->defaults;
     }
 }

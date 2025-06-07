@@ -5,6 +5,7 @@ namespace Nexa\Core;
 use Nexa\Core\Config;
 use Nexa\Core\Logger;
 use Nexa\Core\Cache;
+use Closure;
 
 class Application
 {
@@ -13,62 +14,131 @@ class Application
     protected $bindings = [];
     protected $instances = [];
     protected $serviceProviders = [];
+    protected $booted = false;
+    protected $middleware = [];
+    
+    // Magic methods for fluent API
+    protected $magicMethods = [];
 
     public function __construct($basePath = null)
     {
         if ($basePath) {
             $this->setBasePath($basePath);
-            // Set the base path in environment for helper functions
             $_ENV['APP_BASE_PATH'] = $this->basePath;
         }
 
         $this->bootstrap();
     }
 
-    protected function bootstrap()
+    protected function bootstrap(): void
     {
-        // Initialize core services
-        $this->initializeConfig();
-        $this->initializeLogger();
-        $this->initializeCache();
+        if ($this->booted) return;
         
-        // Register core services
-        $this->registerErrorHandler();
-        $this->loadConfiguration();
-        $this->registerServiceProviders();
+        // Zero-config initialization
+        $this->autoDiscoverServices()
+             ->initializeCore()
+             ->registerErrorHandler()
+             ->loadConfiguration()
+             ->registerServiceProviders();
+             
+        $this->booted = true;
+    }
+    
+    protected function autoDiscoverServices(): self
+    {
+        // Auto-discover controllers, models, middleware
+        $this->discoverControllers()
+             ->discoverModels()
+             ->discoverMiddleware();
+        return $this;
+    }
+    
+    protected function initializeCore(): self
+    {
+        $this->initializeConfig()
+             ->initializeLogger()
+             ->initializeCache();
+        return $this;
     }
 
-    protected function registerErrorHandler()
+    protected function registerErrorHandler(): self
     {
         set_error_handler([$this, 'handleError']);
         set_exception_handler([$this, 'handleException']);
+        return $this;
     }
 
-    protected function initializeConfig()
+    protected function initializeConfig(): self
     {
         $configPath = $this->basePath . '/config';
         Config::init($configPath);
+        return $this;
     }
     
-    protected function initializeLogger()
+    protected function initializeLogger(): self
     {
         $logPath = $this->basePath . '/storage/logs';
         $minLevel = Config::env('LOG_LEVEL', Logger::INFO);
         Logger::init($logPath, $minLevel);
+        return $this;
     }
     
-    protected function initializeCache()
+    protected function initializeCache(): self
     {
         $cachePath = $this->basePath . '/storage/cache';
         $prefix = Config::env('CACHE_PREFIX', 'nexa_');
         $defaultTtl = (int) Config::env('CACHE_DEFAULT_TTL', 3600);
         Cache::init($cachePath, $prefix, $defaultTtl);
+        return $this;
+    }
+    
+    protected function discoverControllers(): self
+    {
+        $controllerPath = $this->basePath . '/app/Http/Controllers';
+        if (is_dir($controllerPath)) {
+            foreach (glob($controllerPath . '/*.php') as $file) {
+                $className = 'App\\Http\\Controllers\\' . basename($file, '.php');
+                if (class_exists($className)) {
+                    $this->bind($className, $className);
+                }
+            }
+        }
+        return $this;
+    }
+    
+    protected function discoverModels(): self
+    {
+        $modelPath = $this->basePath . '/app/Models';
+        if (is_dir($modelPath)) {
+            foreach (glob($modelPath . '/*.php') as $file) {
+                $className = 'App\\Models\\' . basename($file, '.php');
+                if (class_exists($className)) {
+                    $this->bind($className, $className);
+                }
+            }
+        }
+        return $this;
+    }
+    
+    protected function discoverMiddleware(): self
+    {
+        $middlewarePath = $this->basePath . '/app/Http/Middleware';
+        if (is_dir($middlewarePath)) {
+            foreach (glob($middlewarePath . '/*.php') as $file) {
+                $className = 'App\\Http\\Middleware\\' . basename($file, '.php');
+                if (class_exists($className)) {
+                    $this->bind($className, $className);
+                }
+            }
+        }
+        return $this;
     }
 
-    protected function loadConfiguration()
+    protected function loadConfiguration(): self
     {
         // Configuration is now handled by Config class
         $this->config = Config::all();
+        return $this;
     }
 
     public function setBasePath($basePath)
@@ -173,47 +243,76 @@ class Application
     public function run()
     {
         try {
-            // Get the router instance
-            $router = $this->make('router');
-            
-            // Get current request URI and method
-            $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             $method = $_SERVER['REQUEST_METHOD'];
+            $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             
-            // Log the request for debugging
-            Logger::info("Request: {$method} {$uri}");
+            // Load routes with hot-reload support
+            $webRouter = $this->loadRoutesWithHotReload();
             
             // Dispatch the request
-            $response = $router->dispatch($method, $uri);
-            
-            // Send the response
-            if (is_string($response)) {
-                echo $response;
-            } elseif (is_array($response) || is_object($response)) {
-                header('Content-Type: application/json');
-                echo json_encode($response);
-            }
+            return $webRouter->dispatch($method, $uri);
         } catch (\Exception $e) {
-            // Log the error
-            Logger::error('Application error: ' . $e->getMessage(), [
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString(),
-                'uri' => $_SERVER['REQUEST_URI'] ?? 'unknown',
-                'method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown'
-            ]);
+            $this->handleException($e);
+        }
+    }
+    
+    protected function loadRoutesWithHotReload()
+    {
+        $routeFile = $this->basePath . '/routes/web.php';
+        
+        // In development, check for file changes
+        if (Config::get('app.debug', false)) {
+            $cacheKey = 'routes_' . md5($routeFile);
+            $lastModified = filemtime($routeFile);
             
-            // Handle exceptions
-            if ($this->config['app']['debug'] ?? false) {
-                echo '<h1>Error</h1>';
-                echo '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
-                echo '<pre>' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
-            } else {
-                // In production, show a generic error page
-                http_response_code(500);
-                echo '<h1>500 - Internal Server Error</h1>';
-                echo '<p>Une erreur est survenue. Veuillez réessayer plus tard.</p>';
+            if (Cache::get($cacheKey) !== $lastModified) {
+                Cache::forget('compiled_routes');
+                Cache::put($cacheKey, $lastModified);
             }
         }
+        
+        return require $routeFile;
+    }
+    
+    // Magic methods for fluent API
+    public function __call($method, $arguments)
+    {
+        // Allow chaining of configuration methods
+        if (strpos($method, 'with') === 0) {
+            $property = lcfirst(substr($method, 4));
+            if (property_exists($this, $property)) {
+                $this->$property = $arguments[0] ?? true;
+                return $this;
+            }
+        }
+        
+        // Custom magic methods
+        if (isset($this->magicMethods[$method])) {
+            return call_user_func_array($this->magicMethods[$method], $arguments);
+        }
+        
+        throw new \BadMethodCallException("Method {$method} does not exist.");
+    }
+    
+    public function macro($name, Closure $callback)
+    {
+        $this->magicMethods[$name] = $callback;
+        return $this;
+    }
+    
+    // Developer Experience improvements
+    public function enableHotReload()
+    {
+        if (Config::get('app.debug', false)) {
+            // Enable file watching for auto-reload
+            $this->config['hot_reload'] = true;
+        }
+        return $this;
+    }
+    
+    public function enableSmartErrors()
+    {
+        $this->config['smart_errors'] = true;
+        return $this;
     }
 }

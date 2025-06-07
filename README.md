@@ -1,14 +1,263 @@
-# Nexa Framework
+# Nexa Framework - PHP ORM and Database Toolkit
 
-Nexa est un framework PHP moderne, léger et puissant pour le développement d'applications web et d'APIs.
+Nexa Framework is a powerful, lightweight PHP ORM and database toolkit that provides an elegant and intuitive way to interact with databases. It features a fluent query builder, schema management, migrations, seeders, and a full-featured ORM with relationships, scopes, and advanced querying capabilities.
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
-![PHP Version](https://img.shields.io/badge/php-%3E%3D8.1-8892BF.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+## ✨ Pourquoi Nexa ?
 
-## 🚀 Aperçu
+- 🚀 **Démarrage instantané** : Zero-config, auto-discovery intelligent
+- 💎 **Syntaxe élégante** : API fluide et expressive inspirée des meilleurs frameworks
+- 🔥 **Hot-reload** : Rechargement automatique en développement
+- 🛠️ **Outils modernes** : CLI puissant, validation fluide, cache intelligent
+- 📦 **Tout inclus** : ORM, routage, validation, cache, événements, et plus
+- 🎯 **Performance** : Optimisé pour la vitesse et l'efficacité
+- 🔒 **Sécurisé** : Protection intégrée contre les vulnérabilités courantes
 
-Nexa Framework est conçu pour offrir une expérience de développement fluide tout en maintenant des performances exceptionnelles. Il combine la simplicité d'utilisation avec des fonctionnalités avancées pour répondre aux besoins des applications modernes.
+## 🚀 Démarrage rapide
+
+```bash
+# Installation
+composer create-project nexa/framework mon-projet
+cd mon-projet
+
+# Démarrage du serveur de développement
+php nexa serve
+```
+
+## 🎯 Fonctionnalités principales
+
+### 🏗️ Architecture moderne
+- **Auto-discovery** : Détection automatique des contrôleurs, modèles et middleware
+- **Zero-config** : Fonctionne immédiatement sans configuration
+- **Hot-reload** : Rechargement automatique des routes en développement
+- **API fluide** : Syntaxe chainable et expressive
+
+### 🛣️ Routage avancé
+- **Routes expressives** : Syntaxe claire et intuitive
+- **Groupes de routes** : Organisation et middleware partagés
+- **Routes de ressources** : CRUD automatique
+- **Contraintes de paramètres** : Validation au niveau des routes
+- **Routes nommées** : Navigation et génération d'URLs simplifiées
+
+### 🗄️ ORM moderne
+- **Query Builder fluide** : Requêtes expressives et chainables
+- **Relations éloquentes** : Gestion intuitive des relations
+- **Scopes et mutateurs** : Logique métier encapsulée
+- **Timestamps automatiques** : Gestion transparente des dates
+- **Casting d'attributs** : Conversion automatique des types
+
+### ✅ Validation puissante
+- **API fluide** : Validation chainable et expressive
+- **Règles extensibles** : Ajout facile de règles personnalisées
+- **Messages personnalisés** : Contrôle total des messages d'erreur
+- **Validation de tableaux** : Support des structures complexes
+
+### 🚀 Cache intelligent
+- **Stores multiples** : File, Array, et extensible
+- **API unifiée** : Interface cohérente pour tous les stores
+- **Remember patterns** : Cache automatique avec callbacks
+- **Nettoyage automatique** : Gestion transparente de l'expiration
+
+### 🎪 Système d'événements
+- **Listeners flexibles** : Gestion d'événements découplée
+- **Wildcards** : Écoute de patterns d'événements
+- **Priorités** : Contrôle de l'ordre d'exécution
+- **Subscribers** : Organisation des listeners
+
+### 🛠️ CLI moderne
+- **Commandes make** : Génération rapide de code
+- **Interface colorée** : Sortie claire et attrayante
+- **Validation interactive** : Prompts intelligents
+- **Progress bars** : Feedback visuel pour les tâches longues
+
+## 📚 Exemples de code
+
+### Routage simple et élégant
+
+```php
+// Routes basiques
+Route::get('/', function() {
+    return view('welcome');
+});
+
+Route::post('/users', [UserController::class, 'store']);
+
+// Groupes de routes avec middleware
+Route::group(['prefix' => 'api', 'middleware' => 'auth'], function() {
+    Route::resource('posts', PostController::class);
+    Route::get('/profile', [UserController::class, 'profile']);
+});
+```
+
+### ORM expressif et puissant
+
+```php
+// Modèle simple
+class User extends Model
+{
+    protected $fillable = ['name', 'email'];
+    protected $casts = ['email_verified_at' => 'datetime'];
+    
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+}
+
+// Requêtes fluides
+$users = User::where('active', true)
+    ->whereNotNull('email_verified_at')
+    ->with('posts')
+    ->orderBy('created_at', 'desc')
+    ->limit(10)
+    ->get();
+
+// Création et mise à jour
+$user = User::create([
+    'name' => 'John Doe',
+    'email' => 'john@example.com'
+]);
+
+$user = User::firstOrCreate(
+    ['email' => 'jane@example.com'],
+    ['name' => 'Jane Doe']
+);
+```
+
+### Validation fluide et expressive
+
+```php
+// Dans un contrôleur
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|min:3|max:255',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:8|confirmed',
+        'age' => 'integer|min:18'
+    ]);
+    
+    return User::create($validated);
+}
+
+// Validation avec middleware
+Route::post('/users', [UserController::class, 'store'])
+    ->middleware(ValidationMiddleware::make([
+        'name' => 'required|string',
+        'email' => 'required|email'
+    ]));
+```
+
+### Cache intelligent
+
+```php
+// Cache simple
+Cache::put('key', 'value', 3600); // 1 heure
+$value = Cache::get('key', 'default');
+
+// Remember pattern
+$users = Cache::remember('active_users', 3600, function() {
+    return User::where('active', true)->get();
+});
+
+// Cache permanent
+Cache::forever('settings', $settings);
+```
+
+### Système d'événements
+
+```php
+// Déclencher un événement
+Event::dispatch('user.created', $user);
+
+// Écouter un événement
+Event::listen('user.created', function($user) {
+    // Envoyer un email de bienvenue
+    Mail::send('welcome', $user);
+});
+
+// Wildcards
+Event::listen('user.*', function($event, $data) {
+    Log::info("Événement utilisateur: {$event}");
+});
+```
+
+## 🛠️ Installation
+
+### Prérequis
+
+- PHP 8.1 ou supérieur
+- Composer
+- Extensions PHP : PDO, mbstring, openssl
+
+### Installation via Composer
+
+```bash
+# Nouveau projet
+composer create-project nexa/framework mon-projet
+cd mon-projet
+
+# Configuration
+cp .env.example .env
+php nexa key:generate
+
+# Base de données (optionnel)
+php nexa migrate
+
+# Démarrage
+php nexa serve
+```
+
+### Installation manuelle
+
+```bash
+git clone https://github.com/nexa/framework.git
+cd framework
+composer install
+cp .env.example .env
+php nexa key:generate
+```
+
+## 🚀 Utilisation
+
+### Structure du projet
+
+```
+mon-projet/
+├── app/
+│   ├── Controllers/     # Contrôleurs
+│   ├── Models/         # Modèles
+│   └── Middleware/     # Middleware personnalisés
+├── config/             # Configuration
+├── public/             # Point d'entrée web
+├── resources/
+│   ├── views/          # Templates
+│   └── assets/         # Assets (CSS, JS)
+├── routes/             # Définition des routes
+├── storage/            # Fichiers générés
+└── vendor/             # Dépendances
+```
+
+### Commandes CLI
+
+```bash
+# Génération de code
+php nexa make:controller UserController
+php nexa make:model Post --migration
+php nexa make:middleware AuthMiddleware
+
+# Base de données
+php nexa migrate
+php nexa migrate:rollback
+php nexa db:seed
+
+# Serveur de développement
+php nexa serve
+php nexa serve --port=8080
+
+# Cache
+php nexa cache:clear
+php nexa config:cache
+```
 
 ### ✨ Fonctionnalités Principales
 
@@ -326,8 +575,132 @@ Nexa Framework est conçu pour être rapide et efficace :
 
 ## 🤝 Contribution
 
-Les contributions sont les bienvenues ! Consultez notre [guide de contribution](CONTRIBUTING.md) pour plus d'informations.
+Nous accueillons chaleureusement les contributions ! Voici comment vous pouvez aider :
+
+### Signaler des bugs
+
+1. Vérifiez que le bug n'a pas déjà été signalé
+2. Créez une issue détaillée avec :
+   - Description du problème
+   - Étapes pour reproduire
+   - Environnement (PHP, OS, etc.)
+   - Code d'exemple si possible
+
+### Proposer des fonctionnalités
+
+1. Ouvrez une issue pour discuter de votre idée
+2. Attendez les retours de la communauté
+3. Implémentez la fonctionnalité
+4. Soumettez une pull request
+
+### Développement
+
+```bash
+# Fork et clone
+git clone https://github.com/votre-username/nexa-framework.git
+cd nexa-framework
+
+# Installation des dépendances
+composer install
+
+# Tests
+php vendor/bin/phpunit
+
+# Standards de code
+php vendor/bin/php-cs-fixer fix
+```
+
+### Guidelines
+
+- **Code style** : PSR-12
+- **Tests** : Couverture minimale de 80%
+- **Documentation** : Commentaires PHPDoc
+- **Commits** : Messages clairs et descriptifs
+- **Branches** : `feature/nom-fonctionnalite` ou `fix/nom-bug`
+
+## 📈 Roadmap
+
+### Version 3.1 (Q2 2024)
+- [ ] Support des WebSockets
+- [ ] Queue system avancé
+- [ ] API GraphQL intégrée
+- [ ] Hot-reload pour les assets
+- [ ] Amélioration des performances
+
+### Version 3.2 (Q3 2024)
+- [ ] Support multi-tenant
+- [ ] Système de plugins avancé
+- [ ] Interface d'administration
+- [ ] Monitoring intégré
+- [ ] Support Docker officiel
+
+### Version 4.0 (Q4 2024)
+- [ ] Architecture microservices
+- [ ] Support PHP 8.3+
+- [ ] Refactoring complet du core
+- [ ] Nouvelle CLI interactive
+- [ ] Performance x2
+
+## 🏆 Communauté
+
+- **Discord** : [Rejoindre le serveur](https://discord.gg/nexa)
+- **Forum** : [forum.nexa-framework.com](https://forum.nexa-framework.com)
+- **Twitter** : [@NexaFramework](https://twitter.com/NexaFramework)
+- **Blog** : [blog.nexa-framework.com](https://blog.nexa-framework.com)
+
+## 📚 Ressources
+
+- **Documentation complète** : [docs.nexa-framework.com](https://docs.nexa-framework.com)
+- **Tutoriels vidéo** : [YouTube](https://youtube.com/NexaFramework)
+- **Exemples de projets** : [github.com/nexa/examples](https://github.com/nexa/examples)
+- **Packages officiels** : [packagist.org/packages/nexa](https://packagist.org/packages/nexa/)
+
+## 🎯 Sponsors
+
+Nexa Framework est rendu possible grâce au soutien de nos sponsors :
+
+- **🥇 Sponsors Or** : [Votre entreprise ici](mailto:sponsors@nexa-framework.com)
+- **🥈 Sponsors Argent** : [Votre entreprise ici](mailto:sponsors@nexa-framework.com)
+- **🥉 Sponsors Bronze** : [Votre entreprise ici](mailto:sponsors@nexa-framework.com)
+
+[Devenir sponsor](https://github.com/sponsors/nexa-framework)
 
 ## 📄 Licence
 
-Nexa Framework est un logiciel open-source sous licence [MIT](LICENSE).
+Nexa Framework est un logiciel open source sous licence [MIT](LICENSE).
+
+```
+MIT License
+
+Copyright (c) 2024 Nexa Framework
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+<div align="center">
+
+**Fait avec ❤️ par l'équipe Nexa Framework**
+
+[Site web](https://nexa-framework.com) • [Documentation](https://docs.nexa-framework.com) • [GitHub](https://github.com/nexa/framework) • [Discord](https://discord.gg/nexa)
+
+⭐ **N'oubliez pas de donner une étoile si Nexa vous plaît !** ⭐
+
+</div>

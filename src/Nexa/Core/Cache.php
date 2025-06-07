@@ -350,6 +350,39 @@ class Cache
     }
 
     /**
+     * Vide le cache expiré uniquement
+     *
+     * @return int Nombre de fichiers supprimés
+     */
+    public static function flushExpired(): int
+    {
+        if (!is_dir(static::$cachePath)) {
+            return 0;
+        }
+        
+        $files = glob(static::$cachePath . '/' . static::$prefix . '*');
+        $deletedCount = 0;
+        
+        foreach ($files as $file) {
+            if (!is_file($file)) {
+                continue;
+            }
+            
+            $content = file_get_contents($file);
+            if ($content !== false) {
+                $data = unserialize($content);
+                if ($data !== false && time() > $data['expires_at']) {
+                    if (unlink($file)) {
+                        $deletedCount++;
+                    }
+                }
+            }
+        }
+        
+        return $deletedCount;
+    }
+
+    /**
      * Obtient des statistiques sur le cache
      *
      * @return array

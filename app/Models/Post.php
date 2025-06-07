@@ -11,7 +11,8 @@ class Post extends Model
     protected $fillable = [
         'title',
         'content',
-        'user_id'
+        'user_id',
+        'is_published'
     ];
     
     /**
@@ -36,5 +37,21 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'post_tags');
+    }
+    
+    /**
+     * Scope pour les posts publiés
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', 1);
+    }
+    
+    /**
+     * Scope pour les posts récents
+     */
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc');
     }
 }

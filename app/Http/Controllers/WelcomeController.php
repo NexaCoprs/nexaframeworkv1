@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Nexa\View\TemplateEngine;
+use Nexa\Http\Controller;
 use Nexa\Validation\ValidatesRequests;
 use Nexa\Http\Request;
 use Nexa\Core\Logger;
 use Nexa\Core\Cache;
 
-class WelcomeController
+class WelcomeController extends Controller
 {
     use ValidatesRequests;
     public function index()
@@ -34,24 +34,21 @@ class WelcomeController
             ];
         }, 3600); // Cache pour 1 heure
         
-        $templateEngine = new TemplateEngine(resource_path('views'), storage_path('framework/views'));
-        return $templateEngine->render('welcome', $welcomeData);
+        return $this->view('welcome', $welcomeData);
     }
 
     public function about()
     {
         Logger::info('About page accessed');
         
-        $templateEngine = new TemplateEngine(resource_path('views'), storage_path('framework/views'));
-        return $templateEngine->render('about');
+        return $this->view('about');
     }
 
     public function documentation()
     {
         Logger::info('Documentation page accessed');
         
-        $templateEngine = new TemplateEngine(resource_path('views'), storage_path('framework/views'));
-        return $templateEngine->render('documentation');
+        return $this->view('documentation');
     }
     
     /**
@@ -77,15 +74,13 @@ class WelcomeController
             } catch (\Nexa\Validation\ValidationException $e) {
                 Logger::warning('Contact form validation failed', $e->getErrors());
                 
-                $templateEngine = new TemplateEngine(resource_path('views'), storage_path('framework/views'));
-                return $templateEngine->render('contact', [
+                return $this->view('contact', [
                     'errors' => $e->getErrors(),
                     'old' => $request->all()
                 ]);
             }
         }
         
-        $templateEngine = new TemplateEngine(resource_path('views'), storage_path('framework/views'));
-        return $templateEngine->render('contact');
+        return $this->view('contact');
     }
 }

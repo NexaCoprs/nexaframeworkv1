@@ -140,6 +140,18 @@ class Response
     }
 
     /**
+     * Alias pour setHeader - utilisé par les middlewares
+     *
+     * @param string $name
+     * @param string $value
+     * @return $this
+     */
+    public function header($name, $value)
+    {
+        return $this->setHeader($name, $value);
+    }
+
+    /**
      * Envoie la réponse au client
      *
      * @return void

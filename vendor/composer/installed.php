@@ -3,7 +3,7 @@
         'name' => 'nexa/framework',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '261b293749bf54308e31b29268ddfee576b746e3',
+        'reference' => '39d20016a2d864e3c8193f1ae46e638053175a6d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -58,7 +58,7 @@
         'nexa/framework' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '261b293749bf54308e31b29268ddfee576b746e3',
+            'reference' => '39d20016a2d864e3c8193f1ae46e638053175a6d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

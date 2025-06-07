@@ -11,7 +11,9 @@ class User extends Model
     protected $fillable = [
         'name',
         'email',
-        'password'
+        'password',
+        'age',
+        'is_active'
     ];
     
     /**
@@ -36,5 +38,21 @@ class User extends Model
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+    
+    /**
+     * Scope pour les utilisateurs actifs
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+    
+    /**
+     * Scope pour les utilisateurs adultes (18+)
+     */
+    public function scopeAdults($query)
+    {
+        return $query->where('age', '>=', 18);
     }
 }

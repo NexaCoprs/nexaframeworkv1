@@ -34,4 +34,9 @@ abstract class Command extends BaseCommand
     {
         $this->output->writeln($message);
     }
+
+    protected function success($message)
+    {
+        $this->output->writeln("<info>{$message}</info>");
+    }
 }

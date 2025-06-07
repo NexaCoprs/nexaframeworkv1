@@ -2,11 +2,18 @@
 
 namespace Nexa\Routing;
 
+use Closure;
+
 class Router
 {
     protected $routes = [];
     protected $currentGroup = [];
+    protected $middleware = [];
+    protected $namedRoutes = [];
+    protected $resourceRoutes = [];
+    protected $config = [];
 
+    // Modern HTTP methods
     public function get($uri, $action)
     {
         return $this->addRoute('GET', $uri, $action);
@@ -31,6 +38,48 @@ class Router
     {
         return $this->addRoute('DELETE', $uri, $action);
     }
+    
+    // Modern route methods
+    public function any($uri, $action)
+    {
+        $methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
+        foreach ($methods as $method) {
+            $this->addRoute($method, $uri, $action);
+        }
+        return $this;
+    }
+    
+    public function match(array $methods, $uri, $action)
+    {
+        foreach ($methods as $method) {
+            $this->addRoute(strtoupper($method), $uri, $action);
+        }
+        return $this;
+    }
+    
+    // Resource routing (RESTful)
+    public function resource($name, $controller)
+    {
+        $this->get($name, [$controller, 'index'])->name($name . '.index');
+        $this->get($name . '/create', [$controller, 'create'])->name($name . '.create');
+        $this->post($name, [$controller, 'store'])->name($name . '.store');
+        $this->get($name . '/{id}', [$controller, 'show'])->name($name . '.show');
+        $this->get($name . '/{id}/edit', [$controller, 'edit'])->name($name . '.edit');
+        $this->put($name . '/{id}', [$controller, 'update'])->name($name . '.update');
+        $this->delete($name . '/{id}', [$controller, 'destroy'])->name($name . '.destroy');
+        return $this;
+    }
+    
+    // API Resource routing
+    public function apiResource($name, $controller)
+    {
+        $this->get($name, [$controller, 'index'])->name($name . '.index');
+        $this->post($name, [$controller, 'store'])->name($name . '.store');
+        $this->get($name . '/{id}', [$controller, 'show'])->name($name . '.show');
+        $this->put($name . '/{id}', [$controller, 'update'])->name($name . '.update');
+        $this->delete($name . '/{id}', [$controller, 'destroy'])->name($name . '.destroy');
+        return $this;
+    }
 
     public function group(array $attributes, \Closure $callback)
     {
@@ -44,17 +93,62 @@ class Router
     protected function addRoute($method, $uri, $action)
     {
         $route = $this->createRoute($method, $uri, $action);
-
         $this->routes[$method][] = $route;
-
         return $route;
     }
 
     protected function createRoute($method, $uri, $action)
     {
         $uri = $this->prefixUri($uri);
-
-        return new Route($method, $uri, $action);
+        $route = new Route($method, $uri, $action);
+        
+        // Apply current group middleware
+        if (!empty($this->currentGroup)) {
+            foreach ($this->currentGroup as $group) {
+                if (isset($group['middleware'])) {
+                    $route->middleware($group['middleware']);
+                }
+                if (isset($group['namespace'])) {
+                    $route->namespace($group['namespace']);
+                }
+            }
+        }
+        
+        return $route;
+    }
+    
+    // Named routes
+    public function name($name)
+    {
+        if (!empty($this->routes)) {
+            $lastMethod = array_key_last($this->routes);
+            $lastRoute = end($this->routes[$lastMethod]);
+            if ($lastRoute instanceof Route) {
+                $lastRoute->name($name);
+                $this->namedRoutes[$name] = $lastRoute;
+            }
+        }
+        return $this;
+    }
+    
+    // Middleware support
+    public function middleware($middleware)
+    {
+        if (!empty($this->routes)) {
+            $lastMethod = array_key_last($this->routes);
+            $lastRoute = end($this->routes[$lastMethod]);
+            if ($lastRoute instanceof Route) {
+                $lastRoute->middleware($middleware);
+            }
+        }
+        return $this;
+    }
+    
+    // Route caching for performance
+    public function cache($enable = true)
+    {
+        $this->config['cache_routes'] = $enable;
+        return $this;
     }
 
     protected function prefixUri($uri)

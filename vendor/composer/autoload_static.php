@@ -18,14 +18,9 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '4d735042470090a1dcaa29d068efd1a2' => __DIR__ . '/../..' . '/src/Nexa/Core/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'T' => 
-        array (
-            'Tests\\' => 6,
-        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php83\\' => 23,
@@ -86,10 +81,6 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
     );
 
     public static $prefixDirsPsr4 = array (
-        'Tests\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/tests',
-        ),
         'Symfony\\Polyfill\\Php83\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
@@ -214,12 +205,15 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
     );
 
     public static $classMap = array (
+        'App\\Http\\Controllers\\Api\\ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ApiController.php',
+        'App\\Http\\Controllers\\TestController' => __DIR__ . '/../..' . '/app/Http/Controllers/TestController.php',
         'App\\Http\\Controllers\\TestControllerController' => __DIR__ . '/../..' . '/app/Http/Controllers/TestControllerController.php',
         'App\\Http\\Controllers\\WelcomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/WelcomeController.php',
         'App\\Models\\Comment' => __DIR__ . '/../..' . '/app/Models/Comment.php',
         'App\\Models\\Post' => __DIR__ . '/../..' . '/app/Models/Post.php',
         'App\\Models\\Profile' => __DIR__ . '/../..' . '/app/Models/Profile.php',
         'App\\Models\\Tag' => __DIR__ . '/../..' . '/app/Models/Tag.php',
+        'App\\Models\\TestModel' => __DIR__ . '/../..' . '/app/Models/TestModel.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\WebSocket\\Handlers\\ConnectionHandler' => __DIR__ . '/../..' . '/app/WebSocket/Handlers/ConnectionHandler.php',
         'App\\WebSocket\\Handlers\\DisconnectionHandler' => __DIR__ . '/../..' . '/app/WebSocket/Handlers/DisconnectionHandler.php',
@@ -325,12 +319,19 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'Nexa\\Auth\\AuthController' => __DIR__ . '/../..' . '/src/Nexa/Auth/AuthController.php',
         'Nexa\\Auth\\JWTException' => __DIR__ . '/../..' . '/src/Nexa/Auth/JWTException.php',
         'Nexa\\Auth\\JWTManager' => __DIR__ . '/../..' . '/src/Nexa/Auth/JWTManager.php',
+        'Nexa\\Cache\\ArrayStore' => __DIR__ . '/../..' . '/src/Nexa/Cache/ArrayStore.php',
+        'Nexa\\Cache\\CacheManager' => __DIR__ . '/../..' . '/src/Nexa/Cache/CacheManager.php',
+        'Nexa\\Cache\\CacheStore' => __DIR__ . '/../..' . '/src/Nexa/Cache/CacheStore.php',
+        'Nexa\\Cache\\FileCache' => __DIR__ . '/../..' . '/src/Nexa/Cache/FileCache.php',
+        'Nexa\\Cache\\FileStore' => __DIR__ . '/../..' . '/src/Nexa/Cache/FileStore.php',
         'Nexa\\Console\\Command' => __DIR__ . '/../..' . '/src/Nexa/Console/Command.php',
         'Nexa\\Console\\Commands\\Command' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/Command.php',
+        'Nexa\\Console\\Commands\\MakeCommand' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/MakeCommand.php',
         'Nexa\\Console\\Commands\\MakeControllerCommand' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/MakeControllerCommand.php',
         'Nexa\\Console\\Commands\\MakeMigrationCommand' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/MakeMigrationCommand.php',
         'Nexa\\Console\\Commands\\MakeModelCommand' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/MakeModelCommand.php',
         'Nexa\\Console\\Commands\\MigrateCommand' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/MigrateCommand.php',
+        'Nexa\\Console\\Commands\\SeedCommand' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/SeedCommand.php',
         'Nexa\\Console\\Commands\\ServeCommand' => __DIR__ . '/../..' . '/src/Nexa/Console/Commands/ServeCommand.php',
         'Nexa\\Console\\Kernel' => __DIR__ . '/../..' . '/src/Nexa/Console/Kernel.php',
         'Nexa\\Console\\NexaCLI' => __DIR__ . '/../..' . '/src/Nexa/Console/NexaCLI.php',
@@ -343,7 +344,9 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'Nexa\\Database\\Blueprint' => __DIR__ . '/../..' . '/src/Nexa/Database/Blueprint.php',
         'Nexa\\Database\\Column' => __DIR__ . '/../..' . '/src/Nexa/Database/Column.php',
         'Nexa\\Database\\DatabaseServiceProvider' => __DIR__ . '/../..' . '/src/Nexa/Database/DatabaseServiceProvider.php',
+        'Nexa\\Database\\ForeignKeyDefinition' => __DIR__ . '/../..' . '/src/Nexa/Database/ForeignKeyDefinition.php',
         'Nexa\\Database\\Migration' => __DIR__ . '/../..' . '/src/Nexa/Database/Migration.php',
+        'Nexa\\Database\\MigrationManager' => __DIR__ . '/../..' . '/src/Nexa/Database/MigrationManager.php',
         'Nexa\\Database\\Model' => __DIR__ . '/../..' . '/src/Nexa/Database/Model.php',
         'Nexa\\Database\\QueryBuilder' => __DIR__ . '/../..' . '/src/Nexa/Database/QueryBuilder.php',
         'Nexa\\Database\\Relations\\BelongsToManyRelation' => __DIR__ . '/../..' . '/src/Nexa/Database/Relations/BelongsToManyRelation.php',
@@ -352,6 +355,7 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'Nexa\\Database\\Relations\\HasOneRelation' => __DIR__ . '/../..' . '/src/Nexa/Database/Relations/HasOneRelation.php',
         'Nexa\\Database\\Relations\\Relation' => __DIR__ . '/../..' . '/src/Nexa/Database/Relations/Relation.php',
         'Nexa\\Database\\Schema' => __DIR__ . '/../..' . '/src/Nexa/Database/Schema.php',
+        'Nexa\\Database\\Seeder' => __DIR__ . '/../..' . '/src/Nexa/Database/Seeder.php',
         'Nexa\\Events\\Event' => __DIR__ . '/../..' . '/src/Nexa/Events/Event.php',
         'Nexa\\Events\\EventDispatcher' => __DIR__ . '/../..' . '/src/Nexa/Events/EventDispatcher.php',
         'Nexa\\Events\\Listener' => __DIR__ . '/../..' . '/src/Nexa/Events/Listener.php',
@@ -366,12 +370,14 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'Nexa\\Http\\Controller' => __DIR__ . '/../..' . '/src/Nexa/Http/Controller.php',
         'Nexa\\Http\\Middleware\\AuthMiddleware' => __DIR__ . '/../..' . '/src/Nexa/Http/Middleware/AuthMiddleware.php',
         'Nexa\\Http\\Middleware\\MiddlewareInterface' => __DIR__ . '/../..' . '/src/Nexa/Http/Middleware/MiddlewareInterface.php',
+        'Nexa\\Http\\Middleware\\ValidationMiddleware' => __DIR__ . '/../..' . '/src/Nexa/Http/Middleware/ValidationMiddleware.php',
         'Nexa\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/src/Nexa/Http/Middleware/VerifyCsrfToken.php',
         'Nexa\\Http\\Request' => __DIR__ . '/../..' . '/src/Nexa/Http/Request.php',
         'Nexa\\Http\\Response' => __DIR__ . '/../..' . '/src/Nexa/Http/Response.php',
         'Nexa\\Microservices\\ServiceClient' => __DIR__ . '/../..' . '/src/Nexa/Microservices/ServiceClient.php',
         'Nexa\\Microservices\\ServiceRegistry' => __DIR__ . '/../..' . '/src/Nexa/Microservices/ServiceRegistry.php',
         'Nexa\\Middleware\\JWTAuthMiddleware' => __DIR__ . '/../..' . '/src/Nexa/Middleware/JWTAuthMiddleware.php',
+        'Nexa\\Middleware\\SecurityMiddleware' => __DIR__ . '/../..' . '/src/Nexa/Middleware/SecurityMiddleware.php',
         'Nexa\\Queue\\DatabaseQueueDriver' => __DIR__ . '/../..' . '/src/Nexa/Queue/DatabaseQueueDriver.php',
         'Nexa\\Queue\\Job' => __DIR__ . '/../..' . '/src/Nexa/Queue/Job.php',
         'Nexa\\Queue\\JobInterface' => __DIR__ . '/../..' . '/src/Nexa/Queue/JobInterface.php',
@@ -383,6 +389,11 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'Nexa\\Routing\\Route' => __DIR__ . '/../..' . '/src/Nexa/Routing/Route.php',
         'Nexa\\Routing\\Router' => __DIR__ . '/../..' . '/src/Nexa/Routing/Router.php',
         'Nexa\\Routing\\RoutingServiceProvider' => __DIR__ . '/../..' . '/src/Nexa/Routing/RoutingServiceProvider.php',
+        'Nexa\\Security\\CsrfProtection' => __DIR__ . '/../..' . '/src/Nexa/Security/CsrfProtection.php',
+        'Nexa\\Security\\RateLimiter' => __DIR__ . '/../..' . '/src/Nexa/Security/RateLimiter.php',
+        'Nexa\\Security\\XssProtection' => __DIR__ . '/../..' . '/src/Nexa/Security/XssProtection.php',
+        'Nexa\\Support\\Collection' => __DIR__ . '/../..' . '/src/Nexa/Support/Collection.php',
+        'Nexa\\Support\\Str' => __DIR__ . '/../..' . '/src/Nexa/Support/Str.php',
         'Nexa\\Testing\\TestCase' => __DIR__ . '/../..' . '/src/Nexa/Testing/TestCase.php',
         'Nexa\\Testing\\TestRunner' => __DIR__ . '/../..' . '/src/Nexa/Testing/TestRunner.php',
         'Nexa\\Validation\\ValidatesRequests' => __DIR__ . '/../..' . '/src/Nexa/Validation/ValidatesRequests.php',
@@ -942,17 +953,6 @@ class ComposerStaticInitd72f5e6eb17d4911b4bd71644d6857db
         'Symfony\\Polyfill\\Php80\\Php80' => __DIR__ . '/..' . '/symfony/polyfill-php80/Php80.php',
         'Symfony\\Polyfill\\Php80\\PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/PhpToken.php',
         'Symfony\\Polyfill\\Php83\\Php83' => __DIR__ . '/..' . '/symfony/polyfill-php83/Php83.php',
-        'Tests\\AuthTest' => __DIR__ . '/../..' . '/tests/AuthTest.php',
-        'Tests\\EventTest' => __DIR__ . '/../..' . '/tests/EventTest.php',
-        'Tests\\GraphQLTest' => __DIR__ . '/../..' . '/tests/GraphQLTest.php',
-        'Tests\\MicroserviceTest' => __DIR__ . '/../..' . '/tests/MicroserviceTest.php',
-        'Tests\\ModuleTest' => __DIR__ . '/../..' . '/tests/ModuleTest.php',
-        'Tests\\Phase3TestSuite' => __DIR__ . '/../..' . '/tests/Phase3TestSuite.php',
-        'Tests\\PluginTest' => __DIR__ . '/../..' . '/tests/PluginTest.php',
-        'Tests\\QueueTest' => __DIR__ . '/../..' . '/tests/QueueTest.php',
-        'Tests\\SimplePluginTest' => __DIR__ . '/../..' . '/tests/SimplePluginTest.php',
-        'Tests\\SimpleTestSuite' => __DIR__ . '/../..' . '/tests/SimpleTestSuite.php',
-        'Tests\\WebSocketTest' => __DIR__ . '/../..' . '/tests/WebSocketTest.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );

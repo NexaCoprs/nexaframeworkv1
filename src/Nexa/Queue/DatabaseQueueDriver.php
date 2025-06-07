@@ -15,6 +15,7 @@ class DatabaseQueueDriver implements QueueDriverInterface
 
     /**
      * Database connection
+     * @var PDO|null
      */
     private $db;
 
@@ -120,6 +121,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function push(JobInterface $job, $queue)
     {
+        if (!$this->db) {
+            return false;
+        }
+        
         $now = time();
         $availableAt = $now + $job->getDelay();
         
@@ -168,6 +173,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function pop($queue)
     {
+        if (!$this->db) {
+            return null;
+        }
+        
         $now = time();
         $retryAfter = $this->config['retry_after'];
 
@@ -240,6 +249,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function delete(JobInterface $job, $queue)
     {
+        if (!$this->db) {
+            return false;
+        }
+        
         $sql = "DELETE FROM {$this->table} WHERE job_id = ?";
 
         try {
@@ -276,6 +289,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function fail(JobInterface $job, $queue, \Exception $exception)
     {
+        if (!$this->db) {
+            return false;
+        }
+        
         $now = time();
 
         // Insert into failed jobs table
@@ -317,7 +334,9 @@ class DatabaseQueueDriver implements QueueDriverInterface
             return true;
 
         } catch (\Exception $e) {
-            $this->db->rollBack();
+            if ($this->db) {
+                $this->db->rollBack();
+            }
 
             if ($this->logger) {
                 $this->logger->error("Failed to mark job as failed in database", [
@@ -338,6 +357,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function size($queue)
     {
+        if (!$this->db) {
+            return 0;
+        }
+        
         $sql = "SELECT COUNT(*) FROM {$this->table} WHERE queue = ? AND reserved_at IS NULL";
 
         try {
@@ -364,6 +387,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function clear($queue)
     {
+        if (!$this->db) {
+            return 0;
+        }
+        
         $sql = "DELETE FROM {$this->table} WHERE queue = ?";
 
         try {
@@ -399,6 +426,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     private function releaseReservedJobs($retryAfter)
     {
+        if (!$this->db) {
+            return 0;
+        }
+        
         $expiredTime = time() - $retryAfter;
         $sql = "
             UPDATE {$this->table}
@@ -438,6 +469,10 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function getFailedJobs($queue = null)
     {
+        if (!$this->db) {
+            return [];
+        }
+        
         if ($queue) {
             $sql = "SELECT * FROM {$this->failedTable} WHERE queue = ? ORDER BY failed_at DESC";
         } else {
@@ -471,12 +506,17 @@ class DatabaseQueueDriver implements QueueDriverInterface
      */
     public function retry($jobId)
     {
+        if (!$this->db) {
+            return false;
+        }
+        
         // Get failed job
         $selectSql = "SELECT * FROM {$this->failedTable} WHERE job_id = ?";
         
         try {
             $stmt = $this->db->prepare($selectSql);
             $stmt->execute([$jobId]);
+            /** @var array|false $failedJob */
             $failedJob = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$failedJob) {
@@ -518,7 +558,9 @@ class DatabaseQueueDriver implements QueueDriverInterface
             return true;
 
         } catch (\Exception $e) {
-            $this->db->rollBack();
+            if ($this->db) {
+                $this->db->rollBack();
+            }
 
             if ($this->logger) {
                 $this->logger->error("Failed to retry job", [

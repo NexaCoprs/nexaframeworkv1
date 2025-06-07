@@ -28,7 +28,7 @@ class ApiController extends Controller
             $password = $request->input('password');
 
             if (!$email || !$password) {
-                return $this->jsonResponse([
+                return $this->json([
                     'error' => 'Email et mot de passe requis'
                 ], 400);
             }
@@ -38,7 +38,7 @@ class ApiController extends Controller
             if ($email === 'admin@example.com' && $password === 'password') {
                 $token = $this->jwtManager->generateToken(1, $email);
 
-                return $this->jsonResponse([
+                return $this->json([
                     'success' => true,
                     'token' => $token,
                     'user' => [
@@ -48,13 +48,13 @@ class ApiController extends Controller
                 ]);
             }
 
-            return $this->jsonResponse([
+            return $this->json([
                 'error' => 'Identifiants invalides'
             ], 401);
 
         } catch (\Exception $e) {
             Logger::error('Erreur lors de la connexion: ' . $e->getMessage());
-            return $this->jsonResponse([
+            return $this->json([
                 'error' => 'Erreur serveur'
             ], 500);
         }
@@ -71,7 +71,7 @@ class ApiController extends Controller
             $name = $request->input('name');
 
             if (!$email || !$password || !$name) {
-                return $this->jsonResponse([
+                return $this->json([
                     'error' => 'Nom, email et mot de passe requis'
                 ], 400);
             }
@@ -82,7 +82,7 @@ class ApiController extends Controller
 
             $token = $this->jwtManager->generateToken($userId, $email);
 
-            return $this->jsonResponse([
+            return $this->json([
                 'success' => true,
                 'message' => 'Utilisateur créé avec succès',
                 'token' => $token,
@@ -95,7 +95,7 @@ class ApiController extends Controller
 
         } catch (\Exception $e) {
             Logger::error('Erreur lors de l\'inscription: ' . $e->getMessage());
-            return $this->jsonResponse([
+            return $this->json([
                 'error' => 'Erreur serveur'
             ], 500);
         }
@@ -106,7 +106,7 @@ class ApiController extends Controller
      */
     public function logout(Request $request)
     {
-        return $this->jsonResponse([
+        return $this->json([
             'success' => true,
             'message' => 'Déconnexion réussie'
         ]);
@@ -118,7 +118,7 @@ class ApiController extends Controller
     public function user(Request $request)
     {
         // Ici vous devriez récupérer l'utilisateur depuis le token JWT
-        return $this->jsonResponse([
+        return $this->json([
             'user' => [
                 'id' => 1,
                 'name' => 'Utilisateur Test',
@@ -132,11 +132,37 @@ class ApiController extends Controller
      */
     public function users(Request $request)
     {
-        return $this->jsonResponse([
+        return $this->json([
             'users' => [
                 ['id' => 1, 'name' => 'John Doe', 'email' => 'john@example.com'],
-                ['id' => 2, 'name' => 'Jane Smith', 'email' => 'jane@example.com']
-            ]
+                ['id' => 2, 'name' => 'Jane Smith', 'email' => 'jane@example.com'],
+                ['id' => 3, 'name' => 'Alice Johnson', 'email' => 'alice@example.com']
+            ],
+            'total' => 3,
+            'page' => 1
+        ]);
+    }
+    
+    /**
+     * Obtenir un utilisateur spécifique
+     */
+    public function getUser(Request $request, $id)
+    {
+        // Simulation de récupération d'un utilisateur
+        $users = [
+            1 => ['id' => 1, 'name' => 'John Doe', 'email' => 'john@example.com', 'created_at' => '2023-01-01'],
+            2 => ['id' => 2, 'name' => 'Jane Smith', 'email' => 'jane@example.com', 'created_at' => '2023-01-02'],
+            3 => ['id' => 3, 'name' => 'Alice Johnson', 'email' => 'alice@example.com', 'created_at' => '2023-01-03']
+        ];
+        
+        if (!isset($users[$id])) {
+            return $this->json([
+                'error' => 'Utilisateur non trouvé'
+            ], 404);
+        }
+        
+        return $this->json([
+            'user' => $users[$id]
         ]);
     }
 
@@ -149,12 +175,12 @@ class ApiController extends Controller
         $email = $request->input('email');
 
         if (!$name || !$email) {
-            return $this->jsonResponse([
+            return $this->json([
                 'error' => 'Nom et email requis'
             ], 400);
         }
 
-        return $this->jsonResponse([
+        return $this->json([
             'success' => true,
             'message' => 'Utilisateur créé',
             'user' => [
@@ -170,7 +196,7 @@ class ApiController extends Controller
      */
     public function updateUser(Request $request, $id)
     {
-        return $this->jsonResponse([
+        return $this->json([
             'success' => true,
             'message' => 'Utilisateur mis à jour',
             'user' => [
@@ -186,7 +212,7 @@ class ApiController extends Controller
      */
     public function deleteUser(Request $request, $id)
     {
-        return $this->jsonResponse([
+        return $this->json([
             'success' => true,
             'message' => 'Utilisateur supprimé'
         ]);
@@ -197,7 +223,7 @@ class ApiController extends Controller
      */
     public function status(Request $request)
     {
-        return $this->jsonResponse([
+        return $this->json([
             'status' => 'OK',
             'version' => '1.0.0',
             'timestamp' => date('Y-m-d H:i:s')
@@ -209,7 +235,7 @@ class ApiController extends Controller
      */
     public function health(Request $request)
     {
-        return $this->jsonResponse([
+        return $this->json([
             'health' => 'OK',
             'services' => [
                 'database' => 'OK',
@@ -220,14 +246,18 @@ class ApiController extends Controller
     }
 
     /**
-     * Retourne une réponse JSON
+     * Middleware d'authentification JWT (exemple)
      */
-    protected function jsonResponse($data, $status = 200)
+    protected function requireAuth(Request $request)
     {
-        $response = new Response();
-        $response->setStatusCode($status);
-        $response->setHeader('Content-Type', 'application/json');
-        $response->setContent(json_encode($data, JSON_PRETTY_PRINT));
-        return $response;
+        $token = $request->header('Authorization');
+        if (!$token) {
+            return $this->json(['error' => 'Token manquant'], 401);
+        }
+        
+        // Vérifier le token JWT ici
+        // ...
+        
+        return null; // Pas d'erreur
     }
 }
