@@ -1,0 +1,276 @@
+@component(StatCard)
+@props(['title', 'value', 'icon', 'color' => 'primary', 'trend' => null])
+@cache(1800)
+
+<div class="stat-card stat-card--{{ color }}" :bind="cardData">
+    <div class="stat-card__header">
+        <div class="stat-card__icon">
+            <nx:icon :name="{{ icon }}" :color="{{ color }}" />
+        </div>
+        
+        @if(trend)
+            <div class="stat-card__trend stat-card__trend--{{ trend.direction }}">
+                <nx:icon :name="trend.direction === 'up' ? 'arrow-up' : 'arrow-down'" size="sm" />
+                <span>{{ trend.percentage }}%</span>
+            </div>
+        @endif
+    </div>
+    
+    <div class="stat-card__content">
+        <h3 class="stat-card__title">{{ title }}</h3>
+        <div class="stat-card__value" :bind="displayValue">
+            {{ formatValue(value) }}
+        </div>
+        
+        @if(trend && trend.description)
+            <p class="stat-card__description">{{ trend.description }}</p>
+        @endif
+    </div>
+    
+    <div class="stat-card__footer">
+        <button @click="showDetails" class="stat-card__details-btn">
+            <nx:icon name="info" size="sm" />
+            Détails
+        </button>
+    </div>
+</div>
+
+<style scoped>
+.stat-card {
+    @apply bg-white rounded-lg shadow-md p-6 border-l-4 transition-all duration-300 hover:shadow-lg;
+}
+
+.stat-card--primary {
+    @apply border-blue-500;
+}
+
+.stat-card--success {
+    @apply border-green-500;
+}
+
+.stat-card--warning {
+    @apply border-yellow-500;
+}
+
+.stat-card--danger {
+    @apply border-red-500;
+}
+
+.stat-card__header {
+    @apply flex justify-between items-start mb-4;
+}
+
+.stat-card__icon {
+    @apply w-12 h-12 rounded-full flex items-center justify-center;
+}
+
+.stat-card--primary .stat-card__icon {
+    @apply bg-blue-100 text-blue-600;
+}
+
+.stat-card--success .stat-card__icon {
+    @apply bg-green-100 text-green-600;
+}
+
+.stat-card--warning .stat-card__icon {
+    @apply bg-yellow-100 text-yellow-600;
+}
+
+.stat-card--danger .stat-card__icon {
+    @apply bg-red-100 text-red-600;
+}
+
+.stat-card__trend {
+    @apply flex items-center space-x-1 text-sm font-medium;
+}
+
+.stat-card__trend--up {
+    @apply text-green-600;
+}
+
+.stat-card__trend--down {
+    @apply text-red-600;
+}
+
+.stat-card__trend--stable {
+    @apply text-gray-600;
+}
+
+.stat-card__title {
+    @apply text-sm font-medium text-gray-600 mb-2;
+}
+
+.stat-card__value {
+    @apply text-3xl font-bold text-gray-900 mb-2;
+}
+
+.stat-card__description {
+    @apply text-sm text-gray-500;
+}
+
+.stat-card__footer {
+    @apply mt-4 pt-4 border-t border-gray-100;
+}
+
+.stat-card__details-btn {
+    @apply flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-900 transition-colors;
+}
+
+/* Animations */
+.stat-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .stat-card {
+        @apply p-4;
+    }
+    
+    .stat-card__value {
+        @apply text-2xl;
+    }
+}
+</style>
+
+<script>
+export default {
+    name: 'StatCard',
+    
+    props: {
+        title: {
+            type: String,
+            required: true
+        },
+        value: {
+            type: [Number, String],
+            required: true
+        },
+        icon: {
+            type: String,
+            required: true
+        },
+        color: {
+            type: String,
+            default: 'primary',
+            validator: value => ['primary', 'success', 'warning', 'danger'].includes(value)
+        },
+        trend: {
+            type: Object,
+            default: null,
+            validator: value => {
+                if (!value) return true;
+                return value.hasOwnProperty('direction') && 
+                       value.hasOwnProperty('percentage') &&
+                       ['up', 'down', 'stable'].includes(value.direction);
+            }
+        }
+    },
+    
+    data() {
+        return {
+            cardData: {
+                isLoading: false,
+                isExpanded: false
+            },
+            displayValue: this.value
+        };
+    },
+    
+    computed: {
+        formattedValue() {
+            return this.formatValue(this.value);
+        },
+        
+        trendIcon() {
+            if (!this.trend) return null;
+            
+            switch (this.trend.direction) {
+                case 'up': return 'arrow-up';
+                case 'down': return 'arrow-down';
+                default: return 'minus';
+            }
+        }
+    },
+    
+    methods: {
+        formatValue(value) {
+            if (typeof value === 'number') {
+                // Format large numbers
+                if (value >= 1000000) {
+                    return (value / 1000000).toFixed(1) + 'M';
+                } else if (value >= 1000) {
+                    return (value / 1000).toFixed(1) + 'K';
+                }
+                
+                // Format with commas
+                return value.toLocaleString();
+            }
+            
+            return value;
+        },
+        
+        showDetails() {
+            this.$emit('details-requested', {
+                title: this.title,
+                value: this.value,
+                trend: this.trend
+            });
+        },
+        
+        animateValue(newValue) {
+            const start = parseInt(this.displayValue) || 0;
+            const end = parseInt(newValue) || 0;
+            const duration = 1000; // 1 second
+            const startTime = Date.now();
+            
+            const animate = () => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                
+                this.displayValue = Math.round(start + (end - start) * easeOut);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            };
+            
+            animate();
+        }
+    },
+    
+    watch: {
+        value(newValue, oldValue) {
+            if (typeof newValue === 'number' && typeof oldValue === 'number') {
+                this.animateValue(newValue);
+            } else {
+                this.displayValue = newValue;
+            }
+        }
+    },
+    
+    mounted() {
+        // Animate on mount
+        if (typeof this.value === 'number') {
+            this.displayValue = 0;
+            this.$nextTick(() => {
+                this.animateValue(this.value);
+            });
+        }
+    }
+};
+</script>

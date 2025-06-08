@@ -6,10 +6,14 @@
 
 // Définir les chemins de base
 define('BASE_PATH', __DIR__);
-define('APP_PATH', BASE_PATH . '/app');
-define('CONFIG_PATH', BASE_PATH . '/config');
+define('WORKSPACE_PATH', BASE_PATH . '/workspace');
+define('CONFIG_PATH', WORKSPACE_PATH . '/config');
 define('STORAGE_PATH', BASE_PATH . '/storage');
-define('PUBLIC_PATH', BASE_PATH . '/public');
+define('ASSETS_PATH', WORKSPACE_PATH . '/assets');
+define('HANDLERS_PATH', WORKSPACE_PATH . '/handlers');
+define('DATABASE_PATH', WORKSPACE_PATH . '/database');
+define('INTERFACE_PATH', WORKSPACE_PATH . '/interface');
+define('FLOWS_PATH', WORKSPACE_PATH . '/flows');
 
 // Charger l'autoloader de Composer
 require_once BASE_PATH . '/vendor/autoload.php';
@@ -36,7 +40,11 @@ if (file_exists(BASE_PATH . '/.env')) {
 }
 
 // Charger les helpers
-require_once BASE_PATH . '/src/Nexa/Core/helpers.php';
+require_once BASE_PATH . '/kernel/Nexa/Core/helpers.php';
+
+// Charger manuellement les plugins
+require_once BASE_PATH . '/kernel/Plugins/PluginManager.php';
+require_once BASE_PATH . '/kernel/Plugins/Plugin.php';
 
 // Initialiser l'application
 use Nexa\Core\Application;
@@ -64,16 +72,14 @@ try {
     $dispatchUri = $uri;
     
     // Charger les routes web
-    $router = require BASE_PATH . '/routes/web.php';
+    $router = require FLOWS_PATH . '/web.php';
     
     if (!$router instanceof Router) {
         throw new Exception('Web routes file must return a Router instance');
     }
     
-
-    
     // Charger les routes API et les fusionner
-    $apiRouter = require BASE_PATH . '/routes/api.php';
+    $apiRouter = require FLOWS_PATH . '/api.php';
     if ($apiRouter instanceof Router) {
         $router->mergeRouters($apiRouter);
     }

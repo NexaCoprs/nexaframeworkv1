@@ -1,0 +1,151 @@
+{
+    "name": "nexa-project-generator",
+    "displayName": "Nexa Project Generator",
+    "description": "Templates de projets complets avec configuration automatique et intégration Docker/CI-CD",
+    "version": "1.0.0",
+    "publisher": "nexa-framework",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Other",
+        "Snippets",
+        "Programming Languages"
+    ],
+    "keywords": [
+        "nexa",
+        "project",
+        "generator",
+        "template",
+        "docker",
+        "ci-cd"
+    ],
+    "activationEvents": [
+        "onCommand:nexa.projectGenerator.create",
+        "onCommand:nexa.projectGenerator.scaffold"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "nexa.projectGenerator.create",
+                "title": "Créer un nouveau projet Nexa",
+                "category": "Nexa",
+                "icon": "$(add)"
+            },
+            {
+                "command": "nexa.projectGenerator.scaffold",
+                "title": "Scaffolder le projet actuel",
+                "category": "Nexa"
+            },
+            {
+                "command": "nexa.projectGenerator.addModule",
+                "title": "Ajouter un module",
+                "category": "Nexa"
+            },
+            {
+                "command": "nexa.projectGenerator.setupDocker",
+                "title": "Configurer Docker",
+                "category": "Nexa"
+            },
+            {
+                "command": "nexa.projectGenerator.setupCICD",
+                "title": "Configurer CI/CD",
+                "category": "Nexa"
+            },
+            {
+                "command": "nexa.projectGenerator.generateAPI",
+                "title": "Générer une API",
+                "category": "Nexa"
+            },
+            {
+                "command": "nexa.projectGenerator.generateMicroservice",
+                "title": "Générer un microservice",
+                "category": "Nexa"
+            }
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "nexa.projectGenerator.create"
+                },
+                {
+                    "command": "nexa.projectGenerator.scaffold",
+                    "when": "workspaceFolderCount > 0"
+                },
+                {
+                    "command": "nexa.projectGenerator.addModule",
+                    "when": "nexaProject"
+                },
+                {
+                    "command": "nexa.projectGenerator.setupDocker",
+                    "when": "nexaProject"
+                },
+                {
+                    "command": "nexa.projectGenerator.setupCICD",
+                    "when": "nexaProject"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "nexa.projectGenerator.addModule",
+                    "when": "nexaProject && explorerResourceIsFolder",
+                    "group": "nexa"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Nexa Project Generator",
+            "properties": {
+                "nexa.projectGenerator.defaultTemplate": {
+                    "type": "string",
+                    "enum": ["basic", "api", "microservices", "fullstack", "enterprise"],
+                    "default": "basic",
+                    "description": "Template de projet par défaut"
+                },
+                "nexa.projectGenerator.includeDocker": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Inclure la configuration Docker par défaut"
+                },
+                "nexa.projectGenerator.includeCICD": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Inclure la configuration CI/CD par défaut"
+                },
+                "nexa.projectGenerator.cicdProvider": {
+                    "type": "string",
+                    "enum": ["github", "gitlab", "azure", "jenkins"],
+                    "default": "github",
+                    "description": "Fournisseur CI/CD par défaut"
+                },
+                "nexa.projectGenerator.packageManager": {
+                    "type": "string",
+                    "enum": ["composer", "npm", "yarn"],
+                    "default": "composer",
+                    "description": "Gestionnaire de paquets par défaut"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.74.0",
+        "@types/node": "16.x",
+        "typescript": "^4.9.4"
+    },
+    "dependencies": {
+        "yeoman-generator": "^5.9.0",
+        "inquirer": "^9.2.7",
+        "fs-extra": "^11.1.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nexa-framework/vscode-extensions.git"
+    },
+    "license": "MIT"
+}

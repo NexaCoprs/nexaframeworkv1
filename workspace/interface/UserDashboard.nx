@@ -1,0 +1,214 @@
+@cache(3600)
+@entity(User)
+@handler(UserHandler)
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.name }} - Dashboard</title>
+    <link href="/assets/css/app.css" rel="stylesheet">
+    <script src="/assets/js/reactive.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Auto-discovered Navigation Component -->
+        <nx:navigation user="{{ user }}" active="dashboard" />
+        
+        <main class="main-content">
+            <!-- Header with reactive user info -->
+            <header class="dashboard-header">
+                <h1>Bienvenue, {{ user.name }}!</h1>
+                <div class="user-stats">
+                    <nx:stat-card 
+                        title="Projets" 
+                        :value="{{ user.projects.count() }}" 
+                        icon="projects"
+                        :bind="projectCount" />
+                    
+                    <nx:stat-card 
+                        title="Tâches" 
+                        :value="{{ user.tasks.pending().count() }}" 
+                        icon="tasks"
+                        color="warning" />
+                    
+                    <nx:stat-card 
+                        title="Score" 
+                        :value="{{ user.getScore() }}" 
+                        icon="trophy"
+                        color="success" />
+                </div>
+            </header>
+            
+            <!-- Reactive Project List -->
+            <section class="projects-section">
+                <div class="section-header">
+                    <h2>Mes Projets</h2>
+                    <button @click="createProject" class="btn btn-primary">
+                        <nx:icon name="plus" /> Nouveau Projet
+                    </button>
+                </div>
+                
+                @if(user.projects.count() > 0)
+                    <div class="projects-grid">
+                        @foreach(user.projects as project)
+                            <nx:project-card 
+                                :project="{{ project }}"
+                                @updated="refreshProjects"
+                                :cache="project_{{ project.id }}"
+                                :validate="project.rules" />
+                        @endforeach
+                    </div>
+                @else
+                    <nx:empty-state 
+                        title="Aucun projet"
+                        description="Créez votre premier projet pour commencer"
+                        action="createProject"
+                        icon="folder-plus" />
+                @endif
+            </section>
+            
+            <!-- Real-time Activity Feed -->
+            <section class="activity-section">
+                <h2>Activité Récente</h2>
+                <nx:activity-feed 
+                    :user="{{ user }}"
+                    :realtime="true"
+                    :limit="10"
+                    @newActivity="handleNewActivity" />
+            </section>
+            
+            <!-- Interactive Task Manager -->
+            <section class="tasks-section">
+                <div class="section-header">
+                    <h2>Tâches en Cours</h2>
+                    <nx:task-filter :bind="taskFilter" @change="filterTasks" />
+                </div>
+                
+                <nx:task-list 
+                    :tasks="{{ user.tasks.pending() }}"
+                    :filter="taskFilter"
+                    @taskCompleted="handleTaskCompleted"
+                    @taskUpdated="refreshTasks"
+                    :validate="task.validation" />
+            </section>
+            
+            <!-- Performance Analytics -->
+            <section class="analytics-section">
+                <h2>Analytics</h2>
+                <div class="analytics-grid">
+                    <nx:chart 
+                        type="line"
+                        :data="{{ user.getPerformanceData() }}"
+                        title="Performance Mensuelle"
+                        :cache="analytics_{{ user.id }}_monthly" />
+                    
+                    <nx:chart 
+                        type="doughnut"
+                        :data="{{ user.getTaskDistribution() }}"
+                        title="Répartition des Tâches"
+                        :realtime="true" />
+                </div>
+            </section>
+        </main>
+        
+        <!-- Reactive Sidebar -->
+        <aside class="sidebar">
+            <nx:quick-actions :user="{{ user }}" />
+            
+            <nx:notifications 
+                :user="{{ user }}"
+                :realtime="true"
+                @notificationRead="markAsRead" />
+            
+            <nx:calendar 
+                :events="{{ user.getUpcomingEvents() }}"
+                @eventClick="showEventDetails" />
+        </aside>
+    </div>
+    
+    <!-- Reactive Modal System -->
+    <nx:modal-container>
+        <nx:project-modal 
+            v-if="showProjectModal"
+            @close="showProjectModal = false"
+            @created="handleProjectCreated"
+            :validate="project.createRules" />
+        
+        <nx:task-modal 
+            v-if="showTaskModal"
+            :task="selectedTask"
+            @close="showTaskModal = false"
+            @updated="handleTaskUpdated" />
+    </nx:modal-container>
+    
+    <!-- Auto-generated JavaScript for reactivity -->
+    <script>
+        // Auto-generated reactive bindings
+        const dashboard = new NexaReactive({
+            data: {
+                projectCount: {{ user.projects.count() }},
+                taskFilter: 'all',
+                showProjectModal: false,
+                showTaskModal: false,
+                selectedTask: null
+            },
+            
+            methods: {
+                createProject() {
+                    this.showProjectModal = true;
+                },
+                
+                refreshProjects() {
+                    @action(handler.refreshProjects)
+                    this.projectCount = {{ user.projects.count() }};
+                },
+                
+                filterTasks(filter) {
+                    this.taskFilter = filter;
+                },
+                
+                handleTaskCompleted(task) {
+                    @action(handler.completeTask)
+                    this.refreshProjects();
+                },
+                
+                handleNewActivity(activity) {
+                    // Real-time activity handling
+                    console.log('New activity:', activity);
+                },
+                
+                handleProjectCreated(project) {
+                    this.showProjectModal = false;
+                    this.refreshProjects();
+                },
+                
+                handleTaskUpdated(task) {
+                    this.showTaskModal = false;
+                    this.refreshProjects();
+                }
+            },
+            
+            // Auto-validation rules
+            validation: {
+                projectCount: 'integer|min:0',
+                taskFilter: 'string|in:all,pending,completed'
+            },
+            
+            // Real-time WebSocket connections
+            websocket: {
+                channels: ['user.{{ user.id }}', 'projects', 'tasks'],
+                events: {
+                    'project.created': 'refreshProjects',
+                    'task.updated': 'refreshProjects',
+                    'notification.new': 'handleNewNotification'
+                }
+            }
+        });
+        
+        // Initialize dashboard
+        dashboard.mount('#dashboard');
+    </script>
+</body>
+</html>

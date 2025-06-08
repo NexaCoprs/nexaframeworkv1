@@ -1,0 +1,148 @@
+{
+  "name": "nexa-database-manager",
+  "displayName": "Nexa Database Manager",
+  "description": "Visualisation des entités et relations, éditeur graphique pour les migrations et gestion des schémas",
+  "version": "1.0.0",
+  "publisher": "nexacorps",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization",
+    "Data Science"
+  ],
+  "keywords": [
+    "nexa",
+    "database",
+    "entity",
+    "migration",
+    "schema",
+    "visualization"
+  ],
+  "activationEvents": [
+    "onCommand:nexa.db.visualizeEntities",
+    "onCommand:nexa.db.createMigration",
+    "onCommand:nexa.db.previewSchema",
+    "onCommand:nexa.db.generateModel",
+    "onCommand:nexa.db.openDashboard"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "nexa.db.visualizeEntities",
+        "title": "Visualiser les Entités",
+        "category": "Nexa DB",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "nexa.db.createMigration",
+        "title": "Créer une Migration",
+        "category": "Nexa DB",
+        "icon": "$(add)"
+      },
+      {
+        "command": "nexa.db.previewSchema",
+        "title": "Aperçu du Schéma",
+        "category": "Nexa DB",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "nexa.db.generateModel",
+        "title": "Générer un Modèle",
+        "category": "Nexa DB",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "nexa.db.openDashboard",
+        "title": "Ouvrir le Dashboard DB",
+        "category": "Nexa DB",
+        "icon": "$(dashboard)"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "nexaDbExplorer",
+          "name": "Base de Données Nexa",
+          "when": "workspaceHasNexaProject"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "nexa-database",
+          "title": "Nexa Database",
+          "icon": "$(database)"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "nexa.db.visualizeEntities",
+          "when": "view == nexaDbExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "nexa.db.createMigration",
+          "when": "view == nexaDbExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "nexa.db.openDashboard",
+          "when": "view == nexaDbExplorer",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "nexa.db.generateModel",
+          "when": "resourceExtname == .php && resourcePath =~ /entities/",
+          "group": "nexa@1"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Nexa Database Manager",
+      "properties": {
+        "nexa.db.connectionString": {
+          "type": "string",
+          "default": "",
+          "description": "Chaîne de connexion à la base de données"
+        },
+        "nexa.db.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Actualisation automatique des vues"
+        },
+        "nexa.db.showRelations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Afficher les relations entre entités"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "d3": "^7.8.5",
+    "@types/d3": "^7.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexacorps/nexa-database-manager"
+  },
+  "license": "MIT"
+}

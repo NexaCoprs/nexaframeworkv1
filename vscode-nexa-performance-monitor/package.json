@@ -1,0 +1,176 @@
+{
+    "name": "nexa-performance-monitor",
+    "displayName": "Nexa Performance Monitor",
+    "description": "Analyse des performances du code avec détection des bottlenecks et métriques en temps réel",
+    "version": "1.0.0",
+    "publisher": "nexa-framework",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Other",
+        "Debuggers",
+        "Testing"
+    ],
+    "keywords": [
+        "nexa",
+        "performance",
+        "monitoring",
+        "profiling",
+        "optimization",
+        "metrics"
+    ],
+    "activationEvents": [
+        "onLanguage:php",
+        "workspaceContains:**/*.nx",
+        "onCommand:nexa.performance.startMonitoring"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "nexa.performance.startMonitoring",
+                "title": "Démarrer le monitoring",
+                "category": "Nexa Performance",
+                "icon": "$(pulse)"
+            },
+            {
+                "command": "nexa.performance.stopMonitoring",
+                "title": "Arrêter le monitoring",
+                "category": "Nexa Performance",
+                "icon": "$(debug-stop)"
+            },
+            {
+                "command": "nexa.performance.analyzeFile",
+                "title": "Analyser le fichier",
+                "category": "Nexa Performance"
+            },
+            {
+                "command": "nexa.performance.analyzeProject",
+                "title": "Analyser le projet",
+                "category": "Nexa Performance"
+            },
+            {
+                "command": "nexa.performance.showReport",
+                "title": "Afficher le rapport",
+                "category": "Nexa Performance"
+            },
+            {
+                "command": "nexa.performance.optimizationSuggestions",
+                "title": "Suggestions d'optimisation",
+                "category": "Nexa Performance"
+            },
+            {
+                "command": "nexa.performance.profileFunction",
+                "title": "Profiler la fonction",
+                "category": "Nexa Performance"
+            },
+            {
+                "command": "nexa.performance.memoryUsage",
+                "title": "Analyser l'utilisation mémoire",
+                "category": "Nexa Performance"
+            }
+        ],
+        "views": {
+            "explorer": [
+                {
+                    "id": "nexaPerformanceMonitor",
+                    "name": "Performance Monitor",
+                    "when": "nexaProject"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "nexa.performance.startMonitoring",
+                    "when": "view == nexaPerformanceMonitor",
+                    "group": "navigation"
+                },
+                {
+                    "command": "nexa.performance.showReport",
+                    "when": "view == nexaPerformanceMonitor",
+                    "group": "navigation"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "nexa.performance.startMonitoring",
+                    "when": "nexaProject"
+                },
+                {
+                    "command": "nexa.performance.analyzeProject",
+                    "when": "nexaProject"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "nexa.performance.analyzeFile",
+                    "when": "resourceExtname == .php && nexaProject",
+                    "group": "nexa"
+                },
+                {
+                    "command": "nexa.performance.profileFunction",
+                    "when": "resourceExtname == .php && nexaProject",
+                    "group": "nexa"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Nexa Performance Monitor",
+            "properties": {
+                "nexa.performance.autoMonitoring": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Monitoring automatique en arrière-plan"
+                },
+                "nexa.performance.samplingInterval": {
+                    "type": "number",
+                    "default": 1000,
+                    "description": "Intervalle d'échantillonnage en millisecondes"
+                },
+                "nexa.performance.memoryThreshold": {
+                    "type": "number",
+                    "default": 128,
+                    "description": "Seuil d'alerte mémoire en MB"
+                },
+                "nexa.performance.executionTimeThreshold": {
+                    "type": "number",
+                    "default": 1000,
+                    "description": "Seuil d'alerte temps d'exécution en ms"
+                },
+                "nexa.performance.enableProfiling": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Activer le profiling détaillé"
+                },
+                "nexa.performance.reportFormat": {
+                    "type": "string",
+                    "enum": ["html", "json", "csv"],
+                    "default": "html",
+                    "description": "Format des rapports de performance"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.74.0",
+        "@types/node": "16.x",
+        "typescript": "^4.9.4"
+    },
+    "dependencies": {
+        "chart.js": "^4.3.0",
+        "d3": "^7.8.5",
+        "performance-now": "^2.1.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nexa-framework/vscode-extensions.git"
+    },
+    "license": "MIT"
+}

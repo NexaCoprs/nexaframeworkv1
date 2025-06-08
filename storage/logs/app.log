@@ -750,3 +750,26 @@
 [2025-06-07 13:36:44] info: About page accessed
 [2025-06-07 13:36:46] info: Documentation page accessed
 [2025-06-07 13:36:50] info: Documentation page accessed
+[2025-06-07 21:41:53] error: Exception: Unmatched '}' in C:\Users\jeans\Downloads\slide\nexaframeworkv1\workspace\flows\api.php:218 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\workspace\\flows\\api.php","line":218,"trace":"#0 {main}"}
+[2025-06-07 21:42:03] error: Exception: Unmatched '}' in C:\Users\jeans\Downloads\slide\nexaframeworkv1\workspace\flows\api.php:218 {"exception":"ParseError","file":"C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\workspace\\flows\\api.php","line":218,"trace":"#0 {main}"}
+[2025-06-07 21:50:03] error: Exception: Class "Config" not found in C:\Users\jeans\Downloads\slide\nexaframeworkv1\workspace\flows\api.php:203 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\workspace\\flows\\api.php","line":203,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\index.php(78): require()\n#1 {main}"}
+[2025-06-07 21:52:43] error: Exception: Class "Config" not found in C:\Users\jeans\Downloads\slide\nexaframeworkv1\workspace\flows\api.php:203 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\workspace\\flows\\api.php","line":203,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\index.php(78): require()\n#1 {main}"}
+[2025-06-07 21:53:16] error: Exception: Class "Config" not found in C:\Users\jeans\Downloads\slide\nexaframeworkv1\workspace\flows\api.php:203 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\workspace\\flows\\api.php","line":203,"trace":"#0 C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\index.php(78): require()\n#1 {main}"}
+[2025-06-07 21:56:02] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 21:57:21] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 21:57:31] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-07 21:57:31] info: Welcome page accessed {"ip":"::1","user_agent":"Mozilla\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\/537.36 (KHTML, like Gecko) Trae\/1.98.2 Chrome\/132.0.6834.196 Electron\/34.2.0 Safari\/537.36"}
+[2025-06-07 22:00:25] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 22:01:45] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 22:03:51] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 22:56:58] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:01:46] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:02:00] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:02:19] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:03:33] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:04:07] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:04:24] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:04:57] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:07:57] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:15:15] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-07 23:17:43] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}

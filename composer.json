@@ -8,8 +8,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Nexa\\": "src/Nexa/",
-            "App\\": "app/"
+            "Nexa\\": "kernel/Nexa/",
+            "Workspace\\": "workspace/"
         }
     },
     "config": {

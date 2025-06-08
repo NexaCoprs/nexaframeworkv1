@@ -1,0 +1,223 @@
+{
+    "name": "nexa-api-tester",
+    "displayName": "Nexa API Tester",
+    "description": "Client REST/GraphQL intégré avec tests d'endpoints automatisés et génération de collections Postman",
+    "version": "1.0.0",
+    "publisher": "nexa-framework",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Testing",
+        "Other",
+        "Debuggers"
+    ],
+    "keywords": [
+        "nexa",
+        "api",
+        "rest",
+        "graphql",
+        "testing",
+        "postman",
+        "http"
+    ],
+    "activationEvents": [
+        "onLanguage:php",
+        "onLanguage:http",
+        "onLanguage:graphql",
+        "workspaceContains:**/*.nx",
+        "onCommand:nexa.api.openTester"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "nexa.api.openTester",
+                "title": "Ouvrir l'API Tester",
+                "category": "Nexa API",
+                "icon": "$(globe)"
+            },
+            {
+                "command": "nexa.api.sendRequest",
+                "title": "Envoyer la requête",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.testEndpoint",
+                "title": "Tester l'endpoint",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.generateTests",
+                "title": "Générer des tests automatiques",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.exportPostman",
+                "title": "Exporter vers Postman",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.importPostman",
+                "title": "Importer depuis Postman",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.saveRequest",
+                "title": "Sauvegarder la requête",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.loadRequest",
+                "title": "Charger une requête",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.generateDocumentation",
+                "title": "Générer la documentation",
+                "category": "Nexa API"
+            },
+            {
+                "command": "nexa.api.runTestSuite",
+                "title": "Exécuter la suite de tests",
+                "category": "Nexa API"
+            }
+        ],
+        "views": {
+            "explorer": [
+                {
+                    "id": "nexaApiExplorer",
+                    "name": "API Explorer",
+                    "when": "nexaProject"
+                },
+                {
+                    "id": "nexaApiHistory",
+                    "name": "Request History",
+                    "when": "nexaProject"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "nexa.api.openTester",
+                    "when": "view == nexaApiExplorer",
+                    "group": "navigation"
+                },
+                {
+                    "command": "nexa.api.generateTests",
+                    "when": "view == nexaApiExplorer",
+                    "group": "navigation"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "nexa.api.openTester",
+                    "when": "nexaProject"
+                },
+                {
+                    "command": "nexa.api.generateDocumentation",
+                    "when": "nexaProject"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "nexa.api.testEndpoint",
+                    "when": "resourceExtname == .php && nexaProject",
+                    "group": "nexa"
+                }
+            ]
+        },
+        "languages": [
+            {
+                "id": "http",
+                "aliases": [
+                    "HTTP",
+                    "http"
+                ],
+                "extensions": [
+                    ".http",
+                    ".rest"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "http",
+                "scopeName": "source.http",
+                "path": "./syntaxes/http.tmGrammar.json"
+            }
+        ],
+        "configuration": {
+            "title": "Nexa API Tester",
+            "properties": {
+                "nexa.api.baseUrl": {
+                    "type": "string",
+                    "default": "http://localhost:8000",
+                    "description": "URL de base pour les tests d'API"
+                },
+                "nexa.api.timeout": {
+                    "type": "number",
+                    "default": 30000,
+                    "description": "Timeout des requêtes en millisecondes"
+                },
+                "nexa.api.defaultHeaders": {
+                    "type": "object",
+                    "default": {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    "description": "Headers par défaut pour les requêtes"
+                },
+                "nexa.api.saveHistory": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Sauvegarder l'historique des requêtes"
+                },
+                "nexa.api.maxHistorySize": {
+                    "type": "number",
+                    "default": 100,
+                    "description": "Taille maximale de l'historique"
+                },
+                "nexa.api.autoGenerateTests": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Générer automatiquement des tests pour les nouveaux endpoints"
+                },
+                "nexa.api.responseFormat": {
+                    "type": "string",
+                    "enum": [
+                        "json",
+                        "xml",
+                        "html",
+                        "text"
+                    ],
+                    "default": "json",
+                    "description": "Format de réponse préféré"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "16.x",
+        "@types/vscode": "^1.100.0",
+        "typescript": "^4.9.5"
+    },
+    "dependencies": {
+        "axios": "^1.5.0",
+        "graphql": "^16.8.1",
+        "json-schema-faker": "^0.5.3",
+        "postman-collection": "^4.1.7"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nexa-framework/vscode-extensions.git"
+    },
+    "license": "MIT"
+}
