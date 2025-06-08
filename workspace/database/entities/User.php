@@ -12,8 +12,8 @@ use Nexa\Attributes\API;
 use Nexa\Attributes\Relation;
 
 /**
- * Entité User avec architecture sémantique révolutionnaire
- * Auto-découverte intelligente et optimisation quantique
+ * Entité User avec architecture moderne
+ * Auto-découverte et optimisations avancées
  */
 #[Cache('User', 3600), Validate, Secure]
 #[Route(prefix: '/users'), API(version: 'v1')]
@@ -33,7 +33,7 @@ class User extends Model
     ];
     
     /**
-     * Casting automatique avec optimisation quantique
+     * Casting automatique avec optimisations
      */
     protected $casts = [
         'preferences' => 'json',
@@ -44,7 +44,7 @@ class User extends Model
     ];
     
     /**
-     * Champs cachés pour la sécurité quantique
+     * Champs cachés pour la sécurité
      */
     protected $hidden = [
         'password',

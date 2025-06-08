@@ -109,47 +109,16 @@ class NexaCLI
                 'usage' => 'nexa make:middleware MiddlewareName',
                 'handler' => [$this, 'makeMiddleware']
             ],
-            // ========================================
-            // Commandes IA Révolutionnaires
-            // ========================================
-            'ai:create-app' => [
-                'description' => 'Generate complete application with AI',
-                'usage' => 'nexa ai:create-app "Description of your app"',
-                'handler' => [$this, 'aiCreateApp']
+            'make:job' => [
+                'description' => 'Create a new job',
+                'usage' => 'nexa make:job JobName',
+                'handler' => [$this, 'makeJob']
             ],
-            'ai:entity' => [
-                'description' => 'Generate intelligent entity with AI',
-                'usage' => 'nexa ai:entity "Entity description"',
-                'handler' => [$this, 'aiEntity']
-            ],
-            'ai:handler' => [
-                'description' => 'Generate smart handler with auto-routing',
-                'usage' => 'nexa ai:handler "Handler description"',
-                'handler' => [$this, 'aiHandler']
-            ],
-            'ai:interface' => [
-                'description' => 'Generate reactive .nx interface',
-                'usage' => 'nexa ai:interface "Interface description"',
-                'handler' => [$this, 'aiInterface']
-            ],
-            // ========================================
-            // Commandes Quantiques
-            // ========================================
-            'quantum:optimize' => [
-                'description' => 'Quantum optimization of the application',
-                'usage' => 'nexa quantum:optimize [--cache] [--routes] [--templates]',
-                'handler' => [$this, 'quantumOptimize']
-            ],
-            'quantum:serve' => [
-                'description' => 'Start quantum-powered development server',
-                'usage' => 'nexa quantum:serve [--port=8000] [--host=localhost]',
-                'handler' => [$this, 'quantumServe']
-            ],
-            'quantum:generate-keys' => [
-                'description' => 'Generate quantum-safe encryption keys',
-                'usage' => 'nexa quantum:generate-keys',
-                'handler' => [$this, 'quantumGenerateKeys']
-            ],
+            'make:listener' => [
+                 'description' => 'Create a new event listener',
+                 'usage' => 'nexa make:listener ListenerName [--event=EventName]',
+                 'handler' => [$this, 'makeListener']
+             ],
             // ========================================
             // Commandes de Découverte
             // ========================================
@@ -693,222 +662,7 @@ class NexaCLI
         return $parsed;
     }
 
-    // ========================================
-    // Commandes IA Révolutionnaires
-    // ========================================
 
-    /**
-     * Generate complete application with AI
-     */
-    private function aiCreateApp($args)
-    {
-        $description = $args['parameters'][0] ?? '';
-        if (empty($description)) {
-            $this->output("Error: Please provide an application description", 'red');
-            $this->output("Usage: nexa ai:create-app \"E-commerce with user management\"");
-            return;
-        }
-
-        $this->output("🧠 AI Application Generator", 'cyan');
-        $this->output("Description: $description", 'yellow');
-        $this->output("\n🚀 Generating intelligent application structure...", 'green');
-        
-        // Simulate AI processing
-        $this->simulateProgress("Analyzing requirements");
-        $this->simulateProgress("Generating entities");
-        $this->simulateProgress("Creating handlers");
-        $this->simulateProgress("Building interfaces");
-        $this->simulateProgress("Optimizing with quantum algorithms");
-        
-        $this->output("\n✅ Application generated successfully!", 'green');
-        $this->output("📁 Files created in workspace/", 'cyan');
-        $this->output("🎨 Interfaces created in interface/", 'cyan');
-        $this->output("🔄 Routes auto-configured in flows/", 'cyan');
-    }
-
-    /**
-     * Generate intelligent entity with AI
-     */
-    private function aiEntity($args)
-    {
-        $description = $args['parameters'][0] ?? '';
-        if (empty($description)) {
-            $this->output("Error: Please provide an entity description", 'red');
-            $this->output("Usage: nexa ai:entity \"Product with variants and inventory\"");
-            return;
-        }
-
-        $this->output("🧠 AI Entity Generator", 'cyan');
-        $this->output("Description: $description", 'yellow');
-        
-        // Extract entity name from description
-        $words = explode(' ', $description);
-        $entityName = ucfirst($words[0]);
-        
-        $this->output("\n🚀 Generating intelligent entity: $entityName", 'green');
-        
-        $this->simulateProgress("Analyzing entity structure");
-        $this->simulateProgress("Generating relationships");
-        $this->simulateProgress("Adding validation rules");
-        $this->simulateProgress("Implementing security features");
-        
-        // Create entity file
-        $entityPath = "workspace/database/entities/{$entityName}.php";
-        $this->createIntelligentEntity($entityName, $description, $entityPath);
-        
-        $this->output("\n✅ Entity $entityName created successfully!", 'green');
-        $this->output("📁 File: $entityPath", 'cyan');
-    }
-
-    /**
-     * Generate smart handler with auto-routing
-     */
-    private function aiHandler($args)
-    {
-        $description = $args['parameters'][0] ?? '';
-        if (empty($description)) {
-            $this->output("Error: Please provide a handler description", 'red');
-            $this->output("Usage: nexa ai:handler \"ProductHandler with CRUD and search\"");
-            return;
-        }
-
-        $this->output("🧠 AI Handler Generator", 'cyan');
-        $this->output("Description: $description", 'yellow');
-        
-        // Extract handler name
-        $words = explode(' ', $description);
-        $handlerName = ucfirst($words[0]);
-        if (!str_ends_with($handlerName, 'Handler')) {
-            $handlerName .= 'Handler';
-        }
-        
-        $this->output("\n🚀 Generating intelligent handler: $handlerName", 'green');
-        
-        $this->simulateProgress("Analyzing handler requirements");
-        $this->simulateProgress("Generating auto-routes");
-        $this->simulateProgress("Adding validation and security");
-        $this->simulateProgress("Implementing intelligent methods");
-        
-        // Create handler file
-        $handlerPath = "workspace/handlers/{$handlerName}.php";
-        $this->createIntelligentHandler($handlerName, $description, $handlerPath);
-        
-        $this->output("\n✅ Handler $handlerName created successfully!", 'green');
-        $this->output("📁 File: $handlerPath", 'cyan');
-        $this->output("🔄 Routes auto-configured with attributes", 'cyan');
-    }
-
-    /**
-     * Generate reactive .nx interface
-     */
-    private function aiInterface($args)
-    {
-        $description = $args['parameters'][0] ?? '';
-        if (empty($description)) {
-            $this->output("Error: Please provide an interface description", 'red');
-            $this->output("Usage: nexa ai:interface \"User dashboard with real-time stats\"");
-            return;
-        }
-
-        $this->output("🧠 AI Interface Generator", 'cyan');
-        $this->output("Description: $description", 'yellow');
-        
-        // Extract interface name
-        $words = explode(' ', $description);
-        $interfaceName = ucfirst($words[0]) . ucfirst($words[1] ?? 'Interface');
-        
-        $this->output("\n🚀 Generating reactive interface: $interfaceName", 'green');
-        
-        $this->simulateProgress("Analyzing UI requirements");
-        $this->simulateProgress("Generating reactive components");
-        $this->simulateProgress("Adding real-time features");
-        $this->simulateProgress("Optimizing for performance");
-        
-        // Create interface file
-        $interfacePath = "interface/{$interfaceName}.nx";
-        $this->createReactiveInterface($interfaceName, $description, $interfacePath);
-        
-        $this->output("\n✅ Interface $interfaceName created successfully!", 'green');
-        $this->output("📁 File: $interfacePath", 'cyan');
-        $this->output("🎨 Reactive components auto-discovered", 'cyan');
-    }
-
-    // ========================================
-    // Commandes Quantiques
-    // ========================================
-
-    /**
-     * Quantum optimization of the application
-     */
-    private function quantumOptimize($args)
-    {
-        $options = $this->parseArgs($args['parameters'] ?? []);
-        
-        $this->output("⚡ Quantum Optimization Engine", 'cyan');
-        $this->output("\n🚀 Starting quantum optimization...", 'green');
-        
-        if (isset($args['options']['cache']) || empty($args['options'])) {
-            $this->simulateProgress("Optimizing quantum cache algorithms");
-        }
-        
-        if (isset($args['options']['routes']) || empty($args['options'])) {
-            $this->simulateProgress("Quantum route optimization");
-        }
-        
-        if (isset($args['options']['templates']) || empty($args['options'])) {
-            $this->simulateProgress("Compiling .nx templates with quantum algorithms");
-        }
-        
-        $this->simulateProgress("Applying quantum performance enhancements");
-        $this->simulateProgress("Finalizing optimization matrix");
-        
-        $this->output("\n✅ Quantum optimization completed!", 'green');
-        $this->output("⚡ Performance increased by 500%", 'cyan');
-        $this->output("🧠 AI-powered cache predictions enabled", 'cyan');
-        $this->output("🔮 Quantum algorithms activated", 'cyan');
-    }
-
-    /**
-     * Start quantum-powered development server
-     */
-    private function quantumServe($args)
-    {
-        $port = $args['options']['port'] ?? '8000';
-        $host = $args['options']['host'] ?? 'localhost';
-        
-        $this->output("⚡ Quantum Development Server", 'cyan');
-        $this->output("\n🚀 Initializing quantum server...", 'green');
-        
-        $this->simulateProgress("Loading quantum algorithms");
-        $this->simulateProgress("Activating AI-powered routing");
-        $this->simulateProgress("Enabling real-time optimization");
-        $this->simulateProgress("Starting quantum cache engine");
-        
-        $this->output("\n✅ Quantum server started successfully!", 'green');
-        $this->output("🌐 Server running at: http://$host:$port", 'cyan');
-        $this->output("⚡ Quantum optimization: ACTIVE", 'cyan');
-        $this->output("🧠 AI monitoring: ENABLED", 'cyan');
-        $this->output("\n🔮 Press Ctrl+C to stop the quantum server", 'yellow');
-    }
-
-    /**
-     * Generate quantum-safe encryption keys
-     */
-    private function quantumGenerateKeys($args)
-    {
-        $this->output("🔒 Quantum-Safe Key Generator", 'cyan');
-        $this->output("\n🚀 Generating quantum-resistant keys...", 'green');
-        
-        $this->simulateProgress("Initializing quantum random generator");
-        $this->simulateProgress("Generating post-quantum cryptographic keys");
-        $this->simulateProgress("Creating quantum-safe certificates");
-        $this->simulateProgress("Securing key storage");
-        
-        $this->output("\n✅ Quantum-safe keys generated successfully!", 'green');
-        $this->output("🔐 Keys stored in: storage/keys/quantum/", 'cyan');
-        $this->output("🛡️ Protection level: Post-Quantum", 'cyan');
-        $this->output("⚡ Encryption strength: 256-bit quantum-resistant", 'cyan');
-    }
 
     // ========================================
     // Commandes de Découverte
@@ -985,44 +739,7 @@ class NexaCLI
         echo " ✓\n";
     }
 
-    /**
-     * Create intelligent entity file
-     */
-    private function createIntelligentEntity($name, $description, $path)
-    {
-        $content = "<?php\n\nnamespace Workspace\\Database\\Entities;\n\nuse Nexa\\Database\\Model;\nuse Nexa\\Attributes\\AutoDiscover;\nuse Nexa\\Attributes\\Cache;\nuse Nexa\\Attributes\\Validate;\nuse Nexa\\Attributes\\Secure;\n\n#[AutoDiscover, Cache('{$name}'), Validate, Secure]\nclass {$name} extends Model\n{\n    // AI-generated based on: {$description}\n    \n    protected \$fillable = [];\n    \n    protected \$casts = [];\n    \n    // Auto-discovered relationships will be added here\n}\n";
-        
-        if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
-        }
-        file_put_contents($path, $content);
-    }
 
-    /**
-     * Create intelligent handler file
-     */
-    private function createIntelligentHandler($name, $description, $path)
-    {
-        $content = "<?php\n\nnamespace Workspace\\Handlers;\n\nuse Nexa\\Http\\Controller;\nuse Nexa\\Attributes\\Route;\nuse Nexa\\Attributes\\Middleware;\nuse Nexa\\Attributes\\Cache;\nuse Nexa\\Attributes\\Secure;\n\n#[Route(prefix: '/api'), Middleware(['auth']), Cache, Secure]\nclass {$name} extends Controller\n{\n    // AI-generated based on: {$description}\n    \n    #[Route('GET', '/')]\n    public function index()\n    {\n        // Auto-generated method\n        return \$this->success([]);\n    }\n}\n";
-        
-        if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
-        }
-        file_put_contents($path, $content);
-    }
-
-    /**
-     * Create reactive interface file
-     */
-    private function createReactiveInterface($name, $description, $path)
-    {
-        $content = "<!-- AI-generated interface based on: {$description} -->\n@cache('{$name}', 300)\n@realtime('updates')\n\n<div class=\"interface\" nx:reactive>\n    <h1>{$name}</h1>\n    \n    <!-- Auto-generated reactive components -->\n    <nx:loading v-if=\"loading\" />\n    \n    <div v-else>\n        <!-- Content will be generated based on description -->\n    </div>\n</div>\n\n<script>\nexport default {\n    data: () => ({\n        loading: false,\n        reactive: true\n    }),\n    \n    mounted() {\n        this.\$quantum.initialize();\n    }\n}\n</script>\n";
-        
-        if (!is_dir(dirname($path))) {
-            mkdir(dirname($path), 0755, true);
-        }
-        file_put_contents($path, $content);
-    }
 
     // Placeholder methods for migration commands
     private function runMigrations($args) {

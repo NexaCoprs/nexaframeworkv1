@@ -1,34 +1,33 @@
 <?php
 
 use Nexa\Routing\Router;
-use Workspace\Handlers\WelcomeController;
-use Workspace\Handlers\TestController;
-use Workspace\Handlers\TestControllerController;
+use Workspace\Handlers\WelcomeHandler;
+use Workspace\Handlers\TestHandler;
 
 $webRouter = new Router();
 
 // Routes principales
-$webRouter->get('/', [WelcomeController::class, 'index']);
-$webRouter->get('/about', [WelcomeController::class, 'about']);
-$webRouter->get('/documentation', [WelcomeController::class, 'documentation']);
-$webRouter->get('/contact', [WelcomeController::class, 'contact']);
-$webRouter->post('/contact', [WelcomeController::class, 'contact']);
+$webRouter->get('/', [WelcomeHandler::class, 'index']);
+$webRouter->get('/about', [WelcomeHandler::class, 'about']);
+$webRouter->get('/documentation', [WelcomeHandler::class, 'documentation']);
+$webRouter->get('/contact', [WelcomeHandler::class, 'contact']);
+$webRouter->post('/contact', [WelcomeHandler::class, 'contact']);
 
 // Routes de test
 $webRouter->group(['prefix' => 'test'], function($router) {
-    $router->get('/', [TestController::class, 'index']);
-    $router->get('/show/{id}', [TestController::class, 'show']);
-    $router->get('/create', [TestController::class, 'create']);
-    $router->post('/create', [TestController::class, 'create']);
+    $router->get('/', [TestHandler::class, 'index']);
+    $router->get('/show/{id}', [TestHandler::class, 'show']);
+    $router->get('/create', [TestHandler::class, 'create']);
+    $router->post('/create', [TestHandler::class, 'create']);
 });
 
-// Routes CRUD pour TestControllerController
+// Routes CRUD pour TestHandler
 $webRouter->group(['prefix' => 'items'], function($router) {
-    $router->get('/', [TestControllerController::class, 'index']);
-    $router->get('/{id}', [TestControllerController::class, 'show']);
-    $router->post('/', [TestControllerController::class, 'store']);
-    $router->put('/{id}', [TestControllerController::class, 'update']);
-    $router->delete('/{id}', [TestControllerController::class, 'destroy']);
+    $router->get('/', [TestHandler::class, 'index']);
+    $router->get('/{id}', [TestHandler::class, 'show']);
+    $router->post('/', [TestHandler::class, 'store']);
+    $router->put('/{id}', [TestHandler::class, 'update']);
+    $router->delete('/{id}', [TestHandler::class, 'destroy']);
 });
 
 return $webRouter;

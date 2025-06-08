@@ -1,19 +1,26 @@
-# Guide de Contribution - Framework Nexa
+# Guide de Contribution - Nexa Framework
+
+[![Contributors](https://img.shields.io/github/contributors/nexa-framework/nexa.svg)](https://github.com/nexa-framework/nexa/graphs/contributors)
+[![Issues](https://img.shields.io/github/issues/nexa-framework/nexa.svg)](https://github.com/nexa-framework/nexa/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/nexa-framework/nexa.svg)](https://github.com/nexa-framework/nexa/pulls)
+[![Discord](https://img.shields.io/discord/123456789.svg?label=Discord&logo=discord)](https://discord.gg/nexa)
 
 Merci de votre intérêt pour contribuer au Framework Nexa ! Ce guide vous explique comment participer au développement et améliorer le framework ensemble.
 
-## Table des Matières
+## 📋 Table des Matières
 
-1. [Code de Conduite](#code-de-conduite)
-2. [Comment Contribuer](#comment-contribuer)
-3. [Configuration de l'Environnement](#configuration-de-lenvironnement)
-4. [Standards de Code](#standards-de-code)
-5. [Processus de Pull Request](#processus-de-pull-request)
-6. [Rapporter des Bugs](#rapporter-des-bugs)
-7. [Proposer des Fonctionnalités](#proposer-des-fonctionnalités)
-8. [Documentation](#documentation)
-9. [Tests](#tests)
-10. [Communauté](#communauté)
+1. [🤝 Code de Conduite](#-code-de-conduite)
+2. [🚀 Comment Contribuer](#-comment-contribuer)
+3. [⚙️ Configuration de l'Environnement](#️-configuration-de-lenvironnement)
+4. [📏 Standards de Code](#-standards-de-code)
+5. [🔄 Processus de Pull Request](#-processus-de-pull-request)
+6. [🐛 Rapporter des Bugs](#-rapporter-des-bugs)
+7. [✨ Proposer des Fonctionnalités](#-proposer-des-fonctionnalités)
+8. [📚 Documentation](#-documentation)
+9. [🧪 Tests](#-tests)
+10. [👥 Communauté](#-communauté)
+11. [🛠️ Extensions VSCode](#️-extensions-vscode)
+12. [🏆 Reconnaissance](#-reconnaissance)
 
 ---
 
@@ -613,28 +620,177 @@ php vendor/bin/phpunit tests/Integration/
 
 ## Communauté
 
-### Canaux de Communication
+### 💬 Discord
+- **Serveur principal** : [discord.gg/nexa](https://discord.gg/nexa)
+- **Canaux disponibles** :
+  - `#general` : Discussions générales
+  - `#help` : Aide et support
+  - `#development` : Développement du framework
+  - `#showcase` : Montrez vos projets
+  - `#feedback` : Retours et suggestions
+  - `#extensions` : Développement d'extensions VSCode
+  - `#templates-nx` : Discussion sur les templates .nx
 
-- **GitHub Discussions** : Questions générales et discussions
-- **GitHub Issues** : Bugs et demandes de fonctionnalités
-- **Discord** : Chat en temps réel (lien d'invitation)
-- **Twitter** : Annonces et nouvelles (@NexaFramework)
-- **Blog** : Articles techniques et tutoriels
+### 🌐 Forums et Plateformes
+- **Forum officiel** : [forum.nexa-framework.com](https://forum.nexa-framework.com)
+- **Reddit** : [r/NexaFramework](https://reddit.com/r/NexaFramework)
+- **Stack Overflow** : Tag `nexa-framework`
+- **GitHub Discussions** : [Discussions](https://github.com/nexa-framework/nexa/discussions)
 
-### Événements
+### 📱 Réseaux Sociaux
+- **Twitter** : [@NexaFramework](https://twitter.com/NexaFramework)
+- **LinkedIn** : [Nexa Framework](https://linkedin.com/company/nexa-framework)
+- **YouTube** : [Chaîne officielle](https://youtube.com/NexaFramework)
+- **Dev.to** : [Nexa Framework](https://dev.to/nexa-framework)
 
-- **Réunions Mensuelles** : Discussions sur la roadmap
-- **Hackathons** : Sessions de développement collaboratif
-- **Conférences** : Présentations du framework
+### 🎉 Événements
+- **Meetups mensuels** : Rencontres en ligne
+- **Conférences** : Présentations aux événements PHP
+- **Hackathons** : Événements de développement
+- **Webinaires** : Sessions de formation
+- **Workshops** : Ateliers pratiques sur les extensions VSCode
 
-### Reconnaissance
+---
 
-Nous reconnaissons les contributions de plusieurs façons :
+## 🛠️ Extensions VSCode
 
-- **Contributors** : Liste dans le README
-- **Changelog** : Mention dans les notes de version
-- **Blog Posts** : Articles sur les contributions importantes
-- **Swag** : Goodies pour les contributeurs actifs
+### Contribuer aux Extensions
+
+Nous encourageons les contributions aux extensions VSCode de Nexa :
+
+#### Structure des Extensions
+```
+vscode-nexa-[nom-extension]/
+├── src/
+│   ├── extension.ts          # Point d'entrée principal
+│   ├── [modules].ts          # Modules spécifiques
+│   └── ...
+├── package.json              # Configuration de l'extension
+├── tsconfig.json            # Configuration TypeScript
+└── README.md                # Documentation
+```
+
+#### Guidelines pour les Extensions
+
+1. **Nommage** :
+   - Préfixe : `vscode-nexa-`
+   - Nom descriptif : `vscode-nexa-code-snippets-pro`
+
+2. **Structure du Code** :
+   - TypeScript obligatoire
+   - Architecture modulaire
+   - Tests unitaires
+   - Documentation complète
+
+3. **Fonctionnalités Communes** :
+   - Support des fichiers `.nx`
+   - Intégration avec l'écosystème Nexa
+   - Interface utilisateur cohérente
+   - Performance optimisée
+
+#### Processus de Développement
+
+1. **Fork** le repository de l'extension
+2. **Créer** une branche feature
+3. **Développer** en suivant les guidelines
+4. **Tester** avec des projets Nexa réels
+5. **Documenter** les nouvelles fonctionnalités
+6. **Soumettre** une pull request
+
+#### Extensions Prioritaires
+
+Nous recherchons des contributeurs pour :
+- **Nexa Debugger** : Débogueur intégré
+- **Nexa Profiler** : Profileur de performance
+- **Nexa Deployment** : Outils de déploiement
+- **Nexa Assistant** : Assistant pour le développement
+
+### Tests des Extensions
+
+```bash
+# Installation des dépendances
+npm install
+
+# Compilation
+npm run compile
+
+# Tests
+npm test
+
+# Package de l'extension
+vsce package
+```
+
+---
+
+## 🏆 Reconnaissance
+
+### 🌟 Système de Badges
+
+Nous reconnaissons les contributions avec un système de badges :
+
+- 🥇 **Gold Contributor** : 50+ contributions significatives
+- 🥈 **Silver Contributor** : 20+ contributions
+- 🥉 **Bronze Contributor** : 5+ contributions
+- 🐛 **Bug Hunter** : Rapports de bugs de qualité
+- 📚 **Documentation Master** : Contributions à la documentation
+- 🧪 **Test Champion** : Contributions aux tests
+- 🎨 **UI/UX Expert** : Améliorations d'interface
+- 🔧 **Extension Developer** : Développement d'extensions VSCode
+- 🚀 **Performance Optimizer** : Optimisations de performance
+- 🔒 **Security Expert** : Contributions sécuritaires
+
+### 🎖️ Hall of Fame
+
+#### Core Team
+- **Lead Developer** : Architecture et vision
+- **Core Maintainers** : Maintenance quotidienne
+- **Extension Leads** : Responsables des extensions VSCode
+- **Community Managers** : Animation de la communauté
+
+#### Top Contributors
+- **Monthly MVP** : Contributeur du mois
+- **Yearly Champion** : Contributeur de l'année
+- **Innovation Award** : Idées innovantes
+- **Mentorship Award** : Aide aux nouveaux contributeurs
+
+### 💝 Avantages pour les Contributeurs
+
+- **Accès anticipé** aux nouvelles fonctionnalités
+- **Merchandise exclusif** Nexa Framework
+- **Invitations** aux événements privés
+- **Mentions** dans les release notes
+- **Certificats** de contribution
+- **Recommandations LinkedIn** de l'équipe core
+
+### 🎁 Sponsors et Partenaires
+
+Merci à nos sponsors qui soutiennent le développement :
+
+#### 🏢 Sponsors Entreprise
+- **Platinum** : [Sponsor 1](https://sponsor1.com)
+- **Gold** : [Sponsor 2](https://sponsor2.com)
+- **Silver** : [Sponsor 3](https://sponsor3.com)
+
+#### 👤 Sponsors Individuels
+- **GitHub Sponsors** : [Soutenez-nous](https://github.com/sponsors/nexa-framework)
+- **Open Collective** : [Contributions](https://opencollective.com/nexa-framework)
+- **Patreon** : [Abonnements mensuels](https://patreon.com/nexa-framework)
+
+---
+
+## 📞 Contact
+
+### 📧 Équipe Core
+- **General** : [hello@nexa-framework.com](mailto:hello@nexa-framework.com)
+- **Security** : [security@nexa-framework.com](mailto:security@nexa-framework.com)
+- **Partnerships** : [partnerships@nexa-framework.com](mailto:partnerships@nexa-framework.com)
+- **Press** : [press@nexa-framework.com](mailto:press@nexa-framework.com)
+
+### 🆘 Support
+- **Community Support** : Discord, Forum, GitHub Issues
+- **Priority Support** : Pour les sponsors et contributeurs actifs
+- **Enterprise Support** : [Contactez-nous](mailto:enterprise@nexa-framework.com)
 
 ---
 
@@ -689,4 +845,6 @@ Les mainteneurs sont choisis parmi les contributeurs actifs qui ont démontré l
 
 Merci à tous les contributeurs qui rendent ce projet possible ! Votre temps, vos idées et votre passion font de Nexa un framework meilleur chaque jour.
 
-**Ensemble, construisons l'avenir du développement web en PHP ! 🚀**
+**Ensemble, construisons l'avenir du développement PHP !** 🚀
+
+*"La meilleure façon de prédire l'avenir est de le créer."* - Équipe Nexa Framework

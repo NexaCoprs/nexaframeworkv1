@@ -8,7 +8,7 @@ use Nexa\Http\Request;
 use Nexa\Core\Logger;
 use Nexa\Core\Cache;
 
-class WelcomeController extends Controller
+class WelcomeHandler extends Controller
 {
     use ValidatesRequests;
     public function index()

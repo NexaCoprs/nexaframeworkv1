@@ -173,3 +173,401 @@ if (!function_exists('dispatch')) {
         }
     }
 }
+
+if (!function_exists('view')) {
+    /**
+     * Create a view response
+     *
+     * @param string $template
+     * @param array $data
+     * @return string
+     */
+    function view($template, $data = [])
+    {
+        // Simple template rendering
+        $templatePath = dirname(__DIR__, 3) . '/workspace/interface/' . $template . '.php';
+        
+        if (file_exists($templatePath)) {
+            extract($data);
+            ob_start();
+            include $templatePath;
+            return ob_get_clean();
+        }
+        
+        return "Template not found: {$template}";
+    }
+}
+
+if (!function_exists('redirect')) {
+    /**
+     * Create a redirect response
+     *
+     * @param string $url
+     * @param int $status
+     * @return Response
+     */
+    function redirect($url, $status = 302)
+    {
+        return Response::redirect($url, $status);
+    }
+}
+
+if (!function_exists('session')) {
+    /**
+     * Get/set session values
+     *
+     * @param string|null $key
+     * @param mixed $default
+     * @return mixed
+     */
+    function session($key = null, $default = null)
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if ($key === null) {
+            return new SessionHelper();
+        }
+        
+        if (func_num_args() === 1) {
+            return $_SESSION[$key] ?? $default;
+        }
+        
+        $_SESSION[$key] = $default;
+        return $default;
+    }
+}
+
+/**
+ * Session helper class
+ */
+class SessionHelper
+{
+    public function flash($key, $value)
+    {
+        $_SESSION['_flash'][$key] = $value;
+    }
+    
+    public function get($key, $default = null)
+    {
+        return $_SESSION[$key] ?? $default;
+    }
+    
+    public function forget($key)
+    {
+        unset($_SESSION[$key]);
+    }
+}
+
+if (!function_exists('config')) {
+    /**
+     * Get configuration value
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    function config($key, $default = null)
+    {
+        // Simple config implementation
+        static $config = [
+            'app.name' => 'Nexa Framework',
+            'app.debug' => true,
+            'database.connections.mysql.host' => 'localhost',
+            'database.connections.mysql.port' => 3306,
+        ];
+        
+        return $config[$key] ?? $default;
+    }
+}
+
+if (!function_exists('env')) {
+    /**
+     * Get environment variable
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    function env($key, $default = null)
+    {
+        $value = getenv($key);
+        
+        if ($value === false) {
+            return $default;
+        }
+        
+        // Convert string booleans
+        if (in_array(strtolower($value), ['true', 'false'])) {
+            return strtolower($value) === 'true';
+        }
+        
+        return $value;
+    }
+}
+
+if (!function_exists('cache')) {
+    /**
+     * Cache helper function
+     *
+     * @param string|null $key
+     * @param mixed $value
+     * @param int $ttl
+     * @return mixed
+     */
+    function cache($key = null, $value = null, $ttl = 3600)
+    {
+        static $cache = [];
+        
+        if ($key === null) {
+            return new CacheHelper();
+        }
+        
+        if (func_num_args() === 1) {
+            return $cache[$key] ?? null;
+        }
+        
+        $cache[$key] = $value;
+        return $value;
+    }
+}
+
+/**
+ * Cache helper class
+ */
+class CacheHelper
+{
+    private static $cache = [];
+    
+    public function remember($key, $ttl, $callback)
+    {
+        if (isset(self::$cache[$key])) {
+            return self::$cache[$key];
+        }
+        
+        $value = $callback();
+        self::$cache[$key] = $value;
+        return $value;
+    }
+    
+    public function forget($key)
+    {
+        unset(self::$cache[$key]);
+    }
+    
+    public function flush()
+    {
+        self::$cache = [];
+    }
+}
+
+if (!function_exists('validate')) {
+    /**
+     * Validate data
+     *
+     * @param array $data
+     * @param array $rules
+     * @return ValidatorHelper
+     */
+    function validate($data, $rules)
+    {
+        return new ValidatorHelper($data, $rules);
+    }
+}
+
+/**
+ * Validator helper class
+ */
+class ValidatorHelper
+{
+    private $data;
+    private $rules;
+    private $errors = [];
+    
+    public function __construct($data, $rules)
+    {
+        $this->data = $data;
+        $this->rules = $rules;
+        $this->validate();
+    }
+    
+    private function validate()
+    {
+        foreach ($this->rules as $field => $rule) {
+            $rules = explode('|', $rule);
+            $value = $this->data[$field] ?? null;
+            
+            foreach ($rules as $r) {
+                if ($r === 'required' && empty($value)) {
+                    $this->errors[$field][] = "The {$field} field is required.";
+                }
+                if (strpos($r, 'min:') === 0 && strlen($value) < (int)substr($r, 4)) {
+                    $this->errors[$field][] = "The {$field} field must be at least " . substr($r, 4) . " characters.";
+                }
+                if ($r === 'email' && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $this->errors[$field][] = "The {$field} field must be a valid email address.";
+                }
+            }
+        }
+    }
+    
+    public function fails()
+    {
+        return !empty($this->errors);
+    }
+    
+    public function errors()
+    {
+        return $this->errors;
+    }
+}
+
+if (!function_exists('queue')) {
+    /**
+     * Queue helper function
+     *
+     * @param mixed $job
+     * @return QueueHelper
+     */
+    function queue($job = null)
+    {
+        if ($job === null) {
+            return new QueueHelper();
+        }
+        
+        // Simple implementation - execute immediately
+        if (method_exists($job, 'handle')) {
+            $job->handle();
+        }
+    }
+}
+
+/**
+ * Queue helper class
+ */
+class QueueHelper
+{
+    public function later($delay, $job)
+    {
+        // Simple implementation - execute immediately
+        if (method_exists($job, 'handle')) {
+            $job->handle();
+        }
+    }
+}
+
+if (!function_exists('event')) {
+    /**
+     * Fire an event
+     *
+     * @param mixed $event
+     * @param array $data
+     * @return void
+     */
+    function event($event, $data = [])
+    {
+        // Simple event implementation
+        if (is_string($event)) {
+            error_log("Event fired: {$event} with data: " . json_encode($data));
+        } else {
+            error_log("Event fired: " . get_class($event));
+        }
+    }
+}
+
+if (!function_exists('jwt')) {
+    /**
+     * JWT helper function
+     *
+     * @return JwtHelper
+     */
+    function jwt()
+    {
+        return new JwtHelper();
+    }
+}
+
+/**
+ * JWT helper class
+ */
+class JwtHelper
+{
+    private $secret = 'your-secret-key';
+    
+    public function generate($userId, $email, $data = [])
+    {
+        $payload = [
+            'user_id' => $userId,
+            'email' => $email,
+            'data' => $data,
+            'exp' => time() + 3600
+        ];
+        
+        return base64_encode(json_encode($payload));
+    }
+    
+    public function verify($token)
+    {
+        $payload = json_decode(base64_decode($token), true);
+        
+        if ($payload && $payload['exp'] > time()) {
+            return $payload;
+        }
+        
+        return false;
+    }
+    
+    public function refresh($token)
+    {
+        $payload = $this->verify($token);
+        
+        if ($payload) {
+            return $this->generate($payload['user_id'], $payload['email'], $payload['data']);
+        }
+        
+        return false;
+    }
+}
+
+if (!function_exists('logger')) {
+    /**
+     * Logger helper function
+     *
+     * @return LoggerHelper
+     */
+    function logger()
+    {
+        return new LoggerHelper();
+    }
+}
+
+/**
+ * Logger helper class
+ */
+class LoggerHelper
+{
+    public function info($message, $context = [])
+    {
+        $this->log('INFO', $message, $context);
+    }
+    
+    public function warning($message, $context = [])
+    {
+        $this->log('WARNING', $message, $context);
+    }
+    
+    public function error($message, $context = [])
+    {
+        $this->log('ERROR', $message, $context);
+    }
+    
+    private function log($level, $message, $context)
+    {
+        $timestamp = date('Y-m-d H:i:s');
+        $contextStr = empty($context) ? '' : ' ' . json_encode($context);
+        $logMessage = "[{$timestamp}] {$level}: {$message}{$contextStr}";
+        
+        error_log($logMessage);
+    }
+}

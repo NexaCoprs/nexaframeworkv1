@@ -1,95 +1,134 @@
-# 🚀 Nexa Framework - Architecture Révolutionnaire
+# 🚀 Nexa Framework
 
-**Le framework PHP le plus avancé au monde !**
+**Un framework PHP moderne et efficace**
 
-Nexa Framework a été complètement révolutionné avec une architecture sémantique qui surpasse Laravel et tous les autres frameworks PHP. Combinant l'intelligence artificielle, l'optimisation quantique, et l'auto-découverte totale, Nexa offre l'expérience de développement la plus moderne et productive jamais créée.
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/nexa-framework/nexa)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.1-777BB4.svg)](https://php.net/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](https://github.com/nexa-framework/nexa/actions)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://docs.nexa-framework.com)
 
-## 🌟 Fonctionnalités Révolutionnaires
+Nexa Framework est un framework PHP moderne qui simplifie le développement web avec une architecture claire, des outils pratiques, et une approche pragmatique du développement d'applications.
 
-### 🧠 Intelligence Artificielle Intégrée
-- **Génération de code IA** : Créez des applications complètes à partir de descriptions
-- **Analyse intelligente** : IA qui analyse et optimise votre code automatiquement
-- **Refactoring automatique** : Amélioration continue du code par l'IA
-- **Documentation auto-générée** : Documentation créée automatiquement par l'IA
+## 📋 Table des Matières
 
-### ⚡ Optimisation Quantique
-- **Performance 500% supérieure** : Optimisation quantique du cache et des requêtes
-- **Compilation intelligente** : Templates .nx compilés avec optimisation quantique
-- **Cache prédictif** : Système de cache qui prédit les besoins futurs
-- **Routage quantique** : Résolution de routes ultra-rapide
+- [🌟 Fonctionnalités Principales](#-fonctionnalités-principales)
+- [🆚 Nexa vs Laravel](#-nexa-vs-laravel---révolution-totale)
+- [🚀 Démarrage Rapide](#-démarrage-rapide)
+- [📖 Documentation](#-documentation)
+- [🎯 Fonctionnalités Principales](#-fonctionnalités-principales)
+- [🛠️ Extensions VSCode](#️-extensions-vscode)
+- [🤝 Contribution](#-contribution)
+- [📄 Licence](#-licence)
 
-### 🎯 Auto-Découverte Totale
-- **Entités auto-découvertes** : Détection automatique des entités et relations
-- **Handlers intelligents** : Auto-routing et auto-validation
-- **Composants réactifs** : Découverte automatique des composants .nx
-- **API auto-documentée** : Documentation API générée automatiquement
+## 🌟 Fonctionnalités Principales
 
-### 🎨 Templates .nx Révolutionnaires
-- **Syntaxe intuitive** : Plus simple et puissante que Blade
-- **Réactivité native** : Composants réactifs intégrés
-- **Auto-découverte** : Composants trouvés et importés automatiquement
-- **Validation temps réel** : Validation côté client automatique
+### 🏗️ Architecture Moderne
+- **Auto-découverte** : Détection automatique des contrôleurs et composants
+- **Structure claire** : Organisation intuitive des fichiers et dossiers
+- **Configuration simple** : Mise en place rapide avec des conventions sensées
+- **Injection de dépendances** : Gestion automatique des dépendances
 
-### 🔒 Sécurité Quantum-Safe
-- **Chiffrement quantique** : Protection contre les ordinateurs quantiques
-- **Audit automatique** : Traçabilité complète des actions
-- **Scan de vulnérabilités** : Détection automatique des failles
-- **Protection proactive** : Prévention des attaques en temps réel
+### ⚡ Performance Optimisée
+- **Routage efficace** : Système de routage rapide et flexible
+- **Cache intelligent** : Mise en cache automatique des éléments coûteux
+- **Optimisations intégrées** : Code optimisé pour de meilleures performances
+- **Compilation des templates** : Templates compilés pour une exécution rapide
 
-## 🆚 Nexa vs Laravel - Révolution Totale
+### 🎯 Développement Simplifié
+- **Convention over configuration** : Moins de configuration, plus de développement
+- **Outils CLI pratiques** : Génération de code et tâches automatisées
+- **Validation intégrée** : Système de validation robuste et extensible
+- **Gestion d'erreurs** : Gestion claire et informative des erreurs
 
-| Fonctionnalité | Nexa Révolutionnaire | Laravel Obsolète |
-|---|---|---|
-| **Intelligence Artificielle** | ✅ IA intégrée pour génération de code | ❌ Aucune IA |
-| **Optimisation Quantique** | ✅ Performance 500% supérieure | ❌ Performance standard |
-| **Auto-Découverte** | ✅ Totale (entités, handlers, composants) | ❌ Partielle et manuelle |
-| **Templates** | ✅ .nx révolutionnaires avec réactivité | ❌ Blade statique |
-| **Architecture** | ✅ Sémantique et intelligente | ❌ Traditionnelle MVC |
-| **Sécurité** | ✅ Quantum-safe, audit automatique | ❌ Sécurité basique |
-| **Cache** | ✅ Prédictif avec IA | ❌ Cache manuel |
-| **API** | ✅ Auto-documentée avec IA | ❌ Documentation manuelle |
-| **Validation** | ✅ Temps réel côté client/serveur | ❌ Serveur uniquement |
-| **WebSockets** | ✅ Natif avec temps réel | ❌ Package externe |
-| **CLI** | ✅ IA + Quantique + Auto-découverte | ❌ Artisan basique |
-| **Monitoring** | ✅ Temps réel intégré | ❌ Packages externes |
-| **Déploiement** | ✅ Intelligent et automatisé | ❌ Manuel et complexe |
-| **Courbe d'apprentissage** | ✅ IA vous guide | ❌ Documentation complexe |
+### 🎨 Templates .nx
+- **Syntaxe claire** : Templates faciles à lire et à maintenir
+- **Composants réutilisables** : Système de composants modulaires
+- **Héritage de templates** : Réutilisation et extension de layouts
+- **Sécurité intégrée** : Protection automatique contre les failles XSS
+
+### 🔒 Sécurité Intégrée
+- **Protection CSRF** : Protection automatique contre les attaques CSRF
+- **Validation des données** : Validation et nettoyage automatique des entrées
+- **Authentification** : Système d'authentification flexible et sécurisé
+- **Chiffrement** : Outils de chiffrement pour protéger les données sensibles
+
+## 🆚 Nexa vs Autres Frameworks
+
+| Fonctionnalité | Laravel | Symfony | Nexa Framework |
+|---|---|---|---|
+| **Courbe d'apprentissage** | Moyenne | Élevée | **Faible** 📚 |
+| **Performance** | Bonne | Très bonne | **Excellente** ⚡ |
+| **Auto-découverte** | Partielle | Limitée | **Complète** 🔍 |
+| **Templates** | Blade | Twig | **Templates .nx** 🎨 |
+| **Configuration** | Moyenne | Complexe | **Simple** ⚙️ |
+| **Documentation** | Excellente | Bonne | **Claire et pratique** 📖 |
+| **Écosystème** | Très riche | Riche | **En développement** 🌱 |
+| **Communauté** | Très large | Large | **Grandissante** 👥 |
+| **Innovation** | Stable | Mature | **Moderne** 🚀 |
+| **Flexibilité** | Bonne | Excellente | **Optimale** 🎯 |
 
 ## 🚀 Démarrage rapide
 
 ```bash
-# Installation Quantique
+# Installation via Composer
 composer create-project nexa/framework mon-projet
 cd mon-projet
 
-# Configuration automatique par IA
-php nexa ai:configure
+# Configuration de base
+cp .env.example .env
+php nexa key:generate
 
-# Génération quantique des clés
-php nexa quantum:generate-keys
+# Migration de la base de données
+php nexa migrate
 
-# Migration avec optimisation quantique
-php nexa quantum:migrate
-
-# Démarrage du serveur quantique
-php nexa quantum:serve
+# Démarrage du serveur de développement
+php nexa serve
 ```
 
-### Création d'Application avec IA
+### Commandes CLI Utiles
 
 ```bash
-# Générer une application complète avec l'IA
-php nexa ai:create-app "Blog avec système de commentaires et authentification"
+# Générer un contrôleur
+php nexa make:controller UserController
 
-# Générer des entités intelligentes
-php nexa ai:entity "User avec profil et préférences"
+# Générer un modèle
+php nexa make:model User
 
-# Créer des handlers auto-routés
-php nexa ai:handler "UserHandler avec CRUD et statistiques"
+# Créer une migration
+php nexa make:migration create_users_table
 
-# Générer des interfaces .nx réactives
-php nexa ai:interface "Dashboard utilisateur avec graphiques temps réel"
+# Générer un middleware
+php nexa make:middleware AuthMiddleware
 ```
+
+## 📖 Documentation
+
+### 📚 Guides Complets
+
+- **[Guide de Démarrage](docs/GETTING_STARTED.md)** - Installation et premiers pas
+- **[Architecture](docs/ARCHITECTURE.md)** - Comprendre l'architecture Nexa
+- **[Templates .nx](docs/NX_TEMPLATES.md)** - Guide complet des templates .nx
+- **[API Reference](docs/API_REFERENCE.md)** - Documentation complète de l'API
+- **[Exemples](docs/EXAMPLES.md)** - Exemples pratiques et cas d'usage
+
+### 🎯 Fonctionnalités Spécifiques
+
+- **[Fonctionnalités Avancées](docs/ADVANCED.md)** - Fonctionnalités avancées
+- **[Optimisation](docs/OPTIMIZATION.md)** - Performance et optimisation
+- **[Auto-Découverte](docs/AUTO_DISCOVERY.md)** - Système d'auto-découverte
+- **[Sécurité](docs/SECURITY.md)** - Sécurité avancée
+- **[WebSockets](docs/WEBSOCKETS.md)** - Communication temps réel
+- **[GraphQL](docs/GRAPHQL.md)** - API GraphQL native
+- **[Microservices](docs/MICROSERVICES.md)** - Architecture microservices
+- **[Tests](docs/TESTING.md)** - Framework de tests intégré
+
+### 🛠️ Outils de Développement
+
+- **[CLI Nexa](docs/CLI.md)** - Interface en ligne de commande
+- **[Extensions VSCode](docs/VSCODE_EXTENSIONS.md)** - Outils de développement
+- **[Débogage](docs/DEBUGGING.md)** - Techniques de débogage
+- **[Déploiement](docs/DEPLOYMENT.md)** - Guide de déploiement
 
 ## 🎯 Fonctionnalités principales
 
@@ -305,48 +344,51 @@ mon-projet/
 └── vendor/             # Dépendances
 ```
 
-### Commandes CLI Révolutionnaires
+### Commandes CLI Pratiques
 
-#### Commandes IA
+#### Génération de Code
 ```bash
-# Génération sémantique complète
-php nexa ai:create-app "E-commerce avec panier et paiement"
-php nexa ai:entity "Product avec variants et stock"
-php nexa ai:handler "ProductHandler avec recherche avancée"
-php nexa ai:interface "ProductCatalog avec filtres réactifs"
+# Créer un contrôleur avec méthodes CRUD
+php nexa make:controller ProductController --resource
 
-# Analyse et optimisation IA
-php nexa ai:analyze-code
-php nexa ai:optimize-performance
-php nexa ai:refactor-legacy
-php nexa ai:generate-docs
+# Générer un modèle avec migration
+php nexa make:model Product --migration
+
+# Créer un middleware personnalisé
+php nexa make:middleware AuthMiddleware
+
+# Générer un handler pour API
+php nexa make:handler ApiHandler
 ```
 
-#### Commandes Quantiques
+#### Gestion de la Base de Données
 ```bash
-# Optimisation quantique
-php nexa quantum:optimize-cache
-php nexa quantum:compile-templates
-php nexa quantum:optimize-routes
-php nexa quantum:serve --quantum
+# Créer une migration
+php nexa make:migration create_products_table
 
-# Sécurité quantique
-php nexa quantum:generate-keys
-php nexa quantum:encrypt-data
-php nexa quantum:scan-vulnerabilities
+# Exécuter les migrations
+php nexa migrate
+
+# Rollback des migrations
+php nexa migrate:rollback
+
+# Seeder la base de données
+php nexa db:seed
 ```
 
-#### Découverte et Monitoring
+#### Outils de Développement
 ```bash
-# Auto-découverte
-php nexa discover:entities
-php nexa discover:handlers
-php nexa discover:components
+# Démarrer le serveur de développement
+php nexa serve
 
-# Monitoring temps réel
-php nexa monitor:performance
-php nexa monitor:security
-php nexa monitor:realtime
+# Nettoyer le cache
+php nexa cache:clear
+
+# Optimiser l'application
+php nexa optimize
+
+# Lancer les tests
+php nexa test
 ```
 
 ### ✨ Fonctionnalités Principales
@@ -421,21 +463,21 @@ php -S localhost:8000 -t public
 - 📚 [Documentation API](docs/API_DOCUMENTATION.md) - Référence API
 - ⚡ [Démarrage Rapide](docs/QUICK_START.md) - Guide de démarrage
 
-### Architecture Sémantique Révolutionnaire
+### Architecture Moderne
 
-#### Structure Intelligente
+#### Structure du Projet
 ```
 nexa-framework/
 ├── kernel/           # Cœur du framework (ancien src/)
 ├── workspace/        # Votre espace de travail
 │   ├── entities/     # Entités auto-découvertes
-│   ├── handlers/     # Handlers intelligents
+│   ├── handlers/     # Handlers de requêtes
 │   ├── services/     # Services métier
-│   └── migrations/   # Migrations quantiques
+│   └── migrations/   # Migrations de base de données
 ├── flows/           # Flux de données (ancien routes/)
-├── interface/       # Templates .nx révolutionnaires
+├── interface/       # Templates .nx
 ├── assets/          # Ressources statiques
-└── storage/         # Stockage intelligent
+└── storage/         # Stockage des données
 ```
 
 #### Entité Auto-Découverte
@@ -472,7 +514,7 @@ class UserHandler extends Handler
 }
 ```
 
-#### Template .nx Révolutionnaire
+#### Template .nx
 ```html
 <!-- interface/UserDashboard.nx -->
 @cache('user-dashboard', 300)
@@ -733,60 +775,204 @@ Nexa Framework est conçu pour être rapide et efficace :
 - **Empreinte mémoire** : ~2MB sans ORM, ~10MB avec ORM complet
 - **Requêtes par seconde** : ~1000 req/s sur un serveur modeste
 
-## 🚀 Avantages Révolutionnaires
+## 🚀 Avantages de Nexa Framework
 
-### 🎯 Productivité 10x Supérieure
-- **Développement assisté par IA** : Créez des applications complètes en quelques commandes
-- **Auto-découverte totale** : Plus besoin de configuration manuelle
-- **Templates .nx réactifs** : Interface utilisateur moderne automatiquement
-- **Validation automatique** : Côté client et serveur sans code supplémentaire
+### 🎯 Productivité Améliorée
+- **Développement rapide** : Outils CLI pour générer du code rapidement
+- **Auto-découverte** : Détection automatique des composants
+- **Templates .nx** : Système de templates moderne et flexible
+- **Validation intégrée** : Système de validation robuste et extensible
 
-### ⚡ Performance Quantique
-- **500% plus rapide** que Laravel grâce à l'optimisation quantique
-- **Cache prédictif** qui anticipe les besoins de votre application
-- **Compilation intelligente** des templates pour une vitesse maximale
-- **Routage quantique** pour une résolution ultra-rapide
+### ⚡ Performance Optimisée
+- **Routage efficace** : Système de routage rapide et optimisé
+- **Cache intelligent** : Mise en cache automatique des éléments coûteux
+- **Compilation optimisée** : Templates compilés pour de meilleures performances
+- **Architecture légère** : Framework conçu pour être rapide et efficace
 
-### 🔒 Sécurité du Futur
-- **Protection quantum-safe** contre les ordinateurs quantiques
-- **Audit automatique** de toutes les actions utilisateur
-- **Scan de vulnérabilités** en temps réel
-- **Chiffrement adaptatif** selon le niveau de sensibilité
+### 🔒 Sécurité Robuste
+- **Protection CSRF** : Protection automatique contre les attaques CSRF
+- **Validation des données** : Nettoyage et validation automatique des entrées
+- **Authentification sécurisée** : Système d'authentification flexible
+- **Chiffrement intégré** : Outils de chiffrement pour protéger les données
 
-### 🌐 Écosystème Intelligent
-- **API auto-documentée** avec exemples générés par IA
-- **Monitoring temps réel** intégré
-- **Déploiement intelligent** avec optimisation automatique
-- **Tests auto-générés** pour une couverture complète
+### 🌐 Écosystème Moderne
+- **Documentation claire** : Documentation complète et bien structurée
+- **Outils de développement** : CLI et outils pour faciliter le développement
+- **Architecture modulaire** : Code organisé et maintenable
+- **Tests intégrés** : Framework de tests pour assurer la qualité
 
-## 🗺️ Roadmap Révolutionnaire
+## 🗺️ Roadmap de Développement
 
-### Phase Actuelle : Architecture Sémantique ✅
-- ✅ Structure révolutionnaire (kernel, workspace, flows, interface)
-- ✅ Auto-découverte totale des composants
-- ✅ Templates .nx avec réactivité native
-- ✅ CLI avec commandes IA et quantiques
+### Version Actuelle : 3.0 ✅
+- ✅ Architecture moderne et claire
+- ✅ Auto-découverte des composants
+- ✅ Templates .nx fonctionnels
+- ✅ CLI avec commandes utiles
 
-### Phase 2 : IA Avancée 🚧
-- 🔄 Génération de code par description naturelle
-- 🔄 Refactoring automatique intelligent
-- 🔄 Optimisation continue par apprentissage
-- 🔄 Documentation auto-générée en temps réel
+### Version 3.1 : Améliorations 🚧
+- 🔄 Amélioration des performances
+- 🔄 Outils de développement avancés
+- 🔄 Documentation enrichie
+- 🔄 Tests automatisés étendus
 
-### Phase 3 : Quantique Complet 🔮
-- 🔮 Optimisation quantique native
-- 🔮 Cache prédictif avec apprentissage
-- 🔮 Sécurité quantum-safe complète
-- 🔮 Performance 1000x supérieure
+### Version 4.0 : Fonctionnalités Avancées 🔮
+- 🔮 Support WebSockets natif
+- 🔮 API GraphQL intégrée
+- 🔮 Système de plugins
+- 🔮 Interface d'administration
 
-## 📚 Documentation Révolutionnaire
+## 📚 Documentation
 
-- 🧠 [Architecture Révolutionnaire](REVOLUTIONARY_ARCHITECTURE.md) - La nouvelle architecture
-- 📖 [Guide IA](docs/AI_GUIDE.md) - Développement assisté par IA
-- ⚡ [Optimisation Quantique](docs/QUANTUM_OPTIMIZATION.md) - Performance ultime
-- 🎨 [Templates .nx](docs/NX_TEMPLATES.md) - Interfaces révolutionnaires
-- 🔒 [Sécurité Quantique](docs/QUANTUM_SECURITY.md) - Protection du futur
-- 🛠️ [CLI Révolutionnaire](docs/REVOLUTIONARY_CLI.md) - Outils intelligents
+- 🏗️ [Architecture](docs/ARCHITECTURE.md) - Structure du framework
+- 📖 [Guide de Démarrage](docs/GETTING_STARTED.md) - Premiers pas avec Nexa
+- ⚡ [Performance](docs/PERFORMANCE.md) - Optimisation et bonnes pratiques
+- 🎨 [Templates .nx](docs/NX_TEMPLATES.md) - Système de templates
+- 🔒 [Sécurité](docs/SECURITY.md) - Guide de sécurité
+- 🛠️ [CLI](docs/CLI.md) - Interface en ligne de commande
+
+## 🛠️ Extensions VSCode
+
+Nexa Framework propose une suite complète d'extensions VSCode pour une expérience de développement optimale :
+
+### 🎨 Extensions Principales
+
+#### 1. **Nexa .nx Template Support**
+- **Description** : Support complet des fichiers `.nx` avec coloration syntaxique et IntelliSense
+- **Fonctionnalités** :
+  - Coloration syntaxique avancée pour les templates `.nx`
+  - Autocomplétion intelligente des directives Nexa
+  - Snippets de code pour composants et structures
+  - Prévisualisation en temps réel
+  - Navigation et hover informatif
+- **Installation** : `ext install nexa.nx-template-support`
+
+#### 2. **Nexa Code Snippets Pro**
+- **Description** : Générateur intelligent de snippets de code pour Nexa
+- **Fonctionnalités** :
+  - Génération automatique de handlers, entités, middleware
+  - Snippets contextuels basés sur le projet
+  - Support WebSocket, GraphQL, et microservices
+  - Templates de tests et validation
+- **Installation** : `ext install nexa.code-snippets-pro`
+
+#### 3. **Nexa Project Generator**
+- **Description** : Générateur de projets et scaffolding intelligent
+- **Fonctionnalités** :
+  - Création de nouveaux projets Nexa
+  - Scaffolding de projets existants
+  - Génération d'APIs, CRUD, et microservices
+  - Configuration Docker et CI/CD
+  - Gestion des templates de projet
+- **Installation** : `ext install nexa.project-generator`
+
+### 🔧 Extensions Spécialisées
+
+#### 4. **Nexa Security Scanner**
+- **Description** : Scanner de sécurité intégré pour code Nexa
+- **Fonctionnalités** :
+  - Détection automatique des vulnérabilités
+  - Vérification de conformité sécuritaire
+  - Audit des dépendances
+  - Suggestions de corrections automatiques
+- **Installation** : `ext install nexa.security-scanner`
+
+#### 5. **Nexa Test Runner**
+- **Description** : Exécuteur de tests intégré avec couverture
+- **Fonctionnalités** :
+  - Exécution de tests PHPUnit et Pest
+  - Analyse de couverture de code
+  - Génération automatique de tests
+  - Rapports détaillés et exports
+- **Installation** : `ext install nexa.test-runner`
+
+#### 6. **Nexa Performance Monitor**
+- **Description** : Monitoring des performances en temps réel
+- **Fonctionnalités** :
+  - Analyse des performances du code
+  - Détection des goulots d'étranglement
+  - Suggestions d'optimisation
+  - Rapports de performance détaillés
+- **Installation** : `ext install nexa.performance-monitor`
+
+### 🎯 Extensions Avancées
+
+#### 7. **Nexa API Tester**
+- **Description** : Testeur d'API intégré avec interface graphique
+- **Fonctionnalités** :
+  - Interface de test d'API intuitive
+  - Gestion des collections de requêtes
+  - Export vers Postman
+  - Tests automatisés d'API
+- **Installation** : `ext install nexa.api-tester`
+
+#### 8. **Nexa Database Manager**
+- **Description** : Gestionnaire de base de données visuel
+- **Fonctionnalités** :
+  - Explorateur de base de données
+  - Éditeur de migrations visuelles
+  - Visualiseur d'entités et relations
+  - Prévisualisation de schémas
+- **Installation** : `ext install nexa.database-manager`
+
+#### 9. **Nexa GraphQL Studio**
+- **Description** : Studio GraphQL complet pour Nexa
+- **Fonctionnalités** :
+  - Éditeur de schémas GraphQL
+  - Testeur de requêtes intégré
+  - Générateur de resolvers
+  - Documentation automatique
+- **Installation** : `ext install nexa.graphql-studio`
+
+#### 10. **Nexa Component Library**
+- **Description** : Bibliothèque de composants `.nx` avec prévisualisation
+- **Fonctionnalités** :
+  - Galerie de composants prêts à l'emploi
+  - Prévisualisation en temps réel
+  - Insertion directe dans l'éditeur
+  - Gestion des catégories de composants
+- **Installation** : `ext install nexa.component-library`
+
+#### 11. **Nexa Theme Designer**
+- **Description** : Concepteur de thèmes visuels pour Nexa
+- **Fonctionnalités** :
+  - Création et édition de thèmes
+  - Palettes de couleurs intelligentes
+  - Prévisualisation en temps réel
+  - Export et partage de thèmes
+- **Installation** : `ext install nexa.theme-designer`
+
+#### 12. **Nexa CLI Tools**
+- **Description** : Interface graphique pour les commandes CLI Nexa
+- **Fonctionnalités** :
+  - Exécution de commandes via interface graphique
+  - Historique des commandes
+  - Templates de commandes personnalisées
+  - Intégration terminal avancée
+- **Installation** : `ext install nexa.cli-tools`
+
+### 📦 Pack d'Extensions
+
+#### **Nexa Development Suite**
+Installez toutes les extensions en une fois :
+```bash
+code --install-extension nexa.development-suite
+```
+
+### ⚙️ Configuration Recommandée
+
+```json
+{
+  "nexa.autoCompletion.enabled": true,
+  "nexa.preview.autoRefresh": true,
+  "nexa.validation.enabled": true,
+  "nexa.formatting.enabled": true,
+  "nexa.security.autoScan": true,
+  "nexa.performance.monitoring": true,
+  "files.associations": {
+    "*.nx": "nx"
+  }
+}
+```
 
 ## 🤝 Contribution
 

@@ -11,26 +11,26 @@ use DateTime;
 use PDO;
 
 /**
- * Migration révolutionnaire pour la table users
- * Avec optimisation quantique et sécurité avancée
+ * Migration pour la table users
+ * Avec sécurité avancée et optimisations
  */
-#[Quantum, Secure]
+#[Secure]
 class CreateUsersTable extends Migration
 {
     /**
-     * Exécuter la migration avec optimisation quantique
+     * Exécuter la migration
      */
     public function up()
     {
         $this->schema->create('users', function (Blueprint $table) {
-            // Clé primaire avec optimisation quantique
+            // Clé primaire
             $table->id();
             
             // Champs utilisateur avec validation intégrée
             $table->string('name')->index();
-            $table->string('email')->unique()->encrypted(); // Chiffrement quantique
+            $table->string('email')->unique()->encrypted(); // Chiffrement sécurisé
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->encrypted(); // Hash sécurisé quantique
+            $table->string('password')->encrypted(); // Hash sécurisé
             $table->string('avatar')->nullable();
             
             // Préférences utilisateur avec compression intelligente
@@ -43,7 +43,7 @@ class CreateUsersTable extends Migration
             // Timestamps avec optimisation
             $table->timestamps();
             
-            // Index composites pour performance quantique
+            // Index composites pour optimiser les performances
             $table->index(['email', 'email_verified_at']);
             $table->index(['created_at', 'last_login_at']);
             
@@ -52,9 +52,9 @@ class CreateUsersTable extends Migration
             $table->check('email LIKE "%@%.%"', 'email_format');
         });
         
-        // Commentaire de table pour auto-documentation
+        // Commentaire de table pour documentation
         // Add table comment using raw SQL since schema doesn't have comment method
-        $this->statement("ALTER TABLE users COMMENT = 'Table des utilisateurs avec architecture sémantique révolutionnaire'");
+        $this->statement("ALTER TABLE users COMMENT = 'Table des utilisateurs avec architecture moderne'");
     }
     
     /**
@@ -66,7 +66,7 @@ class CreateUsersTable extends Migration
     }
     
     /**
-     * Données de test avec IA
+     * Données de test
      */
     public function seedData()
     {
@@ -78,12 +78,12 @@ class CreateUsersTable extends Migration
                 'name' => 'Administrateur Nexa',
                 'email' => 'admin@nexa.dev',
                 'email_verified_at' => $now,
-                'password' => $this->hashPassword('QuantumSecure2024!'),
+                'password' => $this->hashPassword('SecureNexa2024!'),
                 'preferences' => json_encode([
                     'theme' => 'dark',
                     'language' => 'fr',
                     'notifications' => true,
-                    'quantum_mode' => true
+                    'advanced_mode' => true
                 ]),
                 'created_at' => $now,
                 'updated_at' => $now
@@ -97,7 +97,7 @@ class CreateUsersTable extends Migration
                     'theme' => 'light',
                     'language' => 'fr',
                     'notifications' => false,
-                    'quantum_mode' => false
+                    'advanced_mode' => false
                 ]),
                 'created_at' => $now,
                 'updated_at' => $now
@@ -122,7 +122,7 @@ class CreateUsersTable extends Migration
      */
     public function optimize()
     {
-        // Analyse des performances quantiques
+        // Analyse des performances
         $this->statement('ANALYZE TABLE users');
         
         // Optimisation des index

@@ -18,9 +18,9 @@ use Workspace\Handlers\IntegrationHandler;
 use Workspace\Handlers\AdminHandler;
 
 /**
- * API Routes avec architecture révolutionnaire
- * Auto-découverte et optimisation quantique
- * Intégration intelligente avec les handlers sémantiques
+ * API Routes avec architecture moderne
+ * Auto-découverte et optimisations avancées
+ * Intégration avec les handlers
  */
 
 $apiRouter = new Router();
@@ -37,9 +37,9 @@ $apiRouter->group(['prefix' => 'api/v1'], function($router) {
             'status' => 'active',
             'version' => '1.0.0',
             'timestamp' => now(),
-            'quantum_mode' => true,
-            'ai_engine' => 'operational',
-            'semantic_discovery' => 'enabled'
+            'advanced_mode' => true,
+            'engine' => 'operational',
+            'auto_discovery' => 'enabled'
         ]);
     });
     
@@ -48,7 +48,7 @@ $apiRouter->group(['prefix' => 'api/v1'], function($router) {
             'status' => 'healthy',
             'database' => 'connected',
             'cache' => 'operational',
-            'quantum_engine' => 'active',
+            'engine' => 'active',
             'handlers_discovered' => app('handler.registry')->count(),
             'entities_discovered' => app('entity.registry')->count()
         ]);
@@ -66,10 +66,10 @@ $apiRouter->group(['prefix' => 'api/v1'], function($router) {
 
 $apiRouter->group(['prefix' => 'api/v1/auth'], function($router) {
     
-    // Connexion avec sécurité quantique
+    // Connexion sécurisée
     $router->post('/login', [AuthHandler::class, 'login']);
     
-    // Inscription avec validation IA
+    // Inscription avec validation avancée
     $router->post('/register', [AuthHandler::class, 'register']);
     
     // Déconnexion sécurisée
@@ -80,10 +80,10 @@ $apiRouter->group(['prefix' => 'api/v1/auth'], function($router) {
     $router->post('/refresh', [AuthHandler::class, 'refresh'])
            ->middleware([AuthMiddleware::class]);
     
-    // Vérification d'email avec IA
+    // Vérification d'email
     $router->post('/verify-email', [AuthHandler::class, 'verifyEmail']);
     
-    // Réinitialisation de mot de passe quantique
+    // Réinitialisation de mot de passe sécurisée
     $router->post('/forgot-password', [AuthHandler::class, 'forgotPassword']);
     $router->post('/reset-password', [AuthHandler::class, 'resetPassword']);
 });
@@ -98,7 +98,7 @@ $apiRouter->group([
 ], function($router) {
     
     // ========================================
-    // Gestion des utilisateurs avec IA
+    // Gestion des utilisateurs
     // ========================================
     $router->group(['prefix' => 'users'], function($router) {
         
@@ -109,7 +109,7 @@ $apiRouter->group([
         $router->put('/{id}', [UserHandler::class, 'update']);
         $router->delete('/{id}', [UserHandler::class, 'destroy']);
         
-        // Routes avancées avec IA
+        // Routes avancées
         $router->get('/search', [UserHandler::class, 'search']);
         $router->get('/{id}/dashboard', [UserHandler::class, 'dashboard']);
         $router->get('/{id}/stats', [UserHandler::class, 'getStats']);
@@ -118,7 +118,7 @@ $apiRouter->group([
         // Gestion des préférences
         $router->put('/{id}/preferences', [UserHandler::class, 'updatePreferences']);
         
-        // Export intelligent
+        // Export des données
         $router->post('/export', [UserHandler::class, 'export']);
         
         // Profil utilisateur
@@ -127,40 +127,40 @@ $apiRouter->group([
     });
     
     // ========================================
-    // Tableau de bord intelligent
+    // Tableau de bord
     // ========================================
     $router->group(['prefix' => 'dashboard'], function($router) {
         $router->get('/', [DashboardHandler::class, 'index']);
         $router->get('/stats', [DashboardHandler::class, 'getStats']);
         $router->get('/analytics', [DashboardHandler::class, 'getAnalytics']);
         $router->get('/insights', [DashboardHandler::class, 'getInsights']);
-        $router->get('/quantum-metrics', [DashboardHandler::class, 'getQuantumMetrics']);
+        $router->get('/metrics', [DashboardHandler::class, 'getMetrics']);
     });
     
     // ========================================
-    // Gestion des fichiers avec IA
+    // Gestion des fichiers
     // ========================================
     $router->group(['prefix' => 'files'], function($router) {
         $router->post('/upload', [FileHandler::class, 'upload']);
         $router->get('/{id}', [FileHandler::class, 'show']);
         $router->delete('/{id}', [FileHandler::class, 'destroy']);
-        $router->post('/analyze', [FileHandler::class, 'analyzeWithAI']);
-        $router->post('/optimize', [FileHandler::class, 'optimizeWithQuantum']);
+        $router->post('/analyze', [FileHandler::class, 'analyze']);
+        $router->post('/optimize', [FileHandler::class, 'optimize']);
     });
     
     // ========================================
-    // Notifications intelligentes
+    // Notifications
     // ========================================
     $router->group(['prefix' => 'notifications'], function($router) {
         $router->get('/', [NotificationHandler::class, 'index']);
         $router->put('/{id}/read', [NotificationHandler::class, 'markAsRead']);
         $router->delete('/{id}', [NotificationHandler::class, 'destroy']);
         $router->post('/preferences', [NotificationHandler::class, 'updatePreferences']);
-        $router->get('/ai-suggestions', [NotificationHandler::class, 'getAISuggestions']);
+        $router->get('/suggestions', [NotificationHandler::class, 'getSuggestions']);
     });
     
     // ========================================
-    // Routes d'administration quantique
+    // Routes d'administration
     // ========================================
     $router->group([
         'prefix' => 'admin',
@@ -170,19 +170,19 @@ $apiRouter->group([
         // Monitoring système
         $router->get('/system/status', [AdminHandler::class, 'getSystemStatus']);
         $router->get('/system/metrics', [AdminHandler::class, 'getSystemMetrics']);
-        $router->get('/quantum/performance', [AdminHandler::class, 'getQuantumPerformance']);
+        $router->get('/performance', [AdminHandler::class, 'getPerformance']);
         
         // Gestion des utilisateurs admin
         $router->get('/users/analytics', [AdminHandler::class, 'getUserAnalytics']);
         $router->post('/users/bulk-actions', [AdminHandler::class, 'bulkUserActions']);
         
-        // Configuration IA
-        $router->get('/ai/config', [AdminHandler::class, 'getAIConfig']);
-        $router->put('/ai/config', [AdminHandler::class, 'updateAIConfig']);
+        // Configuration avancée
+        $router->get('/config', [AdminHandler::class, 'getConfig']);
+        $router->put('/config', [AdminHandler::class, 'updateConfig']);
         
-        // Optimisation quantique
-        $router->post('/quantum/optimize', [AdminHandler::class, 'triggerQuantumOptimization']);
-        $router->get('/quantum/logs', [AdminHandler::class, 'getQuantumLogs']);
+        // Optimisation système
+        $router->post('/optimize', [AdminHandler::class, 'triggerOptimization']);
+        $router->get('/logs', [AdminHandler::class, 'getLogs']);
     });
 });
 

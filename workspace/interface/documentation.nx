@@ -1,1609 +1,3021 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation - Nexa Framework</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        :root {
-            --innovation-gradient: linear-gradient(135deg, #7D4FFE 0%, #7D4FFE 100%);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-        }
-        
-        .innovation-bg {
-            background: #7D4FFE;
-        }
-        
-        .innovation-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        
-        .glow-text {
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-        }
-        
-        .code-block {
-            background: rgba(30, 41, 59, 0.8);
-            color: #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
-            overflow-x: auto;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .scroll-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #7D4FFE, #7D4FFE);
-            transform-origin: left;
-            z-index: 9999;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation - Nexa Framework</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+--secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+--accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+--dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+--innovation-gradient: linear-gradient(135deg, #7D4FFE 0%, #7D4FFE 100%);
+}
+
+* {
+font-family: 'Inter', sans-serif;
+scroll-behavior: smooth;
+}
+
+.code-font { font-family: 'JetBrains Mono', monospace; }
+
+.innovation-bg {
+background: #7D4FFE;
+}
+
+.glass-ultra {
+background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(40px) saturate(180%);
+border: 1px solid rgba(255, 255, 255, 0.15);
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.innovation-card {
+background: white;
+border: 1px solid #e5e7eb;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+position: relative;
+overflow: hidden;
+}
+
+.code-block {
+background: #1f2937;
+border-radius: 8px;
+padding: 1rem;
+margin: 1rem 0;
+overflow-x: auto;
+}
+
+.code-block code {
+color: #10b981;
+font-family: 'JetBrains Mono', monospace;
+font-size: 0.875rem;
+}
+
+.innovation-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+transition: left 0.5s;
+}
+
+.innovation-card:hover::before {
+left: 100%;
+}
+
+.feature-innovation {
+transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+transform-style: preserve-3d;
+}
+
+.feature-innovation:hover {
+transform: translateY(-20px) rotateX(5deg) rotateY(5deg);
+box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+}
+
+.glow-text {
+background: linear-gradient(45deg, #fff, #f0f9ff, #e0f2fe, #fff);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-shadow: 0 0 30px rgba(255,255,255,0.5);
+}
+
+.innovation-pulse {
+box-shadow: 0 0 20px rgba(102, 126, 234, 0.4), 0 0 40px rgba(118, 75, 162, 0.3);
+}
+
+.section-divider {
+height: 2px;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+margin: 4rem 0;
+}
+
+.scroll-indicator {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 4px;
+background: var(--primary-gradient);
+transform-origin: left;
+z-index: 9999;
+}
+
+.sidebar {
+position: fixed;
+left: 0;
+top: 80px;
+width: 300px;
+height: calc(100vh - 80px);
+overflow-y: auto;
+background: white;
+border-right: 1px solid #e5e7eb;
+z-index: 40;
+}
+
+.main-content {
+margin-left: 300px;
+padding: 2rem;
+}
+
+.sidebar ul {
+list-style: none;
+padding: 0;
+}
+
+.sidebar li {
+margin: 0;
+}
+
+.sidebar a {
+display: block;
+padding: 0.75rem 1.5rem;
+color: #374151;
+text-decoration: none;
+border-left: 3px solid transparent;
+transition: all 0.2s;
+}
+
+.sidebar a:hover {
+background: #f3f4f6;
+border-left-color: #7D4FFE;
+color: #7D4FFE;
+}
+
+.sidebar a.active {
+background: #f3f4f6;
+border-left-color: #7D4FFE;
+color: #7D4FFE;
+font-weight: 600;
+}
+
+@media (max-width: 768px) {
+.sidebar {
+transform: translateX(-100%);
+transition: transform 0.3s;
+}
+
+.sidebar.open {
+transform: translateX(0);
+}
+
+.main-content {
+margin-left: 0;
+}
+}
+</style>
 </head>
-<body class="innovation-bg text-white min-h-screen">
-    <!-- Scroll Indicator -->
-    <div class="scroll-indicator"></div>
-    
-    <!-- Fixed Glass Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 innovation-card backdrop-blur-md">
-        <div class="container mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-8">
-                    <a href="/" class="text-xl font-bold glow-text">NexaFramework</a>
-                    <div class="hidden md:flex space-x-6">
-                        <a href="/" class="text-white/80 hover:text-white transition-colors">Accueil</a>
-                        <a href="/about" class="text-white/80 hover:text-white transition-colors">À propos</a>
-                        <a href="/documentation" class="text-white hover:text-white transition-colors border-b border-white/30">Documentation</a>
-                        <a href="/contact" class="text-white/80 hover:text-white transition-colors">Contact</a>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="https://github.com/nexaframework" class="text-white/80 hover:text-white transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    
-    <!-- Header -->
-    <header class="pt-24 pb-16">
-        <div class="container mx-auto px-6">
-            <div class="text-center">
-                <h1 class="text-5xl font-bold mb-4 glow-text">Documentation Nexa</h1>
-                <p class="text-xl text-white/80">Guide complet pour développer avec le framework Nexa</p>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Quick Navigation -->
-    <div class="container mx-auto px-6 mb-8">
-        <div class="innovation-card rounded-lg p-4">
-            <div class="flex flex-wrap gap-2 justify-center">
-                <a href="#installation" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Installation</a>
-                <a href="#routing" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Routage</a>
-                <a href="#controllers" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Contrôleurs</a>
-                <a href="#views" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Vues</a>
-                <a href="#database" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">ORM & Base de données</a>
-                <a href="#validation" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Validation</a>
-                <a href="#middleware" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Middleware</a>
-                <a href="#auth" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">JWT Auth</a>
-                <a href="#events" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Événements</a>
-                <a href="#queues" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Files d'attente</a>
-                <a href="#modules" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Modules</a>
-                <a href="#plugins" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Plugins</a>
-                <a href="#graphql" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">GraphQL</a>
-                <a href="#websockets" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">WebSockets</a>
-                <a href="#microservices" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Microservices</a>
-                <a href="#testing" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Tests</a>
-                <a href="#cache" class="px-3 py-1 text-sm bg-white/10 hover:bg-white/20 rounded-full transition-colors">Cache & Logging</a>
-            </div>
-        </div>
-    </div>
+<body class="bg-white min-h-screen overflow-x-hidden relative">
+<div class="scroll-indicator" id="scrollIndicator"></div>
 
-    <!-- Content -->
-    <main class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- Sidebar -->
-            <aside class="lg:col-span-1">
-                <div class="innovation-card rounded-lg p-6 sticky top-24">
-                    <h3 class="font-bold text-white mb-4 glow-text">Table des matières</h3>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#introduction" class="text-white/80 hover:text-white transition-colors">Introduction</a></li>
-                        <li><a href="#installation" class="text-white/80 hover:text-white transition-colors">Installation</a></li>
-                        <li><a href="#structure" class="text-white/80 hover:text-white transition-colors">Structure du projet</a></li>
-                        <li><a href="#routing" class="text-white/80 hover:text-white transition-colors">Système de routage</a></li>
-                        <li><a href="#controllers" class="text-white/80 hover:text-white transition-colors">Contrôleurs</a></li>
-                        <li><a href="#views" class="text-white/80 hover:text-white transition-colors">Moteur de vues</a></li>
-                        <li><a href="#database" class="text-white/80 hover:text-white transition-colors">ORM & Base de données</a></li>
-                        <li><a href="#relations" class="text-white/80 hover:text-white transition-colors">Relations de modèles</a></li>
-                        <li><a href="#querybuilder" class="text-white/80 hover:text-white transition-colors">Query Builder</a></li>
-                        <li><a href="#validation" class="text-white/80 hover:text-white transition-colors">Système de validation</a></li>
-                        <li><a href="#middleware" class="text-white/80 hover:text-white transition-colors">Middleware & Sécurité</a></li>
-                        <li><a href="#auth" class="text-white/80 hover:text-white transition-colors">Authentification JWT</a></li>
-                        <li><a href="#events" class="text-white/80 hover:text-white transition-colors">Système d'événements</a></li>
-                        <li><a href="#queues" class="text-white/80 hover:text-white transition-colors">Files d'attente</a></li>
-                        <li><a href="#modules" class="text-white/80 hover:text-white transition-colors">Système de modules</a></li>
-                        <li><a href="#plugins" class="text-white/80 hover:text-white transition-colors">Système de plugins</a></li>
-                        <li><a href="#graphql" class="text-white/80 hover:text-white transition-colors">GraphQL API</a></li>
-                        <li><a href="#websockets" class="text-white/80 hover:text-white transition-colors">WebSockets</a></li>
-                        <li><a href="#microservices" class="text-white/80 hover:text-white transition-colors">Microservices</a></li>
-                        <li><a href="#testing" class="text-white/80 hover:text-white transition-colors">Framework de tests</a></li>
-                        <li><a href="#cli" class="text-white/80 hover:text-white transition-colors">Interface CLI</a></li>
-                        <li><a href="#cache" class="text-white/80 hover:text-white transition-colors">Cache</a></li>
-                        <li><a href="#logging" class="text-white/80 hover:text-white transition-colors">Logging</a></li>
-                        <li><a href="#services" class="text-white/80 hover:text-white transition-colors">Services</a></li>
-                    </ul>
-                </div>
-            </aside>
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background: #7D4FFE;">
+<div class="container mx-auto px-6">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center space-x-8">
+<a href="/" class="text-xl font-bold text-white">NexaFramework</a>
+<div class="hidden md:flex space-x-6">
+<a href="/" class="text-white/80 hover:text-white transition-colors">Accueil</a>
+<a href="/about" class="text-white/80 hover:text-white transition-colors">À propos</a>
+<a href="/documentation" class="text-white hover:text-white transition-colors border-b border-white/30">Documentation</a>
+<a href="/contact" class="text-white/80 hover:text-white transition-colors">Contact</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button id="sidebarToggle" class="md:hidden text-white">
+<i class="fas fa-bars"></i>
+</button>
+<a href="https://github.com/nexaframework" class="text-white/80 hover:text-white transition-colors">
+<i class="fab fa-github text-lg"></i>
+</a>
+</div>
+</div>
+</div>
+</nav>
 
-            <!-- Main content -->
-            <div class="lg:col-span-3">
-                <!-- Introduction -->
-                <section id="introduction" class="mb-12">
-                    <div class="innovation-card rounded-lg p-8">
-                        <h2 class="text-3xl font-bold text-white mb-6 glow-text">Introduction à Nexa</h2>
-                        <p class="text-white/80 mb-4">
-                            Nexa est un framework PHP moderne et riche en fonctionnalités, conçu pour offrir une expérience de développement exceptionnelle. 
-                            Il suit les principes de l'architecture MVC et propose un écosystème complet pour créer des applications web robustes et performantes.
-                        </p>
-                        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
-                            <div class="flex">
-                                <div class="ml-3">
-                                    <p class="text-sm text-green-700">
-                                        <strong>🚀 Phase 3 Complète :</strong> Système de modules dynamiques, plugins extensibles, GraphQL intégré, WebSockets temps réel, architecture microservices. Framework production-ready avec 90 tests validés !
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-                            <div class="flex">
-                                <div class="ml-3">
-                                    <p class="text-sm text-blue-700">
-                                        <strong>✅ Phase 2 :</strong> Authentification JWT, système d'événements avancé, files d'attente avec retry, framework de tests complet, interface CLI, et sécurité renforcée.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-                            <div class="flex">
-                                <div class="ml-3">
-                                    <p class="text-sm text-blue-700">
-                                        <strong>Phase 1 :</strong> ORM avancé avec relations Eloquent-style, système de validation robuste, middlewares de sécurité, cache haute performance, logging PSR-3, Query Builder fluide.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                            <!-- Phase 1 Features -->
-                            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🗄️ ORM Avancé</h4>
-                                <p class="text-sm opacity-90">Relations complètes, Query Builder, migrations</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🛡️ Sécurité</h4>
-                                <p class="text-sm opacity-90">Validation, CSRF, middlewares d'authentification</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">⚡ Performance</h4>
-                                <p class="text-sm opacity-90">Cache intelligent, logging optimisé</p>
-                            </div>
-                            <!-- Phase 2 Features -->
-                            <div class="bg-gradient-to-r from-indigo-500 to-blue-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🔐 JWT Auth</h4>
-                                <p class="text-sm opacity-90">Tokens sécurisés, refresh automatique</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-purple-500 to-pink-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">📡 Événements</h4>
-                                <p class="text-sm opacity-90">System d'événements avec listeners</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-teal-500 to-green-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🔄 Files d'attente</h4>
-                                <p class="text-sm opacity-90">Jobs asynchrones avec retry</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-yellow-500 to-orange-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🧪 Tests</h4>
-                                <p class="text-sm opacity-90">Framework de tests complet</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-gray-500 to-gray-700 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">💻 CLI</h4>
-                                <p class="text-sm opacity-90">Interface en ligne de commande</p>
-                            </div>
-                            <!-- Phase 3 Features -->
-                            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🧩 Modules</h4>
-                                <p class="text-sm opacity-90">Système modulaire dynamique</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-violet-500 to-purple-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🔌 Plugins</h4>
-                                <p class="text-sm opacity-90">Architecture extensible</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-pink-500 to-rose-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🚀 GraphQL</h4>
-                                <p class="text-sm opacity-90">API moderne et flexible</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">🌐 WebSockets</h4>
-                                <p class="text-sm opacity-90">Communication temps réel</p>
-                            </div>
-                            <div class="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-4 rounded-lg">
-                                <h4 class="font-bold mb-2">⚙️ Microservices</h4>
-                                <p class="text-sm opacity-90">Architecture distribuée</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+<div class="p-6">
+<h3 class="text-lg font-bold text-gray-900 mb-4">Documentation</h3>
+<ul class="space-y-1">
+<li><a href="#introduction" class="active block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Introduction</a></li>
+<li><a href="#installation" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Installation</a></li>
+<li><a href="#demarrage-rapide" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Démarrage Rapide</a></li>
+<li><a href="#architecture" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Architecture</a></li>
+<li><a href="#routage" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Système de Routage</a></li>
+<li><a href="#controleurs" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Contrôleurs</a></li>
+<li><a href="#modeles" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Modèles & ORM</a></li>
+<li><a href="#vues" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Vues & Templates</a></li>
+<li><a href="#middleware" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Middleware</a></li>
+<li><a href="#authentification" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Authentification</a></li>
+<li><a href="#base-donnees" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Base de Données</a></li>
+<li><a href="#cache" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Système de Cache</a></li>
+<li><a href="#validation" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Validation</a></li>
+<li><a href="#securite" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Sécurité</a></li>
+<li><a href="#tests" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Tests</a></li>
+<li><a href="#cli" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Interface CLI</a></li>
+<li><a href="#graphql" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">GraphQL</a></li>
+<li><a href="#websockets" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">WebSockets</a></li>
+<li><a href="#microservices" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Microservices</a></li>
+<li><a href="#modules" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Modules & Plugins</a></li>
+<li><a href="#queue-events" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Queue & Events</a></li>
+<li><a href="#vscode-extensions" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Extensions VS Code</a></li>
+<li><a href="#deploiement" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Déploiement</a></li>
+<li><a href="#api-reference" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Référence API</a></li>
+<li><a href="#bonnes-pratiques" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Bonnes Pratiques</a></li>
+<li><a href="#faq" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">FAQ</a></li>
+</ul>
+</div>
+</aside>
 
-                <!-- Installation -->
-                <section id="installation" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Installation</h2>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Prérequis</h3>
-                        <ul class="list-disc list-inside text-gray-700 mb-6">
-                            <li>PHP 8.0 ou supérieur</li>
-                            <li>Composer</li>
-                            <li>Serveur web (Apache, Nginx, ou serveur de développement PHP)</li>
-                        </ul>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Installation via Composer</h3>
-                        <div class="code-block mb-6">
-                            <code>composer create-project nexa/framework mon-projet</code>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Démarrage du serveur de développement</h3>
-                        <div class="code-block mb-6">
-                            <code>cd mon-projet<br>php -S localhost:8000 -t public</code>
-                        </div>
-                    </div>
-                </section>
+<!-- Main Content -->
+<main class="main-content pt-20">
+<!-- Introduction -->
+<section id="introduction" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl mb-8">
+<h1 class="text-4xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-book mr-4" style="color: #7D4FFE;"></i>
+Documentation Nexa Framework
+</h1>
+<p class="text-xl text-gray-700 leading-relaxed mb-6">
+Bienvenue dans la documentation complète de Nexa Framework, le framework PHP moderne qui révolutionne le développement web.
+</p>
+<div class="grid md:grid-cols-3 gap-6">
+<div class="text-center p-6 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl border border-purple-100 hover:shadow-lg transition-all duration-300">
+<div class="text-3xl font-bold mb-2" style="color: #7D4FFE;">v2.0</div>
+<div class="text-gray-600 font-medium">Version Actuelle</div>
+<div class="text-sm text-gray-500 mt-1">Stable & Production Ready</div>
+</div>
+<div class="text-center p-6 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-100 hover:shadow-lg transition-all duration-300">
+<div class="text-3xl font-bold mb-2" style="color: #7D4FFE;">PHP 8.1+</div>
+<div class="text-gray-600 font-medium">Requis</div>
+<div class="text-sm text-gray-500 mt-1">Moderne & Performant</div>
+</div>
+<div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border border-green-100 hover:shadow-lg transition-all duration-300">
+<div class="text-3xl font-bold mb-2" style="color: #7D4FFE;">MIT</div>
+<div class="text-gray-600 font-medium">Licence</div>
+<div class="text-sm text-gray-500 mt-1">Open Source & Gratuit</div>
+</div>
+</div>
+</div>
 
-                <!-- Structure -->
-                <section id="structure" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Structure du projet</h2>
-                        <div class="code-block mb-6">
-                            <pre>mon-projet/
-├── app/
-│   ├── Http/
-│   │   └── Controllers/
-│   └── Models/
-├── config/
-│   ├── app.php
-│   └── database.php
-├── public/
-│   └── index.php
-├── resources/
-│   └── views/
-├── routes/
-│   └── web.php
-├── src/
-│   └── Nexa/
-└── vendor/</pre>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">app/</h4>
-                                <p class="text-sm text-gray-600">Contient les contrôleurs et modèles de votre application</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">config/</h4>
-                                <p class="text-sm text-gray-600">Fichiers de configuration de l'application</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">resources/views/</h4>
-                                <p class="text-sm text-gray-600">Templates et vues de l'application</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">routes/</h4>
-                                <p class="text-sm text-gray-600">Définition des routes de l'application</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-2xl font-bold text-gray-900 mb-4">Qu'est-ce que Nexa Framework ?</h2>
+<p class="text-gray-700 leading-relaxed mb-4">
+Nexa Framework est un framework PHP moderne conçu pour offrir une expérience de développement exceptionnelle. 
+Il combine la simplicité d'utilisation avec la puissance des technologies modernes, permettant aux développeurs 
+de créer des applications web robustes et évolutives.
+</p>
+<h3 class="text-xl font-semibold text-gray-900 mb-3">Caractéristiques principales :</h3>
+<ul class="list-disc list-inside text-gray-700 space-y-2">
+<li>Architecture MVC moderne avec injection de dépendances</li>
+<li>ORM intelligent avec relations complexes</li>
+<li>Système de routage avancé avec middleware</li>
+<li>Sécurité intégrée (CSRF, JWT, chiffrement)</li>
+<li>Performance optimisée avec cache multi-niveaux</li>
+<li>Support natif GraphQL et WebSockets</li>
+<li>Interface CLI complète</li>
+<li>Suite de tests intégrée</li>
+</ul>
+</div>
+</section>
 
-                <!-- Routing -->
-                <section id="routing" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Système de routage</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le système de routage de Nexa permet de définir facilement les URL de votre application et de les associer à des contrôleurs ou des fonctions.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Définition des routes</h3>
-                        <p class="text-gray-700 mb-4">Les routes sont définies dans le fichier <code class="bg-gray-100 px-2 py-1 rounded">routes/web.php</code> :</p>
-                        <div class="code-block mb-6">
-                            <pre>&lt;?php
-use Nexa\Routing\Router;
-use App\Http\Controllers\WelcomeController;
+<!-- Installation -->
+<section id="installation" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-download mr-3" style="color: #7D4FFE;"></i>
+Installation
+</h2>
 
-$router = new Router;
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Prérequis</h3>
+<ul class="list-disc list-inside text-gray-700 mb-6 space-y-1">
+<li>PHP 8.1 ou supérieur</li>
+<li>Composer</li>
+<li>Extensions PHP : mbstring, openssl, PDO, tokenizer, XML, ctype, JSON</li>
+</ul>
 
-// Route simple
-$router->get('/', [WelcomeController::class, 'index']);
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Installation via Composer</h3>
+<div class="code-block">
+<code>
+# Créer un nouveau projet Nexa
+composer create-project nexa/framework mon-projet
 
-// Route avec paramètre
-$router->get('/user/{id}', [UserController::class, 'show']);
+# Naviguer dans le dossier
+cd mon-projet
 
-// Route POST
-$router->post('/contact', [ContactController::class, 'store']);
+# Configurer les permissions
+chmod -R 755 storage/
+chmod -R 755 bootstrap/cache/
+</code>
+</div>
 
-return $router;</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Méthodes HTTP supportées</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                            <div class="bg-green-50 border border-green-200 p-3 rounded text-center">
-                                <span class="font-semibold text-green-800">GET</span>
-                            </div>
-                            <div class="bg-blue-50 border border-blue-200 p-3 rounded text-center">
-                                <span class="font-semibold text-blue-800">POST</span>
-                            </div>
-                            <div class="bg-yellow-50 border border-yellow-200 p-3 rounded text-center">
-                                <span class="font-semibold text-yellow-800">PUT</span>
-                            </div>
-                            <div class="bg-red-50 border border-red-200 p-3 rounded text-center">
-                                <span class="font-semibold text-red-800">DELETE</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Configuration</h3>
+<div class="code-block">
+<code>
+# Copier le fichier d'environnement
+cp .env.example .env
 
-                <!-- Controllers -->
-                <section id="controllers" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Contrôleurs</h2>
-                        <p class="text-gray-700 mb-6">
-                            Les contrôleurs organisent la logique de votre application et gèrent les requêtes HTTP.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Création d'un contrôleur</h3>
-                        <div class="code-block mb-6">
-                            <pre>&lt;?php
+# Générer la clé d'application
+php nexa key:generate
 
-namespace App\Http\Controllers;
-
-use Nexa\Http\Controller;
-
-class WelcomeController extends Controller
-{
-    public function index()
-    {
-        return $this->view('welcome', [
-            'message' => 'Bienvenue sur Nexa!'
-        ]);
-    }
-    
-    public function show($id)
-    {
-        return $this->view('user', [
-            'user_id' => $id
-        ]);
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Méthodes disponibles</h3>
-                        <div class="space-y-4">
-                            <div class="border-l-4 border-blue-400 pl-4">
-                                <h4 class="font-semibold text-gray-800">view($template, $data)</h4>
-                                <p class="text-gray-600 text-sm">Rend une vue avec des données</p>
-                            </div>
-                            <div class="border-l-4 border-green-400 pl-4">
-                                <h4 class="font-semibold text-gray-800">json($data)</h4>
-                                <p class="text-gray-600 text-sm">Retourne une réponse JSON</p>
-                            </div>
-                            <div class="border-l-4 border-purple-400 pl-4">
-                                <h4 class="font-semibold text-gray-800">redirect($url)</h4>
-                                <p class="text-gray-600 text-sm">Effectue une redirection</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Views -->
-                <section id="views" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Moteur de vues</h2>
-                        <p class="text-gray-700 mb-6">
-                            Nexa inclut un moteur de templates simple et puissant pour créer vos interfaces utilisateur.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Syntaxe des templates</h3>
-                        <div class="code-block mb-6">
-                            <pre>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;{{ $title }}&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;h1&gt;{{ $message }}&lt;/h1&gt;
-    
-    @@if($user)
-        &lt;p&gt;Bonjour {{ $user->name }}!&lt;/p&gt;
-    @@endif
-    
-    @@include('partials.footer')
-&lt;/body&gt;
-&lt;/html&gt;</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Directives disponibles</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">{{ "{{ $variable }}" }}</h4>
-                                <p class="text-sm text-gray-600">Affichage de variables</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">@@if / @@endif</h4>
-                                <p class="text-sm text-gray-600">Conditions</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">@@include</h4>
-                                <p class="text-sm text-gray-600">Inclusion de templates</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <h4 class="font-semibold text-gray-800 mb-2">@@tailwind</h4>
-                                <p class="text-sm text-gray-600">Support Tailwind CSS</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Database & ORM -->
-                <section id="database" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">ORM & Base de données</h2>
-                        <p class="text-gray-700 mb-6">
-                            Nexa propose un ORM avancé inspiré d'Eloquent avec un Query Builder fluide pour interagir facilement avec vos bases de données.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Configuration</h3>
-                        <p class="text-gray-700 mb-4">Configurez votre base de données dans <code class="bg-gray-100 px-2 py-1 rounded">.env</code> :</p>
-                        <div class="code-block mb-6">
-                            <pre>DB_HOST=localhost
+# Configurer la base de données dans .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
 DB_DATABASE=nexa_app
 DB_USERNAME=root
 DB_PASSWORD=
-DB_CHARSET=utf8mb4</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Modèles Eloquent</h3>
-                        <p class="text-gray-700 mb-4">Créez des modèles pour représenter vos tables :</p>
-                        <div class="code-block mb-6">
-                            <pre>&lt;?php
-// app/Models/User.php
-use Nexa\Database\Model;
+</code>
+</div>
+</div>
+</section>
 
+<!-- Démarrage Rapide -->
+<section id="demarrage-rapide" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-rocket mr-3" style="color: #7D4FFE;"></i>
+Démarrage Rapide
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">1. Démarrer le serveur de développement</h3>
+<div class="code-block">
+<code>
+php nexa serve
+# ou
+php -S localhost:8000 -t public
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">2. Créer votre première route</h3>
+<p class="text-gray-700 mb-3">Éditez le fichier <code class="bg-gray-100 px-2 py-1 rounded">workspace/flows/web.php</code> :</p>
+<div class="code-block">
+<code>
+&lt;?php
+
+use Nexa\Routing\Router;
+use Workspace\Handlers\WelcomeHandler;
+
+$router = new Router();
+
+$router->get('/', function() {
+    return view('welcome');
+});
+
+$router->get('/hello/{name}', function($name) {
+    return "Bonjour, {$name} !";
+});
+
+// Utilisation d'un handler
+$router->get('/users', [WelcomeHandler::class, 'index']);
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">3. Créer un handler</h3>
+<div class="code-block">
+<code>
+# Générer un handler (contrôleur)
+php nexa make:handler UserHandler
+
+# Générer un handler avec des méthodes CRUD
+php nexa make:handler UserHandler --resource
+
+# Le fichier sera créé dans workspace/handlers/UserHandler.php
+</code>
+</div>
+</div>
+</section>
+
+<!-- Architecture -->
+<section id="architecture" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-sitemap mr-3" style="color: #7D4FFE;"></i>
+Architecture
+</h2>
+
+<p class="text-gray-700 leading-relaxed mb-6">
+Nexa Framework suit une architecture MVC (Modèle-Vue-Contrôleur) moderne avec injection de dépendances 
+et séparation claire des responsabilités.
+</p>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Structure des dossiers</h3>
+<div class="code-block">
+<code>
+nexa-project/
+├── kernel/             # Cœur du framework Nexa
+│   ├── Nexa/          # Classes principales du framework
+│   │   ├── Http/      # Gestion HTTP (Request, Response, Controller)
+│   │   ├── Database/  # ORM et gestion base de données
+│   │   ├── Routing/   # Système de routage
+│   │   ├── Auth/      # Authentification et sécurité
+│   │   ├── Cache/     # Système de cache
+│   │   └── ...
+│   ├── GraphQL/       # Support GraphQL
+│   ├── WebSockets/    # Support WebSockets
+│   └── Microservices/ # Support microservices
+├── workspace/         # Votre espace de travail
+│   ├── handlers/      # Contrôleurs de l'application
+│   ├── database/
+│   │   ├── entities/  # Modèles/Entités
+│   │   ├── migrations/# Migrations de base de données
+│   │   └── seeds/     # Données de test
+│   ├── interface/     # Templates et vues (.nx)
+│   ├── flows/         # Définition des routes (api.php, web.php)
+│   ├── jobs/          # Jobs et tâches asynchrones
+│   ├── middleware/    # Middleware personnalisés
+│   └── config/        # Configuration de l'application
+├── public/            # Point d'entrée web
+├── storage/           # Fichiers de stockage et cache
+└── tests/            # Tests automatisés
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Cycle de vie d'une requête</h3>
+<ol class="list-decimal list-inside text-gray-700 space-y-2">
+<li>La requête arrive au fichier <code class="bg-gray-100 px-2 py-1 rounded">public/index.php</code></li>
+<li>Le routeur analyse l'URL et trouve la route correspondante</li>
+<li>Les middleware sont exécutés dans l'ordre</li>
+<li>Le contrôleur est instancié avec injection de dépendances</li>
+<li>La méthode du contrôleur est appelée</li>
+<li>La réponse est générée et renvoyée au client</li>
+</ol>
+</div>
+</section>
+
+<!-- Routage -->
+<section id="routage" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-route mr-3" style="color: #7D4FFE;"></i>
+Système de Routage
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Routes de base</h3>
+<div class="code-block">
+<code>
+// Routes HTTP basiques
+$router->get('/users', 'UserController@index');
+$router->post('/users', 'UserController@store');
+$router->put('/users/{id}', 'UserController@update');
+$router->delete('/users/{id}', 'UserController@destroy');
+
+// Route avec paramètres
+$router->get('/users/{id}', function($id) {
+    return "Utilisateur ID: {$id}";
+});
+
+// Route avec paramètres optionnels
+$router->get('/posts/{id?}', 'PostController@show');
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Groupes de routes</h3>
+<div class="code-block">
+<code>
+// Groupe avec préfixe
+$router->group(['prefix' => 'api/v1'], function($router) {
+    $router->get('/users', 'Api\UserController@index');
+    $router->get('/posts', 'Api\PostController@index');
+});
+
+// Groupe avec middleware
+$router->group(['middleware' => 'auth'], function($router) {
+    $router->get('/dashboard', 'DashboardController@index');
+    $router->get('/profile', 'ProfileController@show');
+});
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Routes de ressources</h3>
+<div class="code-block">
+<code>
+// Génère automatiquement toutes les routes CRUD
+$router->resource('users', 'UserController');
+
+// Routes générées :
+// GET    /users           -> index
+// GET    /users/create    -> create
+// POST   /users           -> store
+// GET    /users/{id}      -> show
+// GET    /users/{id}/edit -> edit
+// PUT    /users/{id}      -> update
+// DELETE /users/{id}      -> destroy
+</code>
+</div>
+</div>
+</section>
+
+<!-- Handlers -->
+<section id="controleurs" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-cogs mr-3" style="color: #7D4FFE;"></i>
+Handlers (Contrôleurs)
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Handler de base</h3>
+<div class="code-block">
+<code>
+&lt;?php
+
+namespace Workspace\Handlers;
+
+use Nexa\Http\Controller;
+use Nexa\Http\Request;
+use Nexa\Http\Response;
+use Nexa\Attributes\Route;
+use Nexa\Attributes\Middleware;
+use Workspace\Database\Entities\User;
+
+#[Route(prefix: '/api/users')]
+#[Middleware(['auth'])]
+class UserHandler extends Controller
+{
+    #[Route('GET', '/')]
+    public function index(): Response
+    {
+        $users = User::all();
+        return $this->success($users);
+    }
+
+    #[Route('GET', '/{id}')]
+    public function show($id): Response
+    {
+        $user = User::findOrFail($id);
+        return $this->success($user);
+    }
+
+    #[Route('POST', '/')]
+    public function store(Request $request): Response
+    {
+        $user = User::create($request->validated());
+        return $this->success($user, 'Utilisateur créé !', 201);
+    }
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Injection de dépendances</h3>
+<div class="code-block">
+<code>
+&lt;?php
+
+namespace Workspace\Handlers;
+
+use Workspace\Services\UserService;
+use Nexa\Http\Request;
+use Nexa\Http\Response;
+use Nexa\Attributes\Route;
+
+#[Route(prefix: '/api/users')]
+class UserHandler extends Controller
+{
+    private UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    #[Route('GET', '/')]
+    public function index(Request $request): Response
+    {
+        $users = $this->userService->getAllUsers(
+            $request->get('page', 1),
+            $request->get('limit', 15)
+        );
+        
+        return $this->success($users);
+    }
+}
+</code>
+</div>
+</div>
+</section>
+
+<!-- Entités & ORM -->
+<section id="modeles" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-database mr-3" style="color: #7D4FFE;"></i>
+Entités & ORM
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Entité de base</h3>
+<div class="code-block">
+<code>
+&lt;?php
+
+namespace Workspace\Database\Entities;
+
+use Nexa\Database\Model;
+use Nexa\Attributes\Cache;
+use Nexa\Attributes\Validate;
+use Nexa\Attributes\Secure;
+
+#[Cache('users'), Validate, Secure]
 class User extends Model
 {
     protected $table = 'users';
     protected $fillable = ['name', 'email', 'password'];
-    
-    // Relation avec les posts
+    protected $hidden = ['password'];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'is_active' => 'boolean'
+    ];
+
+    // Relations
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
-    
-    // Relation avec le profil
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
     }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Opérations CRUD</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Créer</h4>
-                                <pre>$user = new User();
-$user->name = 'Jean Dupont';
-$user->email = 'jean@example.com';
-$user->save();
-
-// Ou avec create()
-$user = User::create([
-    'name' => 'Marie Martin',
-    'email' => 'marie@example.com'
-]);</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Lire</h4>
-                                <pre>// Tous les utilisateurs
-$users = User::all();
-
-// Par ID
-$user = User::find(1);
-
-// Avec conditions
-$users = User::where('active', true)
-    ->orderBy('created_at', 'desc')
-    ->get();</pre>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Relations -->
-                <section id="relations" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Relations de modèles</h2>
-                        <p class="text-gray-700 mb-6">
-                            Nexa supporte tous les types de relations Eloquent pour modéliser vos données complexes.
-                        </p>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-800 mb-2">Un-à-Un (hasOne)</h4>
-                                <div class="code-block text-xs">
-                                    <pre>public function profile()
-{
-    return $this->hasOne(Profile::class);
 }
+</code>
+</div>
 
-// Utilisation
-$profile = $user->profile;</pre>
-                                </div>
-                            </div>
-                            <div class="bg-green-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-green-800 mb-2">Un-à-Plusieurs (hasMany)</h4>
-                                <div class="code-block text-xs">
-                                    <pre>public function posts()
-{
-    return $this->hasMany(Post::class);
-}
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Relations</h3>
+<div class="code-block">
+<code>
+// One-to-One
+$user->profile;
 
-// Utilisation
-$posts = $user->posts;</pre>
-                                </div>
-                            </div>
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-purple-800 mb-2">Appartient-à (belongsTo)</h4>
-                                <div class="code-block text-xs">
-                                    <pre>public function user()
-{
-    return $this->belongsTo(User::class);
-}
+// One-to-Many
+$user->posts;
 
-// Utilisation
-$user = $post->user;</pre>
-                                </div>
-                            </div>
-                            <div class="bg-orange-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-orange-800 mb-2">Plusieurs-à-Plusieurs</h4>
-                                <div class="code-block text-xs">
-                                    <pre>public function roles()
-{
-    return $this->belongsToMany(
-        Role::class, 'user_roles'
-    );
-}
+// Many-to-Many
+$user->roles();
 
-// Utilisation
-$roles = $user->roles;</pre>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Requêtes avec relations</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Charger les relations
-$user = User::with('posts', 'profile')->find(1);
+// Belongs To
+$post->user;
 
-// Filtrer par relation
-$users = User::whereHas('posts', function($query) {
+// Requêtes avec relations
+User::with(['posts', 'profile'])->get();
+User::whereHas('posts', function($query) {
     $query->where('published', true);
 })->get();
+</code>
+</div>
+</div>
+</section>
 
-// Compter les relations
-$user = User::withCount('posts')->find(1);
-echo $user->posts_count;</pre>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Query Builder -->
-                <section id="querybuilder" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Query Builder</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le Query Builder de Nexa offre une interface fluide pour construire des requêtes SQL complexes.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Requêtes de base</h3>
-                        <div class="code-block mb-6">
-                            <pre>// SELECT avec conditions
-$users = User::where('active', true)
-    ->where('age', '>', 18)
-    ->orWhere('role', 'admin')
-    ->get();
+<!-- Interface & Templates -->
+<section id="vues" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-eye mr-3" style="color: #7D4FFE;"></i>
+Interface & Templates .nx
+</h2>
 
-// WHERE IN
-$users = User::whereIn('role', ['admin', 'editor'])->get();
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Templates .nx</h3>
+<p class="text-gray-700 mb-4">Nexa utilise un système de templates moderne avec l'extension .nx :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;!-- workspace/interface/users/index.nx --><br>
+&lt;!DOCTYPE html><br>
+&lt;html><br>
+&lt;head><br>
+    &lt;title>{{ title }}&lt;/title><br>
+    &lt;meta charset="utf-8"><br>
+&lt;/head><br>
+&lt;body><br>
+    &lt;h1>Liste des utilisateurs&lt;/h1><br>
+    <br>
+    {{ if users }}<br>
+        {{ foreach users as user }}<br>
+            &lt;div class="user-card"><br>
+                &lt;h3>{{ user.name }}&lt;/h3><br>
+                &lt;p>{{ user.email }}&lt;/p><br>
+                &lt;span class="badge">{{ user.is_active ? 'Actif' : 'Inactif' }}&lt;/span><br>
+            &lt;/div><br>
+        {{ endforeach }}<br>
+    {{ else }}<br>
+        &lt;p>Aucun utilisateur trouvé.&lt;/p><br>
+    {{ endif }}<br>
+&lt;/body><br>
+&lt;/html>
+</code>
+</div>
 
-// LIKE
-$users = User::where('name', 'LIKE', '%jean%')->get();
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Directives de template Nexa</h3>
+<div class="code-block">
+<code class="text-white">
+{{ if condition }}<br>
+    &lt;p>Condition vraie&lt;/p><br>
+{{ else }}<br>
+    &lt;p>Condition fausse&lt;/p><br>
+{{ endif }}<br>
+<br>
+{{ foreach items as item }}<br>
+    &lt;li>{{ item }}&lt;/li><br>
+{{ endforeach }}<br>
+<br>
+{{ include 'partials/header' }}<br>
+{{ content }}<br>
+{{ section 'scripts' }}
+</code>
+</div>
+</div>
+</section>
 
-// ORDER BY et LIMIT
-$users = User::orderBy('created_at', 'desc')
-    ->limit(10)
-    ->offset(20)
-    ->get();</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Agrégations</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <pre>// Compter
-$count = User::count();
-$activeCount = User::where('active', true)->count();
+<!-- Middleware -->
+<section id="middleware" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-filter mr-3" style="color: #7D4FFE;"></i>
+Middleware
+</h2>
 
-// Autres agrégations
-$maxAge = User::max('age');
-$avgAge = User::avg('age');
-$sumSalary = User::sum('salary');</pre>
-                            </div>
-                            <div class="code-block">
-                                <pre>// GROUP BY
-$stats = User::select('role')
-    ->selectRaw('COUNT(*) as count')
-    ->groupBy('role')
-    ->get();
-
-// HAVING
-$roles = User::groupBy('role')
-    ->havingRaw('COUNT(*) > 5')
-    ->get();</pre>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">JOINs</h3>
-                        <div class="code-block mb-6">
-                            <pre>// INNER JOIN
-$users = User::join('profiles', 'users.id', '=', 'profiles.user_id')
-    ->select('users.*', 'profiles.bio')
-    ->get();
-
-// LEFT JOIN
-$users = User::leftJoin('posts', 'users.id', '=', 'posts.user_id')
-    ->select('users.*')
-    ->selectRaw('COUNT(posts.id) as posts_count')
-    ->groupBy('users.id')
-    ->get();</pre>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Validation -->
-                <section id="validation" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Système de validation</h2>
-                        <p class="text-gray-700 mb-6">
-                            Nexa propose un système de validation robuste avec des règles prédéfinies et personnalisables.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Validation dans les contrôleurs</h3>
-                        <div class="code-block mb-6">
-                            <pre>&lt;?php
-
-class UserController extends Controller
-{
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|min:2|max:50',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-            'age' => 'required|integer|min:18|max:120'
-        ]);
-        
-        User::create($validated);
-        return redirect('/users')->with('success', 'Utilisateur créé!');
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Règles disponibles</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-800 mb-2">Règles de base</h4>
-                                <ul class="text-sm text-blue-700 space-y-1">
-                                    <li><code>required</code> - Champ obligatoire</li>
-                                    <li><code>string</code> - Doit être une chaîne</li>
-                                    <li><code>integer</code> - Doit être un entier</li>
-                                    <li><code>email</code> - Format email valide</li>
-                                    <li><code>url</code> - URL valide</li>
-                                </ul>
-                            </div>
-                            <div class="bg-green-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-green-800 mb-2">Règles avancées</h4>
-                                <ul class="text-sm text-green-700 space-y-1">
-                                    <li><code>min:value</code> - Valeur/longueur minimale</li>
-                                    <li><code>max:value</code> - Valeur/longueur maximale</li>
-                                    <li><code>unique:table</code> - Valeur unique en BDD</li>
-                                    <li><code>confirmed</code> - Confirmation de champ</li>
-                                    <li><code>in:val1,val2</code> - Dans une liste</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Messages d'erreur personnalisés</h3>
-                        <div class="code-block mb-6">
-                            <pre>$validated = $request->validate([
-    'email' => 'required|email'
-], [
-    'email.required' => 'L\'adresse email est obligatoire.',
-    'email.email' => 'Veuillez saisir une adresse email valide.'
-]);</pre>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Middleware -->
-                <section id="middleware" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Middleware & Sécurité</h2>
-                        <p class="text-gray-700 mb-6">
-                            Les middlewares permettent de filtrer les requêtes HTTP et d'ajouter des couches de sécurité.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Création d'un middleware</h3>
-                        <div class="code-block mb-6">
-                            <pre>&lt;?php
-// app/Middleware/AuthMiddleware.php
-use Nexa\Http\Middleware\Middleware;
-
-class AuthMiddleware extends Middleware
-{
-    public function handle($request, $next)
-    {
-        if (!$request->session()->has('user_id')) {
-            return redirect('/login');
-        }
-        
-        return $next($request);
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Application des middlewares</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Sur les routes</h4>
-                                <pre>// routes/web.php
-Route::get('/dashboard', 'DashboardController@index')
-    ->middleware('auth');
-
-// Groupe de routes
-Route::group(['middleware' => 'auth'], function() {
-    Route::get('/profile', 'ProfileController@show');
-    Route::post('/profile', 'ProfileController@update');
-});</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Dans les contrôleurs</h4>
-                                <pre>class UserController extends Controller
-{
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('admin')
-            ->only(['destroy', 'edit']);
-    }
-}</pre>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Middlewares intégrés</h3>
-                        <div class="bg-yellow-50 p-4 rounded-lg mb-6">
-                            <ul class="text-sm text-yellow-800 space-y-2">
-                                <li><strong>CSRF Protection:</strong> Protection contre les attaques CSRF</li>
-                                <li><strong>Rate Limiting:</strong> Limitation du nombre de requêtes</li>
-                                <li><strong>CORS:</strong> Gestion des requêtes cross-origin</li>
-                                <li><strong>Security Headers:</strong> En-têtes de sécurité automatiques</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Cache -->
-                <section id="cache" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Cache</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le système de cache de Nexa améliore les performances en stockant temporairement les données fréquemment utilisées.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Configuration</h3>
-                        <div class="code-block mb-6">
-                            <pre>// .env
-CACHE_DRIVER=file
-CACHE_PREFIX=nexa_
-CACHE_TTL=3600</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Utilisation basique</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Stocker et récupérer</h4>
-                                <pre>use Nexa\Cache\Cache;
-
-// Stocker
-Cache::put('user.1', $user, 3600);
-
-// Récupérer
-$user = Cache::get('user.1');
-
-// Avec valeur par défaut
-$user = Cache::get('user.1', function() {
-    return User::find(1);
-});</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Opérations avancées</h4>
-                                <pre>// Vérifier l'existence
-if (Cache::has('user.1')) {
-    // ...
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Middleware d'authentification</h3>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Middleware;<br>
+<br>
+use Nexa\Http\Middleware\MiddlewareInterface;<br>
+use Nexa\Http\Request;<br>
+use Nexa\Http\Response;<br>
+use Nexa\Attributes\Middleware;<br>
+<br>
+#[Middleware('auth')]<br>
+class AuthMiddleware implements MiddlewareInterface<br>
+{<br>
+    public function handle(Request $request, \Closure $next): Response<br>
+    {<br>
+        if (!$request->user()) {<br>
+            return new Response('Unauthorized', 401);<br>
+        }<br>
+        <br>
+        return $next($request);<br>
+    }<br>
 }
+</code>
+</div>
 
-// Supprimer
-Cache::forget('user.1');
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Middleware intégrés</h3>
+<ul class="list-disc list-inside text-gray-700 space-y-2">
+<li><strong>AuthMiddleware</strong> - Authentification utilisateur</li>
+<li><strong>JWTAuthMiddleware</strong> - Authentification JWT</li>
+<li><strong>VerifyCsrfToken</strong> - Protection CSRF</li>
+<li><strong>ValidationMiddleware</strong> - Validation des données</li>
+<li><strong>SecurityMiddleware</strong> - Sécurité générale</li>
+</ul>
+</div>
+</section>
 
-// Vider tout le cache
-Cache::flush();
+<!-- Authentification -->
+<section id="authentification" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-lock mr-3" style="color: #7D4FFE;"></i>
+Authentification
+</h2>
 
-// Remember (récupère ou stocke)
-$users = Cache::remember('users.all', 3600, function() {
-    return User::all();
-});</pre>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Cache de requêtes</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Cache automatique des requêtes
-$users = User::cache(3600)->where('active', true)->get();
+<h3 class="text-xl font-semibold text-gray-900 mb-4">JWT Authentication</h3>
+<div class="code-block">
+<code>
+&lt;?php
 
-// Cache avec tag
-$posts = Post::cacheWithTags(['posts', 'content'], 3600)
-    ->where('published', true)
-    ->get();
+use Nexa\Auth\JWTManager;
 
-// Invalider par tag
-Cache::tags(['posts'])->flush();</pre>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Logging -->
-                <section id="logging" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Logging</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le système de logging de Nexa vous aide à surveiller et déboguer votre application.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Configuration</h3>
-                        <div class="code-block mb-6">
-                            <pre>// .env
-LOG_CHANNEL=daily
-LOG_LEVEL=info
-LOG_PATH=storage/logs</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Niveaux de log</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Utilisation basique</h4>
-                                <pre>use Nexa\Log\Log;
-
-// Différents niveaux
-Log::emergency('Système en panne!');
-Log::alert('Action immédiate requise');
-Log::critical('Erreur critique');
-Log::error('Erreur standard');
-Log::warning('Avertissement');
-Log::notice('Information notable');
-Log::info('Information générale');
-Log::debug('Information de débogage');</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Avec contexte</h4>
-                                <pre>// Ajouter du contexte
-Log::info('Utilisateur connecté', [
-    'user_id' => $user->id,
-    'ip' => $request->ip(),
-    'user_agent' => $request->userAgent()
-]);
-
-// Log d'exception
-try {
-    // Code risqué
-} catch (Exception $e) {
-    Log::error('Erreur lors du traitement', [
-        'exception' => $e->getMessage(),
-        'trace' => $e->getTraceAsString()
-    ]);
-}</pre>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Canaux personnalisés</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Créer un canal spécifique
-Log::channel('security')->warning('Tentative de connexion suspecte', [
-    'ip' => $request->ip(),
-    'attempts' => $attempts
-]);
-
-// Log conditionnel
-Log::when($app->isProduction(), function($log) {
-    $log->info('Application en production');
-});</pre>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- JWT Authentication -->
-                <section id="auth" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🔐 Authentification JWT</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le système d'authentification JWT de Nexa offre une sécurité robuste avec gestion des tokens et refresh automatique.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Configuration</h3>
-                        <div class="code-block mb-6">
-                            <pre>// config/phase2.php
-'jwt' => [
-    'secret' => env('JWT_SECRET', 'your-secret-key'),
-    'algorithm' => 'HS256',
-    'expiration' => 3600, // 1 heure
-    'refresh_expiration' => 604800, // 7 jours
-]</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Utilisation</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Génération de token</h4>
-                                <pre>use Nexa\Auth\JWTAuth;
-
-$auth = new JWTAuth();
+$jwtManager = new JWTManager();
 
 // Générer un token
-$token = $auth->generateToken([
-    'user_id' => $user->id,
-    'email' => $user->email
+$token = $jwtManager->generateToken($userId, $email, [
+    'name' => $user->name,
+    'role' => $user->role
 ]);
 
-// Générer un refresh token
-$refreshToken = $auth->generateRefreshToken($user->id);</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Validation</h4>
-                                <pre>// Valider un token
+// Vérifier un token
 try {
-    $payload = $auth->validateToken($token);
-    $userId = $payload['user_id'];
-} catch (Exception $e) {
+    $payload = $jwtManager->verifyToken($token);
+    $userId = $payload['sub'];
+} catch (JWTException $e) {
     // Token invalide
 }
 
-// Refresh d'un token
-$newToken = $auth->refreshToken($refreshToken);</pre>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Middleware d'authentification</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Dans vos routes
-$router->group(['middleware' => 'auth.jwt'], function($router) {
-    $router->get('/profile', [UserController::class, 'profile']);
-    $router->post('/logout', [AuthController::class, 'logout']);
-});</pre>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Event System -->
-                <section id="events" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">📡 Système d'Événements</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le système d'événements permet de découpler votre application en utilisant le pattern Observer.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Événements prédéfinis</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">UserRegistered</h4>
-                                <pre>use Nexa\Events\UserRegistered;
+// Générer un refresh token
+$refreshToken = $jwtManager->generateRefreshToken($userId, $email);
+</code>
+</div>
 
-$userData = [
-    'id' => 1,
-    'email' => 'user@example.com',
-    'name' => 'John Doe'
-];
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Configuration JWT</h3>
+<div class="code-block">
+<code>
+// .env
+JWT_SECRET=your-secret-key
+JWT_EXPIRATION=3600
+JWT_REFRESH_EXPIRATION=604800
+</code>
+</div>
+</div>
+</section>
 
-$event = new UserRegistered($userData);
-echo $event->getUserId();    // 1
-echo $event->getUserEmail(); // user@example.com
-echo $event->getUserName();  // John Doe</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">UserLoggedIn</h4>
-                                <pre>use Nexa\Events\UserLoggedIn;
+<!-- Base de Données -->
+<section id="base-donnees" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-server mr-3" style="color: #7D4FFE;"></i>
+Base de Données
+</h2>
 
-$event = new UserLoggedIn(
-    $userData,
-    '192.168.1.1',
-    'Mozilla/5.0'
-);
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Migrations</h3>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Database\Migrations;<br>
+<br>
+use Nexa\Database\Migration;<br>
+use Nexa\Database\Schema;<br>
+use Nexa\Database\Blueprint;<br>
+<br>
+class CreateUsersTable extends Migration<br>
+{<br>
+    public function up(): void<br>
+    {<br>
+        Schema::create('users', function (Blueprint $table) {<br>
+            $table->id();<br>
+            $table->string('name');<br>
+            $table->string('email')->unique();<br>
+            $table->timestamp('email_verified_at')->nullable();<br>
+            $table->string('password');<br>
+            $table->boolean('is_active')->default(true);<br>
+            $table->timestamps();<br>
+        });<br>
+    }<br>
+<br>
+    public function down(): void<br>
+    {<br>
+        Schema::dropIfExists('users');<br>
+    }<br>
+}
+</code>
+</div>
 
-echo $event->getUserId();    // 1
-echo $event->getIpAddress(); // 192.168.1.1
-echo $event->getUserAgent(); // Mozilla/5.0</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">ModelCreated</h4>
-                                <pre>use Nexa\Events\ModelCreated;
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Query Builder</h3>
+<div class="code-block">
+<code class="text-white">
+// Requêtes de base<br>
+User::all();<br>
+User::find(1);<br>
+User::where('email', 'user@example.com')->first();<br>
+User::where('active', true)->get();<br>
+<br>
+// Requêtes complexes<br>
+User::where('created_at', '>', '2023-01-01')<br>
+    ->orderBy('name')<br>
+    ->limit(10)<br>
+    ->get();<br>
+<br>
+// Agrégations<br>
+User::count();<br>
+User::where('active', true)->avg('age');<br>
+User::max('created_at');
+</code>
+</div>
+</div>
+</section>
 
-$modelData = [
-    'id' => 1,
-    'title' => 'Post',
-    'content' => 'Content'
-];
+<!-- Cache -->
+<section id="cache" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-tachometer-alt mr-3" style="color: #7D4FFE;"></i>
+Système de Cache
+</h2>
 
-$event = new ModelCreated('Post', $modelData);
-echo $event->getModelName(); // Post
-echo $event->getModelId();   // 1</pre>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Listeners et dispatch</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Enregistrer un listener
-$eventDispatcher->listen('UserRegistered', function($event) {
-    // Envoyer un email de bienvenue
-    $job = new SendEmailJob([
-        'to' => $event->getUserEmail(),
-        'template' => 'welcome'
-    ]);
-    $queueManager->push($job);
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Utilisation du cache</h3>
+<div class="code-block">
+<code class="text-white">
+use Nexa\Cache\CacheManager;<br>
+<br>
+$cache = new CacheManager();<br>
+<br>
+// Stocker une valeur<br>
+$cache->put('user:1', $user, 3600);<br>
+<br>
+// Récupérer une valeur<br>
+$user = $cache->get('user:1');<br>
+<br>
+// Vérifier l'existence<br>
+if ($cache->has('user:1')) {<br>
+    $user = $cache->get('user:1');<br>
+}<br>
+<br>
+// Supprimer du cache<br>
+$cache->forget('user:1');<br>
+<br>
+// Cache avec callback<br>
+$users = $cache->remember('all_users', 3600, function() {<br>
+    return User::all();<br>
 });
+</code>
+</div>
 
-// Déclencher l'événement
-$eventDispatcher->dispatch($event);</pre>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Queue System -->
-                <section id="queues" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🔄 Files d'Attente</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le système de files d'attente permet d'exécuter des tâches en arrière-plan avec gestion des échecs et retry automatique.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Création d'un Job</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\Queue\Job;
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Drivers de cache</h3>
+<ul class="list-disc list-inside text-gray-700 space-y-2">
+<li><strong>File</strong> - Stockage sur disque</li>
+<li><strong>Array</strong> - Stockage en mémoire (session)</li>
+<li><strong>Redis</strong> - Cache distribué</li>
+<li><strong>Memcached</strong> - Cache en mémoire</li>
+</ul>
+</div>
+</section>
 
-class SendEmailJob extends Job {
-    private $emailData;
-    
-    public function __construct($emailData) {
-        $this->emailData = $emailData;
-    }
-    
-    public function handle() {
-        // Logique d'envoi d'email
-        $mailer = new Mailer();
-        $mailer->send($this->emailData);
-    }
-    
-    public function shouldRetry($exception) {
-        return $exception instanceof TemporaryException;
-    }
-    
-    public function retry() {
-        // Logique de retry personnalisée
-        sleep(5); // Attendre 5 secondes
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Utilisation</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Ajouter à la queue</h4>
-                                <pre>use Nexa\Queue\QueueManager;
+<!-- Validation -->
+<section id="validation" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-check-circle mr-3" style="color: #7D4FFE;"></i>
+Validation
+</h2>
 
-$queueManager = new QueueManager();
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Règles de validation</h3>
+<div class="code-block">
+<code class="text-white">
+use Nexa\Validation\Validator;<br>
+use Nexa\Attributes\Validate;<br>
+<br>
+$validator = new Validator();<br>
+<br>
+$rules = [<br>
+    'name' => 'required|min:3|max:255',<br>
+    'email' => 'required|email|unique:users',<br>
+    'password' => 'required|min:8|confirmed',<br>
+    'age' => 'integer|min:18|max:120'<br>
+];<br>
+<br>
+$data = $request->all();<br>
+<br>
+if ($validator->validate($data, $rules)) {<br>
+    // Données valides<br>
+    $validatedData = $validator->validated();<br>
+} else {<br>
+    // Erreurs de validation<br>
+    $errors = $validator->errors();<br>
+}
+</code>
+</div>
 
-// Ajouter un job
-$job = new SendEmailJob([
-    'to' => 'user@example.com',
-    'subject' => 'Bienvenue',
-    'template' => 'welcome'
-]);
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Règles disponibles</h3>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold mb-2">Règles de base</h4>
+<ul class="text-sm text-gray-700 space-y-1">
+<li>required, optional</li>
+<li>min:value, max:value</li>
+<li>email, url, ip</li>
+<li>integer, numeric, string</li>
+</ul>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold mb-2">Règles avancées</h4>
+<ul class="text-sm text-gray-700 space-y-1">
+<li>unique:table,column</li>
+<li>exists:table,column</li>
+<li>confirmed</li>
+<li>regex:pattern</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
 
-$queueManager->push($job);</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Traitement</h4>
-                                <pre>// Traiter la queue
-$queueManager->work();
+<!-- Sécurité -->
+<section id="securite" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-shield-alt mr-3" style="color: #7D4FFE;"></i>
+Sécurité
+</h2>
 
-// Traiter un nombre limité de jobs
-$queueManager->work(10);
-
-// Vérifier la taille de la queue
-$size = $queueManager->size();
-echo "Jobs en attente: $size";</pre>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- Testing Framework -->
-                <section id="testing" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🧪 Framework de Tests</h2>
-                        <p class="text-gray-700 mb-6">
-                            Nexa inclut un framework de tests complet pour valider votre application.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Écriture de tests</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\Testing\TestCase;
-
-class UserTest extends TestCase {
-    public function testUserCreation() {
-        $user = new User([
-            'name' => 'John Doe',
-            'email' => 'john@example.com'
-        ]);
-        
-        $this->assertEquals('John Doe', $user->name);
-        $this->assertEquals('john@example.com', $user->email);
-    }
-    
-    public function testUserValidation() {
-        $this->expectException(ValidationException::class);
-        
-        new User([
-            'name' => '',
-            'email' => 'invalid-email'
-        ]);
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Exécution des tests</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Exécuter tous les tests
-php vendor/bin/phpunit
-
-// Exécuter un test spécifique
-php vendor/bin/phpunit tests/UserTest.php
-
-// Avec couverture de code
-php vendor/bin/phpunit --coverage-html coverage/</pre>
-                        </div>
-                        
-                        <div class="bg-green-50 border-l-4 border-green-400 p-4">
-                            <div class="flex">
-                                <div class="ml-3">
-                                    <p class="text-sm text-green-700">
-                                        <strong>🚀 Tests Phase 3 :</strong> Framework production-ready ! Tous les 90 tests passent avec succès, incluant modules, plugins, GraphQL, WebSockets et microservices.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Modules System -->
-                <section id="modules" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🧩 Système de Modules</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le système de modules permet d'organiser votre application en composants réutilisables et indépendants.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Création d'un module</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\Modules\Module;
-
-class BlogModule extends Module {
-    protected $name = "Blog Module";
-    protected $version = "1.0.0";
-    protected $description = "Module de gestion de blog";
-    
-    public function register(): void {
-        // Enregistrer les services du module
-    }
-    
-    public function boot(): void {
-        // Initialiser le module
-        $this->loadRoutes();
-        $this->loadViews();
-        $this->loadMigrations();
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Gestion des modules</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Découvrir et charger les modules
-$moduleManager = app('modules');
-$modules = $moduleManager->discoverModules();
-
-// Activer un module
-$moduleManager->activate('BlogModule');
-
-// Désactiver un module
-$moduleManager->deactivate('BlogModule');
-
-// Obtenir un module
-$blogModule = $moduleManager->getModule('BlogModule');</pre>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Plugins System -->
-                <section id="plugins" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🔌 Système de Plugins</h2>
-                        <p class="text-gray-700 mb-6">
-                            Les plugins permettent d'étendre les fonctionnalités du framework de manière modulaire.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Création d'un plugin</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\Plugins\Plugin;
-
-class SEOPlugin extends Plugin {
-    protected $name = "SEO Plugin";
-    protected $version = "1.0.0";
-    
-    public function activate(): void {
-        // Logique d'activation
-        $this->addHooks();
-    }
-    
-    public function deactivate(): void {
-        // Logique de désactivation
-        $this->removeHooks();
-    }
-    
-    private function addHooks(): void {
-        add_action('head', [$this, 'addMetaTags']);
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Gestion des plugins</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Charger les plugins
-$pluginManager = app('plugins');
-$plugins = $pluginManager->loadPlugins();
-
-// Activer un plugin
-$pluginManager->activate('SEOPlugin');
-
-// Désactiver un plugin
-$pluginManager->deactivate('SEOPlugin');
-
-// Lister les plugins actifs
-$activePlugins = $pluginManager->getActivePlugins();</pre>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- GraphQL -->
-                <section id="graphql" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🚀 GraphQL API</h2>
-                        <p class="text-gray-700 mb-6">
-                            GraphQL offre une API flexible et efficace pour interroger vos données.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Définition des types</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\GraphQL\Type;
-
-class UserType extends Type {
-    public function fields(): array {
-        return [
-            'id' => ['type' => 'ID'],
-            'name' => ['type' => 'String'],
-            'email' => ['type' => 'String'],
-            'posts' => [
-                'type' => '[Post]',
-                'resolve' => function($user) {
-                    return $user->posts();
-                }
-            ]
-        ];
-    }
-}</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Requêtes et mutations</h3>
-                        <div class="code-block mb-6">
-                            <pre>// Exemple de requête GraphQL
-query {
-    users {
-        id
-        name
-        email
-        posts {
-            title
-            content
-        }
-    }
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Protection CSRF</h3>
+<div class="code-block">
+<code class="text-white">
+&lt;!-- Dans vos formulaires .nx --><br>
+&lt;form method="POST" action="/users"><br>
+    {{ csrf_token }}<br>
+    &lt;input type="text" name="name"><br>
+    &lt;button type="submit">Envoyer&lt;/button><br>
+&lt;/form><br>
+<br>
+&lt;!-- Ou avec l'attribut Secure --><br>
+#[Secure(['csrf' => true])]<br>
+public function store(Request $request): Response<br>
+{<br>
+    // Méthode automatiquement protégée<br>
 }
 
-// Exemple de mutation
-mutation {
-    createUser(input: {
-        name: "John Doe"
-        email: "john@example.com"
-    }) {
-        id
-        name
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Protection XSS</h3>
+<div class="code-block">
+<code class="text-white">
+&lt;!-- Échappement automatique dans .nx --><br>
+{{ userInput }} &lt;!-- Sécurisé par défaut --><br>
+{{ raw(trustedHtml) }} &lt;!-- Non échappé --><br>
+<br>
+// En PHP avec attributs Nexa<br>
+#[Secure(['xss' => true])]<br>
+public function display(string $userInput): string<br>
+{<br>
+    return htmlspecialchars($userInput, ENT_QUOTES, 'UTF-8');<br>
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Rate Limiting</h3>
+<div class="code-block">
+<code class="text-white">
+use Nexa\Security\RateLimiter;<br>
+use Nexa\Attributes\RateLimit;<br>
+<br>
+$rateLimiter = new RateLimiter();<br>
+<br>
+// Limiter à 60 requêtes par minute<br>
+if ($rateLimiter->tooManyAttempts($key, 60, 1)) {<br>
+    return response('Too Many Requests', 429);<br>
+}<br>
+<br>
+$rateLimiter->hit($key);<br>
+<br>
+// Ou avec attribut<br>
+#[RateLimit(60, 'minute')]<br>
+public function apiEndpoint(): Response<br>
+{<br>
+    // Méthode automatiquement limitée<br>
+}
+</code>
+</div>
+</div>
+</section>
+
+<!-- Tests -->
+<section id="tests" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-vial mr-3" style="color: #7D4FFE;"></i>
+Tests
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Test unitaire</h3>
+<p class="text-gray-700 mb-4">Les tests unitaires permettent de tester des composants isolés de votre application :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Tests\Unit;<br>
+<br>
+use Nexa\Testing\TestCase;<br>
+use Nexa\Attributes\Test;<br>
+use Workspace\Database\Entities\User;<br>
+use Nexa\Validation\ValidationException;<br>
+<br>
+#[Test]<br>
+class UserTest extends TestCase<br>
+{<br>
+    public function testUserCreation(): void<br>
+    {<br>
+        $user = new User([<br>
+            'name' => 'John Doe',<br>
+            'email' => 'john@example.com'<br>
+        ]);<br>
+        <br>
+        $this->assertEquals('John Doe', $user->name);<br>
+        $this->assertEquals('john@example.com', $user->email);<br>
+        $this->assertTrue($user->is_active);<br>
+    }<br>
+    <br>
+    public function testUserValidation(): void<br>
+    {<br>
+        $this->expectException(ValidationException::class);<br>
+        <br>
+        User::create([<br>
+            'name' => '', // Nom requis<br>
+            'email' => 'invalid-email'<br>
+        ]);<br>
+    }<br>
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Test d'intégration</h3>
+<p class="text-gray-700 mb-4">Les tests d'intégration testent l'interaction entre plusieurs composants :</p>
+<div class="code-block">
+<code class="text-white">
+namespace Workspace\Tests\Integration;<br>
+<br>
+use Nexa\Testing\TestCase;<br>
+use Nexa\Attributes\Test;<br>
+use Workspace\Database\Entities\User;<br>
+<br>
+#[Test]<br>
+class UserHandlerTest extends TestCase<br>
+{<br>
+    public function testUserIndex(): void<br>
+    {<br>
+        $response = $this->get('/api/users');<br>
+        <br>
+        $response->assertStatus(200);<br>
+        $response->assertJsonStructure([<br>
+            'data' => [<br>
+                '*' => ['id', 'name', 'email', 'is_active']<br>
+            ]<br>
+        ]);<br>
+    }<br>
+    <br>
+    public function testUserStore(): void<br>
+    {<br>
+        $userData = [<br>
+            'name' => 'Jane Doe',<br>
+            'email' => 'jane@example.com',<br>
+            'password' => 'password123'<br>
+        ];<br>
+        <br>
+        $response = $this->post('/api/users', $userData);<br>
+        <br>
+        $response->assertStatus(201);<br>
+        $this->assertDatabaseHas('users', [<br>
+            'email' => 'jane@example.com'<br>
+        ]);<br>
+    }<br>
+}
+</code>
+</div>
+</div>
+</section>
+
+<!-- CLI -->
+<section id="cli" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-terminal mr-3" style="color: #7D4FFE;"></i>
+Interface CLI
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Commandes de génération</h3>
+<p class="text-gray-700 mb-4">Nexa CLI offre des commandes puissantes pour générer automatiquement vos composants :</p>
+<div class="code-block">
+<code class="text-white">
+# Générer des handlers (contrôleurs)<br>
+php nexa make:handler UserHandler --resource<br>
+# Crée: workspace/handlers/UserHandler.php<br>
+<br>
+# Générer des entités avec migration<br>
+php nexa make:entity User --migration<br>
+# Crée: workspace/database/entities/User.php<br>
+# Crée: workspace/database/migrations/xxxx_create_users_table.php<br>
+<br>
+# Générer du middleware<br>
+php nexa make:middleware AuthMiddleware<br>
+# Crée: workspace/middleware/AuthMiddleware.php<br>
+<br>
+# Générer des migrations<br>
+php nexa make:migration create_users_table<br>
+# Crée: workspace/database/migrations/xxxx_create_users_table.php<br>
+<br>
+# Générer des jobs pour les tâches asynchrones<br>
+php nexa make:job SendEmailJob<br>
+# Crée: workspace/jobs/SendEmailJob.php<br>
+<br>
+# Générer des événements et listeners<br>
+php nexa make:event UserRegistered<br>
+php nexa make:listener SendWelcomeEmail --event=UserRegistered<br>
+# Crée: workspace/events/ et workspace/listeners/
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Commandes de base de données</h3>
+<p class="text-gray-700 mb-4">Gérez vos migrations et seeders facilement :</p>
+<div class="code-block">
+<code class="text-white">
+# Exécuter les migrations<br>
+php nexa migrate<br>
+# Applique toutes les migrations en attente<br>
+<br>
+# Annuler la dernière migration<br>
+php nexa migrate:rollback<br>
+<br>
+# Créer une nouvelle migration<br>
+php nexa migrate:create create_posts_table<br>
+<br>
+# Voir le statut des migrations<br>
+php nexa migrate:status<br>
+<br>
+# Exécuter les seeders<br>
+php nexa db:seed<br>
+# Exécute tous les seeders<br>
+<br>
+php nexa db:seed --class=UserSeeder<br>
+# Exécute un seeder spécifique
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Commandes de développement</h3>
+<p class="text-gray-700 mb-4">Outils pour faciliter le développement et la maintenance :</p>
+<div class="code-block">
+<code class="text-white">
+# Démarrer le serveur de développement<br>
+php nexa serve<br>
+# Lance sur http://localhost:8000<br>
+<br>
+php nexa serve --host=0.0.0.0 --port=8080<br>
+# Lance sur un host/port personnalisé<br>
+<br>
+# Gestion du cache<br>
+php nexa cache:clear<br>
+# Vide tous les caches<br>
+<br>
+php nexa route:cache<br>
+# Met en cache les routes pour de meilleures performances<br>
+<br>
+php nexa config:cache<br>
+# Met en cache la configuration<br>
+<br>
+php nexa logs:clear<br>
+# Vide les fichiers de logs<br>
+<br>
+# Exécution des tests<br>
+php nexa test<br>
+# Lance tous les tests<br>
+<br>
+php nexa test --verbose<br>
+# Tests avec sortie détaillée<br>
+<br>
+php nexa test --filter=UserTest<br>
+# Lance uniquement les tests spécifiés<br>
+<br>
+# Gestion des queues (tâches asynchrones)<br>
+php nexa queue:work<br>
+# Démarre le worker de queue<br>
+<br>
+php nexa queue:status<br>
+# Affiche le statut des queues<br>
+<br>
+php nexa queue:clear<br>
+# Vide les queues<br>
+<br>
+php nexa queue:retry<br>
+# Relance les jobs échoués<br>
+<br>
+# Génération de clés JWT<br>
+php nexa jwt:generate<br>
+# Génère une nouvelle clé secrète JWT
+</code>
+</div>
+</div>
+</section>
+
+<!-- GraphQL -->
+<section id="graphql" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-project-diagram mr-3" style="color: #7D4FFE;"></i>
+GraphQL
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Configuration GraphQL</h3>
+<p class="text-gray-700 mb-4">Configurez GraphQL pour créer des APIs modernes et flexibles :</p>
+<div class="code-block">
+<code class="text-white">
+// kernel/config/graphql.php<br>
+return [<br>
+    'enabled' => true,<br>
+    'route' => '/graphql',<br>
+    'graphiql' => '/graphiql', // Interface de développement<br>
+    'schemas' => [<br>
+        'default' => [<br>
+            'query' => [<br>
+                'users' => Workspace\GraphQL\Queries\UsersQuery::class,<br>
+                'user' => Workspace\GraphQL\Queries\UserQuery::class,<br>
+            ],<br>
+            'mutation' => [<br>
+                'createUser' => Workspace\GraphQL\Mutations\CreateUserMutation::class,<br>
+                'updateUser' => Workspace\GraphQL\Mutations\UpdateUserMutation::class,<br>
+            ],<br>
+        ],<br>
+    ],<br>
+];
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Créer une Query</h3>
+<p class="text-gray-700 mb-4">Les queries permettent de récupérer des données :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\GraphQL\Queries;<br>
+<br>
+use Nexa\GraphQL\Query;<br>
+use Nexa\Attributes\GraphQL;<br>
+use Workspace\Database\Entities\User;<br>
+<br>
+#[GraphQL]<br>
+class UsersQuery extends Query<br>
+{<br>
+    protected string $name = 'users';<br>
+    protected string $type = '[User]';<br>
+    <br>
+    public function resolve($root, array $args, $context, $info): array<br>
+    {<br>
+        $query = User::query();<br>
+        <br>
+        if (isset($args['limit'])) {<br>
+            $query->limit($args['limit']);<br>
+        }<br>
+        <br>
+        if (isset($args['offset'])) {<br>
+            $query->offset($args['offset']);<br>
+        }<br>
+        <br>
+        return $query->get()->toArray();<br>
+    }<br>
+    <br>
+    public function args(): array<br>
+    {<br>
+        return [<br>
+            'limit' => ['type' => 'Int', 'default' => 10],<br>
+            'offset' => ['type' => 'Int', 'default' => 0],<br>
+            'search' => ['type' => 'String'],<br>
+        ];<br>
+    }<br>
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Créer une Mutation</h3>
+<p class="text-gray-700 mb-4">Les mutations permettent de modifier des données :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\GraphQL\Mutations;<br>
+<br>
+use Nexa\GraphQL\Mutation;<br>
+use Nexa\Attributes\GraphQL;<br>
+use Nexa\Validation\Validator;<br>
+use Workspace\Database\Entities\User;<br>
+<br>
+#[GraphQL]<br>
+class CreateUserMutation extends Mutation<br>
+{<br>
+    protected string $name = 'createUser';<br>
+    protected string $type = 'User';<br>
+    <br>
+    public function resolve($root, array $args, $context, $info): User<br>
+    {<br>
+        // Validation des données<br>
+        $validator = new Validator($args, [<br>
+            'name' => 'required|string|max:255',<br>
+            'email' => 'required|email|unique:users',<br>
+            'password' => 'required|string|min:8',<br>
+        ]);<br>
+        <br>
+        if ($validator->fails()) {<br>
+            throw new \Exception('Validation failed: ' . implode(', ', $validator->errors()));<br>
+        }<br>
+        <br>
+        return User::create([<br>
+            'name' => $args['name'],<br>
+            'email' => $args['email'],<br>
+            'password' => password_hash($args['password'], PASSWORD_DEFAULT),<br>
+            'is_active' => true<br>
+        ]);<br>
+    }<br>
+    <br>
+    public function args(): array<br>
+    {<br>
+        return [<br>
+            'name' => ['type' => 'String!'],<br>
+            'email' => ['type' => 'String!'],<br>
+            'password' => ['type' => 'String!'],<br>
+        ];
     }
-}</pre>
-                        </div>
-                    </div>
-                </section>
+}
+</code>
+</div>
+</div>
+</section>
 
-                <!-- WebSockets -->
-                <section id="websockets" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">🌐 WebSockets</h2>
-                        <p class="text-gray-700 mb-6">
-                            Les WebSockets permettent une communication bidirectionnelle en temps réel.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Serveur WebSocket</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\WebSockets\WebSocketServer;
+<!-- WebSockets -->
+<section id="websockets" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-broadcast-tower mr-3" style="color: #7D4FFE;"></i>
+WebSockets
+</h2>
 
-$server = new WebSocketServer('localhost', 8080);
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Configuration WebSockets</h3>
+<p class="text-gray-700 mb-4">Configurez les WebSockets pour des communications en temps réel :</p>
+<div class="code-block">
+<code class="text-white">
+// kernel/config/websockets.php<br>
+return [<br>
+    'enabled' => true,<br>
+    'server' => [<br>
+        'host' => env('WEBSOCKET_HOST', '127.0.0.1'),<br>
+        'port' => env('WEBSOCKET_PORT', 8080),<br>
+        'ssl' => env('WEBSOCKET_SSL', false),<br>
+    ],<br>
+    'channels' => [<br>
+        'public' => ['general', 'notifications'],<br>
+        'private' => ['user.{id}', 'admin'],<br>
+        'presence' => ['chat.{room}'],<br>
+    ],<br>
+    'middleware' => [<br>
+        'auth' => Workspace\Middleware\WebSocketAuthMiddleware::class,<br>
+    ],<br>
+];
+</code>
+</div>
 
-$server->onConnection(function($connection) {
-    echo "Nouvelle connexion: {$connection->getId()}\n";
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Serveur WebSocket</h3>
+<p class="text-gray-700 mb-4">Créez un serveur WebSocket pour gérer les connexions en temps réel :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\WebSockets;<br>
+<br>
+use Nexa\WebSockets\WebSocketServer;<br>
+use Nexa\Attributes\WebSocket;<br>
+use Nexa\Events\EventDispatcher;<br>
+<br>
+#[WebSocket]<br>
+class ChatServer<br>
+{<br>
+    private WebSocketServer $server;<br>
+    private EventDispatcher $events;<br>
+    <br>
+    public function __construct()<br>
+    {<br>
+        $this->server = new WebSocketServer();<br>
+        $this->events = new EventDispatcher();<br>
+        $this->setupEvents();<br>
+    }<br>
+    <br>
+    private function setupEvents(): void<br>
+    {<br>
+        $this->server->on('connection', function($connection) {<br>
+            echo "Nouvelle connexion: {$connection->getId()}\n";<br>
+            <br>
+            // Authentifier la connexion<br>
+            $this->authenticateConnection($connection);<br>
+        });<br>
+        <br>
+        $this->server->on('message', function($connection, $message) {<br>
+            $data = json_decode($message, true);<br>
+            <br>
+            match($data['type']) {<br>
+                'subscribe' => $this->handleSubscribe($connection, $data),<br>
+                'message' => $this->handleMessage($connection, $data),<br>
+                'typing' => $this->handleTyping($connection, $data),<br>
+                default => $this->handleUnknown($connection, $data)<br>
+            };<br>
+        });<br>
+        <br>
+        $this->server->on('disconnect', function($connection) {<br>
+            echo "Déconnexion: {$connection->getId()}\n";<br>
+            $this->cleanupConnection($connection);<br>
+        });<br>
+    }<br>
+    <br>
+    public function start(): void<br>
+    {<br>
+        echo "Démarrage du serveur WebSocket...\n";<br>
+        $this->server->start();<br>
+    }<br>
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Client JavaScript</h3>
+<p class="text-gray-700 mb-4">Intégrez les WebSockets côté client pour une expérience interactive :</p>
+<div class="code-block">
+<code class="text-white">
+// Classe WebSocket client<br>
+class NexaWebSocket {<br>
+    constructor(url, options = {}) {<br>
+        this.url = url;<br>
+        this.options = options;<br>
+        this.ws = null;<br>
+        this.reconnectAttempts = 0;<br>
+        this.maxReconnectAttempts = 5;<br>
+        this.reconnectInterval = 1000;<br>
+        this.listeners = new Map();<br>
+        <br>
+        this.connect();<br>
+    }<br>
+    <br>
+    connect() {<br>
+        try {<br>
+            this.ws = new WebSocket(this.url);<br>
+            this.setupEventListeners();<br>
+        } catch (error) {<br>
+            console.error('Erreur de connexion WebSocket:', error);<br>
+            this.handleReconnect();<br>
+        }<br>
+    }<br>
+    <br>
+    setupEventListeners() {<br>
+        this.ws.onopen = (event) => {<br>
+            console.log('Connexion WebSocket établie');<br>
+            this.reconnectAttempts = 0;<br>
+            this.emit('connected', event);<br>
+        };<br>
+        <br>
+        this.ws.onmessage = (event) => {<br>
+            try {<br>
+                const data = JSON.parse(event.data);<br>
+                this.emit('message', data);<br>
+                <br>
+                // Émettre des événements spécifiques<br>
+                if (data.type) {<br>
+                    this.emit(data.type, data);<br>
+                }<br>
+            } catch (error) {<br>
+                console.error('Erreur parsing message:', error);<br>
+            }<br>
+        };<br>
+        <br>
+        this.ws.onerror = (error) => {<br>
+            console.error('Erreur WebSocket:', error);<br>
+            this.emit('error', error);<br>
+        };<br>
+        <br>
+        this.ws.onclose = (event) => {<br>
+            console.log('Connexion WebSocket fermée');<br>
+            this.emit('disconnected', event);<br>
+            this.handleReconnect();<br>
+        };<br>
+    }<br>
+    <br>
+    // Envoyer un message<br>
+    send(type, data = {}) {<br>
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {<br>
+            this.ws.send(JSON.stringify({ type, ...data }));<br>
+        } else {<br>
+            console.warn('WebSocket non connecté');<br>
+        }<br>
+    }<br>
+    <br>
+    // S'abonner à un canal<br>
+    subscribe(channel) {<br>
+        this.send('subscribe', { channel });<br>
+    }<br>
+    <br>
+    // Envoyer un message de chat<br>
+    sendMessage(channel, message) {<br>
+        this.send('message', { channel, message });<br>
+    }<br>
+}<br>
+<br>
+// Utilisation<br>
+const socket = new NexaWebSocket('ws://localhost:8080');<br>
+<br>
+socket.on('connected', () => {<br>
+    socket.subscribe('general');<br>
+});<br>
+<br>
+socket.on('message', (data) => {<br>
+    console.log('Message reçu:', data);<br>
+});
+</code>
+</div>
+</div>
+</section>
+
+<!-- Microservices -->
+<section id="microservices" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-cubes mr-3" style="color: #7D4FFE;"></i>
+Microservices
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Configuration Microservices</h3>
+<p class="text-gray-700 mb-4">Configurez l'architecture microservices pour une application distribuée :</p>
+<div class="code-block">
+<code class="text-white">
+// kernel/config/microservices.php<br>
+return [<br>
+    'enabled' => true,<br>
+    'discovery' => [<br>
+        'driver' => 'consul', // consul, etcd, redis, config<br>
+        'refresh_interval' => 60,<br>
+        'ttl' => 300,<br>
+    ],<br>
+    'services' => [<br>
+        'user-service' => [<br>
+            'url' => 'http://user-service:8001',<br>
+            'timeout' => 30,<br>
+            'retry' => 3,<br>
+            'circuit_breaker' => true,<br>
+        ],<br>
+        'order-service' => [<br>
+            'url' => 'http://order-service:8002',<br>
+            'timeout' => 30,<br>
+            'retry' => 3,<br>
+            'circuit_breaker' => true,<br>
+        ],<br>
+    ],<br>
+    'load_balancer' => [<br>
+        'strategy' => 'round-robin', // round-robin, weighted, least-connections<br>
+        'health_check_interval' => 30,<br>
+    ],<br>
+];
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Service Client</h3>
+<p class="text-gray-700 mb-4">Utilisez le client de service pour communiquer entre microservices :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Services;<br>
+<br>
+use Nexa\Microservices\ServiceClient;<br>
+use Nexa\Attributes\Service;<br>
+use Nexa\Http\Response;<br>
+<br>
+#[Service]<br>
+class UserServiceClient<br>
+{<br>
+    private ServiceClient $client;<br>
+    <br>
+    public function __construct()<br>
+    {<br>
+        $this->client = new ServiceClient();<br>
+    }<br>
+    <br>
+    public function getUser(int $id): ?array<br>
+    {<br>
+        $response = $this->client->call('user-service', 'GET', "/users/{$id}");<br>
+        <br>
+        if ($response->isSuccess()) {<br>
+            return $response->getData();<br>
+        }<br>
+        <br>
+        return null;<br>
+    }<br>
+    <br>
+    public function createUser(array $userData): array<br>
+    {<br>
+        $response = $this->client->call('user-service', 'POST', '/users', $userData);<br>
+        <br>
+        if ($response->isSuccess()) {<br>
+            return $response->getData();<br>
+        }<br>
+        <br>
+        throw new \Exception('Failed to create user: ' . $response->getError());<br>
+    }<br>
+    <br>
+    public function sendNotificationAsync(string $email, string $message): void<br>
+    {<br>
+        $this->client->callAsync('notification-service', 'POST', '/send', [<br>
+            'to' => $email,<br>
+            'message' => $message,<br>
+            'priority' => 'normal'<br>
+        ]);<br>
+    }<br>
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Service Registry</h3>
+<p class="text-gray-700 mb-4">Gérez la découverte et l'enregistrement des services :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Services;<br>
+<br>
+use Nexa\Microservices\ServiceRegistry;<br>
+use Nexa\Attributes\Service;<br>
+<br>
+#[Service]<br>
+class ServiceManager<br>
+{<br>
+    private ServiceRegistry $registry;<br>
+    <br>
+    public function __construct()<br>
+    {<br>
+        $this->registry = new ServiceRegistry();<br>
+    }<br>
+    <br>
+    public function registerService(string $name, array $config): void<br>
+    {<br>
+        $this->registry->register($name, [<br>
+            'url' => $config['url'],<br>
+            'health_check' => $config['health_check'] ?? '/health',<br>
+            'version' => $config['version'] ?? '1.0.0',<br>
+            'tags' => $config['tags'] ?? [],<br>
+            'metadata' => $config['metadata'] ?? []<br>
+        ]);<br>
+    }<br>
+    <br>
+    public function discoverServices(string $serviceName): array<br>
+    {<br>
+        return $this->registry->discover($serviceName);<br>
+    }<br>
+    <br>
+    public function getHealthyServices(string $serviceName): array<br>
+    {<br>
+        return $this->registry->getHealthyServices($serviceName);<br>
+    }<br>
+    <br>
+    public function getServiceWithLoadBalancing(string $serviceName, string $strategy = 'round-robin'): ?array<br>
+    {<br>
+        return $this->registry->getService($serviceName, $strategy);<br>
+    }<br>
+    <br>
+    public function healthCheck(): array<br>
+    {<br>
+        return $this->registry->performHealthChecks();<br>
+    }<br>
+}
+</code>
+</div>
+</div>
+</section>
+
+<!-- Modules & Plugins -->
+<section id="modules" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-puzzle-piece mr-3" style="color: #7D4FFE;"></i>
+Modules & Plugins
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Créer un Module</h3>
+<p class="text-gray-700 mb-4">Les modules permettent d'organiser votre application en composants réutilisables :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Modules\Blog;<br>
+<br>
+use Nexa\Modules\Module;<br>
+use Nexa\Attributes\Module as ModuleAttribute;<br>
+use Workspace\Services\BlogService;<br>
+<br>
+#[ModuleAttribute]<br>
+class BlogModule extends Module<br>
+{<br>
+    protected string $name = 'blog';<br>
+    protected string $version = '1.0.0';<br>
+    protected string $description = 'Module de blog complet';<br>
+    protected array $dependencies = ['user', 'media'];<br>
+    <br>
+    public function boot(): void<br>
+    {<br>
+        // Enregistrer les routes du module<br>
+        $this->loadRoutes(__DIR__ . '/routes/web.php');<br>
+        $this->loadRoutes(__DIR__ . '/routes/api.php');<br>
+        <br>
+        // Enregistrer les vues<br>
+        $this->loadViews(__DIR__ . '/views', 'blog');<br>
+        <br>
+        // Enregistrer les migrations<br>
+        $this->loadMigrations(__DIR__ . '/database/migrations');<br>
+        <br>
+        // Enregistrer les événements<br>
+        $this->loadEvents(__DIR__ . '/events');<br>
+    }<br>
+    <br>
+    public function register(): void<br>
+    {<br>
+        // Enregistrer les services du module<br>
+        $this->app->bind('blog.service', BlogService::class);<br>
+        $this->app->singleton('blog.repository', BlogRepository::class);<br>
+        <br>
+        // Enregistrer la configuration<br>
+        $this->mergeConfigFrom(__DIR__ . '/config/blog.php', 'blog');<br>
+    }<br>
+    <br>
+    public function provides(): array<br>
+    {<br>
+        return ['blog.service', 'blog.repository'];<br>
+    }<br>
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Créer un Plugin</h3>
+<p class="text-gray-700 mb-4">Les plugins étendent les fonctionnalités de votre application :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Plugins\Analytics;<br>
+<br>
+use Nexa\Plugins\Plugin;<br>
+use Nexa\Attributes\Plugin as PluginAttribute;<br>
+use Nexa\Database\Schema\Blueprint;<br>
+use Nexa\Database\Schema\Schema;<br>
+<br>
+#[PluginAttribute]<br>
+class AnalyticsPlugin extends Plugin<br>
+{<br>
+    protected string $name = 'analytics';<br>
+    protected string $version = '1.0.0';<br>
+    protected string $description = 'Plugin d\'analyse et de statistiques';<br>
+    protected array $requirements = ['php' => '>=8.1', 'nexa' => '>=1.0'];<br>
+    <br>
+    public function install(): void<br>
+    {<br>
+        // Créer les tables nécessaires<br>
+        $this->createTables();<br>
+        <br>
+        // Insérer les données par défaut<br>
+        $this->seedData();<br>
+        <br>
+        // Publier les assets<br>
+        $this->publishAssets();<br>
+        <br>
+        $this->log('Plugin Analytics installé avec succès');<br>
+    }<br>
+    <br>
+    public function uninstall(): void<br>
+    {<br>
+        // Supprimer les tables<br>
+        $this->dropTables();<br>
+        <br>
+        // Nettoyer les fichiers<br>
+        $this->cleanupFiles();<br>
+        <br>
+        $this->log('Plugin Analytics désinstallé');<br>
+    }<br>
+    <br>
+    public function activate(): void<br>
+    {<br>
+        // Enregistrer les hooks et événements<br>
+        $this->registerHooks();<br>
+        $this->registerEventListeners();<br>
+        <br>
+        // Démarrer la collecte de données<br>
+        $this->startDataCollection();<br>
+    }<br>
+    <br>
+    public function deactivate(): void<br>
+    {<br>
+        // Désactiver les hooks<br>
+        $this->unregisterHooks();<br>
+        <br>
+        // Arrêter la collecte<br>
+        $this->stopDataCollection();<br>
+    }<br>
+    <br>
+    private function createTables(): void<br>
+    {<br>
+        Schema::create('analytics_events', function (Blueprint $table) {<br>
+            $table->id();<br>
+            $table->string('event_type');<br>
+            $table->json('data');<br>
+            $table->string('user_agent')->nullable();<br>
+            $table->ipAddress('ip_address');<br>
+            $table->timestamps();<br>
+        });<br>
+    }<br>
+}
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Gestionnaire de Modules</h3>
+<p class="text-gray-700 mb-4">Le gestionnaire de modules permet de contrôler le cycle de vie des modules :</p>
+<div class="code-block">
+<code class="text-white">
+use Nexa\Modules\ModuleManager;<br>
+use Nexa\Modules\ModuleRegistry;<br>
+use Nexa\Exceptions\ModuleNotFoundException;<br>
+<br>
+$moduleManager = new ModuleManager();<br>
+<br>
+// Charger tous les modules disponibles<br>
+$moduleManager->loadAll();<br>
+<br>
+// Charger un module spécifique avec dépendances<br>
+try {<br>
+    $moduleManager->load('blog');<br>
+    echo "Module blog chargé avec succès";<br>
+} catch (ModuleNotFoundException $e) {<br>
+    echo "Module non trouvé: " . $e->getMessage();<br>
+}<br>
+<br>
+// Vérifier si un module est chargé<br>
+if ($moduleManager->isLoaded('blog')) {<br>
+    echo "Module blog est actif";<br>
+}<br>
+<br>
+// Obtenir une instance de module<br>
+$blogModule = $moduleManager->get('blog');<br>
+<br>
+// Décharger un module<br>
+$moduleManager->unload('blog');<br>
+<br>
+// Lister tous les modules chargés<br>
+$loadedModules = $moduleManager->getLoaded();<br>
+foreach ($loadedModules as $name => $module) {<br>
+    echo "Module: {$name} - Version: {$module->getVersion()}";<br>
+}<br>
+</code>
+</div>
+</div>
+</section>
+
+<!-- Queue & Events -->
+<section id="queue-events" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-tasks mr-3" style="color: #7D4FFE;"></i>
+Queue & Events
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Système de Queue</h3>
+<p class="text-gray-700 mb-4">Le système de queue permet d'exécuter des tâches en arrière-plan :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+namespace Workspace\Jobs;<br>
+<br>
+use Nexa\Queue\Job;<br>
+use Nexa\Attributes\Queue;<br>
+use Nexa\Mail\MailService;<br>
+use Nexa\Logging\Logger;<br>
+<br>
+#[Queue(connection: 'redis', queue: 'emails', delay: 0, timeout: 300)]<br>
+class SendEmailJob extends Job<br>
+{<br>
+    public function __construct(<br>
+        private string $email,<br>
+        private string $subject,<br>
+        private string $message,<br>
+        private array $attachments = []<br>
+    ) {}<br>
+    <br>
+    public function handle(MailService $mailService): void<br>
+    {<br>
+        try {<br>
+            $mailService->send([<br>
+                'to' => $this->email,<br>
+                'subject' => $this->subject,<br>
+                'body' => $this->message,<br>
+                'attachments' => $this->attachments<br>
+            ]);<br>
+            <br>
+            Logger::info('Email envoyé avec succès', [<br>
+                'email' => $this->email,<br>
+                'subject' => $this->subject<br>
+            ]);<br>
+        } catch (\Exception $e) {<br>
+            $this->fail($e);<br>
+        }<br>
+    }<br>
+    <br>
+    public function failed(\Throwable $exception): void<br>
+    {<br>
+        Logger::error('Échec envoi email', [<br>
+            'email' => $this->email,<br>
+            'error' => $exception->getMessage(),<br>
+            'trace' => $exception->getTraceAsString()<br>
+        ]);<br>
+        <br>
+        // Notifier l'administrateur<br>
+        $this->notifyAdmin($exception);<br>
+    }<br>
+    <br>
+    public function retryUntil(): \DateTime<br>
+    {<br>
+        return now()->addMinutes(30);<br>
+    }<br>
+}<br>
+<br>
+// Dispatcher un job<br>
+use Nexa\Queue\QueueManager;<br>
+use Nexa\Queue\Facades\Queue;<br>
+<br>
+// Méthode 1: Via le manager<br>
+$queue = new QueueManager();<br>
+$queue->push(new SendEmailJob(<br>
+    'user@example.com',<br>
+    'Bienvenue!',<br>
+    'Merci de vous être inscrit.'<br>
+));<br>
+<br>
+// Méthode 2: Via la facade<br>
+Queue::push(new SendEmailJob(<br>
+    'admin@example.com',<br>
+    'Nouveau utilisateur',<br>
+    'Un nouvel utilisateur s\'est inscrit.'<br>
+));<br>
+<br>
+// Programmer un job pour plus tard<br>
+Queue::later(now()->addHours(1), new SendEmailJob(<br>
+    'user@example.com',<br>
+    'Rappel',<br>
+    'N\'oubliez pas de confirmer votre email.'<br>
+));<br>
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Système d'Events</h3>
+<p class="text-gray-700 mb-4">Le système d'événements permet une communication découplée entre composants :</p>
+<div class="code-block">
+<code class="text-white">
+&lt;?php<br>
+<br>
+// Créer un événement<br>
+namespace Workspace\Events;<br>
+<br>
+use Nexa\Events\Event;<br>
+use Nexa\Attributes\Event as EventAttribute;<br>
+use Workspace\Models\User;<br>
+<br>
+#[EventAttribute]<br>
+class UserRegistered extends Event<br>
+{<br>
+    public function __construct(<br>
+        public readonly User $user,<br>
+        public readonly string $registrationMethod = 'web',<br>
+        public readonly array $metadata = []<br>
+    ) {<br>
+        parent::__construct();<br>
+    }<br>
+    <br>
+    public function broadcastOn(): array<br>
+    {<br>
+        return ['user-channel', 'admin-channel'];<br>
+    }<br>
+    <br>
+    public function broadcastAs(): string<br>
+    {<br>
+        return 'user.registered';<br>
+    }<br>
+    <br>
+    public function broadcastWith(): array<br>
+    {<br>
+        return [<br>
+            'user_id' => $this->user->id,<br>
+            'username' => $this->user->username,<br>
+            'email' => $this->user->email,<br>
+            'registered_at' => $this->user->created_at,<br>
+            'method' => $this->registrationMethod<br>
+        ];<br>
+    }<br>
+}
+
+<br>
+// Créer un listener<br>
+namespace Workspace\Listeners;<br>
+<br>
+use Nexa\Events\Listener;<br>
+use Nexa\Attributes\Listener as ListenerAttribute;<br>
+use Workspace\Events\UserRegistered;<br>
+use Workspace\Jobs\SendEmailJob;<br>
+use Nexa\Queue\Facades\Queue;<br>
+use Nexa\Mail\MailService;<br>
+<br>
+#[ListenerAttribute]<br>
+class SendWelcomeEmail extends Listener<br>
+{<br>
+    public function __construct(<br>
+        private MailService $mailService<br>
+    ) {}<br>
+    <br>
+    public function handle(UserRegistered $event): void<br>
+    {<br>
+        // Envoyer email de bienvenue en arrière-plan<br>
+        Queue::push(new SendEmailJob(<br>
+            $event->user->email,<br>
+            'Bienvenue sur notre plateforme!',<br>
+            $this->buildWelcomeMessage($event->user)<br>
+        ));<br>
+        <br>
+        // Créer le profil utilisateur<br>
+        $this->createUserProfile($event->user);<br>
+        <br>
+        // Enregistrer l'activité<br>
+        $this->logUserActivity($event);<br>
+    }<br>
+    <br>
+    private function buildWelcomeMessage($user): string<br>
+    {<br>
+        return "Bonjour {$user->name},\n\nBienvenue sur notre plateforme!";<br>
+    }<br>
+    <br>
+    private function createUserProfile($user): void<br>
+    {<br>
+        // Logique de création du profil<br>
+    }<br>
+    <br>
+    private function logUserActivity(UserRegistered $event): void<br>
+    {<br>
+        // Enregistrer l'activité utilisateur<br>
+    }<br>
+}<br>
+<br>
+// Dispatcher un événement<br>
+use Nexa\Events\EventDispatcher;<br>
+use Nexa\Events\Facades\Event;<br>
+<br>
+// Méthode 1: Via le dispatcher<br>
+$dispatcher = new EventDispatcher();<br>
+$dispatcher->dispatch(new UserRegistered($user, 'web', [<br>
+    'ip' => request()->ip(),<br>
+    'user_agent' => request()->userAgent()<br>
+]));<br>
+<br>
+// Méthode 2: Via la facade<br>
+Event::dispatch(new UserRegistered($user));<br>
+<br>
+// Méthode 3: Via l'helper<br>
+event(new UserRegistered($user));<br>
+<br>
+// Écouter des événements<br>
+Event::listen(UserRegistered::class, SendWelcomeEmail::class);<br>
+Event::listen(UserRegistered::class, [<br>
+    SendWelcomeEmail::class,<br>
+    CreateUserProfile::class,<br>
+    NotifyAdmins::class<br>
+]);<br>
+</code>
+</div>
+</div>
+</section>
+
+<!-- Extensions VS Code -->
+<section id="vscode-extensions" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-code mr-3" style="color: #7D4FFE;"></i>
+Extensions VS Code
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Extensions intégrées</h3>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa API Tester</h4>
+<p class="text-gray-700 text-sm">Client REST/GraphQL avec tests automatisés</p>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa CLI Tools</h4>
+<p class="text-gray-700 text-sm">Outils CLI intégrés dans VS Code</p>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa Code Snippets Pro</h4>
+<p class="text-gray-700 text-sm">Snippets intelligents pour Nexa</p>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa Component Library</h4>
+<p class="text-gray-700 text-sm">Bibliothèque de composants</p>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa Database Manager</h4>
+<p class="text-gray-700 text-sm">Gestionnaire de base de données</p>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa GraphQL Studio</h4>
+<p class="text-gray-700 text-sm">Studio GraphQL intégré</p>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa Performance Monitor</h4>
+<p class="text-gray-700 text-sm">Monitoring des performances</p>
+</div>
+<div class="bg-gray-50 p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Nexa Security Scanner</h4>
+<p class="text-gray-700 text-sm">Scanner de sécurité</p>
+</div>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4 mt-8">Fonctionnalités des extensions</h3>
+<ul class="list-disc list-inside text-gray-700 space-y-2">
+<li>Auto-complétion intelligente pour les templates .nx</li>
+<li>Génération automatique de code</li>
+<li>Tests d'API intégrés</li>
+<li>Visualisation des entités de base de données</li>
+<li>Monitoring des performances en temps réel</li>
+<li>Scanner de vulnérabilités de sécurité</li>
+<li>Studio GraphQL avec auto-complétion</li>
+<li>Gestionnaire de projets Nexa</li>
+</ul>
+</div>
+</section>
+
+<!-- Déploiement -->
+<section id="deploiement" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-rocket mr-3" style="color: #7D4FFE;"></i>
+Déploiement
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Docker</h3>
+<p class="text-gray-700 mb-4">Containerisation de votre application Nexa :</p>
+<div class="code-block">
+<code class="text-white">
+# Dockerfile<br>
+FROM php:8.2-fpm-alpine<br>
+<br>
+# Installer les dépendances système<br>
+RUN apk add --no-cache \<br>
+    git \<br>
+    curl \<br>
+    libpng-dev \<br>
+    libxml2-dev \<br>
+    zip \<br>
+    unzip \<br>
+    nodejs \<br>
+    npm<br>
+<br>
+# Installer les extensions PHP<br>
+RUN docker-php-ext-install \<br>
+    pdo \<br>
+    pdo_mysql \<br>
+    mbstring \<br>
+    exif \<br>
+    pcntl \<br>
+    bcmath \<br>
+    gd \<br>
+    xml \<br>
+    soap<br>
+<br>
+# Installer Redis extension<br>
+RUN pecl install redis && docker-php-ext-enable redis<br>
+<br>
+# Installer Composer<br>
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer<br>
+<br>
+# Créer le répertoire de travail<br>
+WORKDIR /var/www/html<br>
+<br>
+# Copier les fichiers de configuration<br>
+COPY composer.json composer.lock package.json ./<br>
+<br>
+# Installer les dépendances PHP<br>
+RUN composer install --no-dev --optimize-autoloader --no-scripts<br>
+<br>
+# Installer les dépendances Node.js<br>
+RUN npm ci --only=production<br>
+<br>
+# Copier le code source<br>
+COPY . .<br>
+<br>
+# Construire les assets<br>
+RUN npm run build<br>
+<br>
+# Configurer les permissions<br>
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache<br>
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache<br>
+<br>
+# Optimiser l'application<br>
+RUN php nexa config:cache<br>
+RUN php nexa route:cache<br>
+RUN php nexa view:cache<br>
+<br>
+EXPOSE 8000<br>
+<br>
+# Script de démarrage<br>
+COPY docker/start.sh /usr/local/bin/start<br>
+RUN chmod +x /usr/local/bin/start<br>
+<br>
+CMD ["start"]
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Docker Compose</h3>
+<p class="text-gray-700 mb-4">Configuration complète pour le développement et la production :</p>
+<div class="code-block">
+<code class="text-white">
+# docker-compose.yml<br>
+version: '3.8'<br>
+<br>
+services:<br>
+  app:<br>
+    build:<br>
+      context: .<br>
+      dockerfile: Dockerfile<br>
+    ports:<br>
+      - "8000:8000"<br>
+    environment:<br>
+      - APP_ENV=production<br>
+      - APP_DEBUG=false<br>
+      - DB_HOST=db<br>
+      - DB_DATABASE=nexa_app<br>
+      - DB_USERNAME=nexa_user<br>
+      - DB_PASSWORD=secure_password<br>
+      - REDIS_HOST=redis<br>
+      - CACHE_DRIVER=redis<br>
+      - SESSION_DRIVER=redis<br>
+      - QUEUE_CONNECTION=redis<br>
+    volumes:<br>
+      - ./storage:/var/www/html/storage<br>
+      - ./logs:/var/www/html/storage/logs<br>
+    depends_on:<br>
+      - db<br>
+      - redis<br>
+    networks:<br>
+      - nexa-network<br>
+    restart: unless-stopped<br>
+<br>
+  db:<br>
+    image: mysql:8.0<br>
+    environment:<br>
+      MYSQL_ROOT_PASSWORD: root_password<br>
+      MYSQL_DATABASE: nexa_app<br>
+      MYSQL_USER: nexa_user<br>
+      MYSQL_PASSWORD: secure_password<br>
+    volumes:<br>
+      - mysql_data:/var/lib/mysql<br>
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql<br>
+    ports:<br>
+      - "3306:3306"<br>
+    networks:<br>
+      - nexa-network<br>
+    restart: unless-stopped<br>
+<br>
+  redis:<br>
+    image: redis:7-alpine<br>
+    command: redis-server --appendonly yes --requirepass redis_password<br>
+    volumes:<br>
+      - redis_data:/data<br>
+    ports:<br>
+      - "6379:6379"<br>
+    networks:<br>
+      - nexa-network<br>
+    restart: unless-stopped<br>
+<br>
+  nginx:<br>
+    image: nginx:alpine<br>
+    ports:<br>
+      - "80:80"<br>
+      - "443:443"<br>
+    volumes:<br>
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf<br>
+      - ./docker/nginx/ssl:/etc/nginx/ssl<br>
+      - ./public:/var/www/html/public<br>
+    depends_on:<br>
+      - app<br>
+    networks:<br>
+      - nexa-network<br>
+    restart: unless-stopped<br>
+<br>
+  worker:<br>
+    build:<br>
+      context: .<br>
+      dockerfile: Dockerfile<br>
+    command: php nexa queue:work --sleep=3 --tries=3<br>
+    environment:<br>
+      - APP_ENV=production<br>
+      - DB_HOST=db<br>
+      - REDIS_HOST=redis<br>
+    volumes:<br>
+      - ./storage:/var/www/html/storage<br>
+    depends_on:<br>
+      - db<br>
+      - redis<br>
+    networks:<br>
+      - nexa-network<br>
+    restart: unless-stopped<br>
+<br>
+volumes:<br>
+  mysql_data:<br>
+  redis_data:<br>
+<br>
+networks:<br>
+  nexa-network:<br>
+    driver: bridge
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Production</h3>
+<p class="text-gray-700 mb-4">Optimisations et configuration pour un environnement de production :</p>
+<div class="code-block">
+<code class="text-white">
+# Optimisations pour la production<br>
+php nexa config:cache<br>
+php nexa route:cache<br>
+php nexa view:cache<br>
+php nexa event:cache<br>
+php nexa queue:restart<br>
+<br>
+# Variables d'environnement<br>
+APP_ENV=production<br>
+APP_DEBUG=false<br>
+APP_URL=https://votre-domaine.com<br>
+APP_KEY=base64:your-app-key-here<br>
+<br>
+# Configuration de la base de données<br>
+DB_CONNECTION=mysql<br>
+DB_HOST=127.0.0.1<br>
+DB_PORT=3306<br>
+DB_DATABASE=nexa_production<br>
+DB_USERNAME=nexa_user<br>
+DB_PASSWORD=secure_password<br>
+<br>
+# Configuration Redis<br>
+REDIS_HOST=127.0.0.1<br>
+REDIS_PASSWORD=redis_password<br>
+REDIS_PORT=6379<br>
+<br>
+# Configuration du serveur web (Nginx)<br>
+server {<br>
+    listen 80;<br>
+    listen [::]:80;<br>
+    server_name votre-domaine.com www.votre-domaine.com;<br>
+    return 301 https://$server_name$request_uri;<br>
+}<br>
+<br>
+server {<br>
+    listen 443 ssl http2;<br>
+    listen [::]:443 ssl http2;<br>
+    server_name votre-domaine.com www.votre-domaine.com;<br>
+    root /var/www/html/public;<br>
+    <br>
+    # Certificats SSL<br>
+    ssl_certificate /etc/ssl/certs/votre-domaine.crt;<br>
+    ssl_certificate_key /etc/ssl/private/votre-domaine.key;<br>
+    <br>
+    # Configuration SSL<br>
+    ssl_protocols TLSv1.2 TLSv1.3;<br>
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512;<br>
+    ssl_prefer_server_ciphers off;<br>
+    <br>
+    index index.php;<br>
+    <br>
+    # Gestion des fichiers statiques<br>
+    location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {<br>
+        expires 1y;<br>
+        add_header Cache-Control "public, immutable";<br>
+        access_log off;<br>
+    }<br>
+    <br>
+    location / {<br>
+        try_files $uri $uri/ /index.php?$query_string;<br>
+    }<br>
+    <br>
+    location ~ \.php$ {<br>
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;<br>
+        fastcgi_index index.php;<br>
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;<br>
+        include fastcgi_params;<br>
+        <br>
+        # Sécurité<br>
+        fastcgi_hide_header X-Powered-By;<br>
+        fastcgi_read_timeout 300;<br>
+    }<br>
+    <br>
+    # Sécurité<br>
+    location ~ /\.ht {<br>
+        deny all;<br>
+    }<br>
+    <br>
+    location ~ /\.(git|svn) {<br>
+        deny all;<br>
+    }<br>
+}<br>
+<br>
+# Configuration PHP-FPM (pool.conf)<br>
+[nexa]<br>
+user = www-data<br>
+group = www-data<br>
+listen = /var/run/php/php8.2-fpm.sock<br>
+listen.owner = www-data<br>
+listen.group = www-data<br>
+pm = dynamic<br>
+pm.max_children = 50<br>
+pm.start_servers = 10<br>
+pm.min_spare_servers = 5<br>
+pm.max_spare_servers = 20<br>
+pm.max_requests = 1000<br>
+</code>
+</div>
+</div>
+</section>
+
+<!-- API Reference -->
+<section id="api-reference" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-book-open mr-3" style="color: #7D4FFE;"></i>
+Référence API
+</h2>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Classes principales</h3>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-5 rounded-lg border border-purple-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-globe text-purple-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Http\Request</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Gestion des requêtes HTTP entrantes</p>
+<div class="text-xs text-white font-mono">
+                    $request->input(),<br>
+                    validate(),<br>
+                    files()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-lg border border-blue-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-reply text-blue-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Http\Response</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Génération des réponses HTTP</p>
+<div class="text-xs text-white font-mono">
+                    json(),<br>
+                    view(),<br>
+                    redirect()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-green-50 to-emerald-50 p-5 rounded-lg border border-green-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-database text-green-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Database\Model</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Classe de base pour les modèles ORM</p>
+<div class="text-xs text-white font-mono">
+                    find(),<br>
+                    create(),<br>
+                    update(),<br>
+                    delete()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-5 rounded-lg border border-yellow-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-route text-yellow-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Routing\Router</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Gestionnaire de routes</p>
+<div class="text-xs text-white font-mono">
+                    get(),<br>
+                    post(),<br>
+                    group(),<br>
+                    middleware()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-red-50 to-pink-50 p-5 rounded-lg border border-red-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-key text-red-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Auth\JWTManager</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Gestionnaire JWT</p>
+<div class="text-xs text-white font-mono">
+                    generate(),<br>
+                    verify(),<br>
+                    refresh()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-5 rounded-lg border border-indigo-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-memory text-indigo-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Cache\CacheManager</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Gestionnaire de cache</p>
+<div class="text-xs text-white font-mono">
+                    get(),<br>
+                    put(),<br>
+                    forget(),<br>
+                    flush()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-teal-50 to-cyan-50 p-5 rounded-lg border border-teal-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-tasks text-teal-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Queue\QueueManager</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Gestionnaire de files d'attente</p>
+<div class="text-xs text-white font-mono">
+                    push(),<br>
+                    pop(),<br>
+                    failed(),<br>
+                    retry()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-gray-50 to-slate-50 p-5 rounded-lg border border-gray-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-broadcast-tower text-gray-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\Events\EventDispatcher</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Gestionnaire d'événements</p>
+<div class="text-xs text-white font-mono">
+                    dispatch(),<br>
+                    listen(),<br>
+                    forget()
+                </div>
+</div>
+<div class="bg-gradient-to-br from-rose-50 to-pink-50 p-5 rounded-lg border border-rose-100 hover:shadow-md transition-all duration-300">
+<div class="flex items-center mb-3">
+<i class="fas fa-plug text-rose-600 mr-2"></i>
+<h4 class="font-semibold text-gray-900">Nexa\WebSockets\Server</h4>
+</div>
+<p class="text-gray-700 text-sm mb-2">Serveur WebSocket temps réel</p>
+<div class="text-xs text-white font-mono">
+                    broadcast(),<br>
+                    join(),<br>
+                    leave()
+                </div>
+</div>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4 mt-8">Fonctions d'aide</h3>
+<p class="text-gray-700 mb-4">Fonctions utilitaires pour simplifier le développement :</p>
+<div class="code-block">
+<code class="text-white">
+// Vues et réponses<br>
+view('template', $data);<br>
+redirect('/path');<br>
+response()->json(['status' => 'success']);<br>
+response('Hello World', 200);<br>
+<br>
+// Configuration et environnement<br>
+config('app.name');<br>
+config('database.connections.mysql.host');<br>
+env('DB_HOST', 'localhost');<br>
+env('APP_DEBUG', false);<br>
+<br>
+// Cache<br>
+cache('key', 'value', 3600);<br>
+cache()->remember('expensive-operation', 3600, function() {<br>
+    return performExpensiveOperation();<br>
+});<br>
+cache()->forget('key');<br>
+cache()->flush();<br>
+<br>
+// Session<br>
+session('key', 'value');<br>
+session()->flash('message', 'Opération réussie!');<br>
+session()->get('user_preferences', []);<br>
+session()->forget('temp_data');<br>
+<br>
+// Validation<br>
+$validator = validate($data, [<br>
+    'email' => 'required|email',<br>
+    'name' => 'required|min:3',<br>
+    'age' => 'integer'<br>
+]);<br>
+<br>
+if ($validator->fails()) {<br>
+    return response()->json($validator->errors(), 422);<br>
+}<br>
+<br>
+// Queue (simple implementation)<br>
+queue(new SendEmailJob($email, $message));<br>
+queue()->later(now()->addMinutes(5), new ProcessDataJob($data));<br>
+<br>
+// Events (simple logging)<br>
+event(new UserRegistered($user));<br>
+event('user.login', ['user_id' => $user->id]);<br>
+<br>
+// JWT (basic implementation)<br>
+$token = jwt()->generate($userId, $email, ['role' => 'user']);<br>
+$payload = jwt()->verify($token);<br>
+$refreshed = jwt()->refresh($token);<br>
+<br>
+// Logger<br>
+logger()->info('Opération réussie', ['user_id' => 123]);<br>
+logger()->warning('Limite atteinte', ['limit' => 100]);<br>
+logger()->error('Erreur critique', [<br>
+    'exception' => $e->getMessage()<br>
+]);<br>
+<br>
+// Helpers utilitaires<br>
+str_slug('Hello World!'); // hello-world<br>
+str_random(32); // chaîne aléatoire<br>
+array_get($array, 'key.nested', 'default');<br>
+optional($user)->name; // Accès sécurisé<br>
+retry(3, function() { return apiCall(); }); // Retry automatique<br>
+</code>
+</div>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4 mt-8">Attributs Nexa</h3>
+<p class="text-gray-700 mb-4">Système d'attributs PHP 8+ pour une configuration déclarative :</p>
+<div class="code-block">
+<code class="text-white">
+// Attributs de routage<br>
+#[Route('/users', methods: ['GET'], name: 'users.index')]<br>
+#[Middleware(['auth', 'verified'])]<br>
+#[RateLimit(requests: 60, per: 'minute')]<br>
+public function index(): JsonResponse<br>
+{<br>
+    return response()->json(User::paginate(15));<br>
+}<br>
+<br>
+// Attributs de validation<br>
+#[Validate([<br>
+    'name' => 'required|min:3|max:50',<br>
+    'email' => 'required|email|unique:users',<br>
+    'password' => 'required|min:8|confirmed'<br>
+])]<br>
+public function store(Request $request): JsonResponse<br>
+{<br>
+    $user = User::create($request->validated());<br>
+    return response()->json($user, 201);<br>
+}<br>
+<br>
+// Attributs de cache<br>
+#[Cache(ttl: 3600, key: 'users.all', tags: ['users'])]<br>
+#[CacheInvalidate(tags: ['users'], on: ['store', 'update', 'destroy'])]<br>
+public function getAllUsers(): Collection<br>
+{<br>
+    return User::with('profile')->get();<br>
+}<br>
+<br>
+// Attributs de sécurité<br>
+#[Secure(['role' => 'admin', 'permission' => 'users.manage'])]<br>
+#[AuditLog(action: 'admin_panel_access')]<br>
+public function adminPanel(): View<br>
+{<br>
+    return view('admin.dashboard');<br>
+}<br>
+<br>
+// Attributs API<br>
+#[API(version: 'v1', rate_limit: 100)]<br>
+#[ApiResource(UserResource::class)]<br>
+#[ApiDocumentation(summary: 'Get user details', tags: ['Users'])]<br>
+public function show(int $id): UserResource<br>
+{<br>
+    return new UserResource(User::findOrFail($id));<br>
+}<br>
+<br>
+// Attributs de queue<br>
+#[Queue(connection: 'redis', queue: 'high-priority')]<br>
+#[Retry(times: 3, delay: 60)]<br>
+class ProcessPaymentJob extends Job<br>
+{<br>
+    public function handle(): void<br>
+    {<br>
+        // Traitement du paiement<br>
+    }<br>
+}<br>
+<br>
+// Attributs d'événements<br>
+#[Event]<br>
+#[Broadcast(channels: ['user.{user.id}', 'admin'])]<br>
+class UserProfileUpdated<br>
+{<br>
+    public function __construct(<br>
+        public readonly User $user,<br>
+        public readonly array $changes<br>
+    ) {}<br>
+}<br>
+</code>
+</div>
+</div>
+</section>
+
+<!-- Bonnes Pratiques -->
+<section id="bonnes-pratiques" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-lightbulb mr-3" style="color: #7D4FFE;"></i>
+Bonnes Pratiques & Optimisations
+</h2>
+
+<div class="grid md:grid-cols-2 gap-8">
+<div>
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Performance</h3>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+<span>Utilisez le cache pour les requêtes coûteuses</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+<span>Optimisez vos requêtes avec l'eager loading</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+<span>Implémentez la pagination pour les grandes listes</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+<span>Utilisez les queues pour les tâches longues</span>
+</li>
+</ul>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4 mt-6">Sécurité</h3>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start">
+<i class="fas fa-shield-alt text-blue-500 mr-2 mt-1"></i>
+<span>Validez toujours les données d'entrée</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-shield-alt text-blue-500 mr-2 mt-1"></i>
+<span>Utilisez HTTPS en production</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-shield-alt text-blue-500 mr-2 mt-1"></i>
+<span>Implémentez la limitation de taux</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-shield-alt text-blue-500 mr-2 mt-1"></i>
+<span>Chiffrez les données sensibles</span>
+</li>
+</ul>
+</div>
+
+<div>
+<h3 class="text-xl font-semibold text-gray-900 mb-4">Architecture</h3>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start">
+<i class="fas fa-cog text-purple-500 mr-2 mt-1"></i>
+<span>Respectez les principes SOLID</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-cog text-purple-500 mr-2 mt-1"></i>
+<span>Utilisez l'injection de dépendances</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-cog text-purple-500 mr-2 mt-1"></i>
+<span>Séparez la logique métier des contrôleurs</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-cog text-purple-500 mr-2 mt-1"></i>
+<span>Créez des services réutilisables</span>
+</li>
+</ul>
+
+<h3 class="text-xl font-semibold text-gray-900 mb-4 mt-6">Tests</h3>
+<ul class="space-y-3 text-gray-700">
+<li class="flex items-start">
+<i class="fas fa-vial text-orange-500 mr-2 mt-1"></i>
+<span>Écrivez des tests unitaires pour la logique critique</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-vial text-orange-500 mr-2 mt-1"></i>
+<span>Testez les intégrations avec des tests d'API</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-vial text-orange-500 mr-2 mt-1"></i>
+<span>Utilisez des factories pour les données de test</span>
+</li>
+<li class="flex items-start">
+<i class="fas fa-vial text-orange-500 mr-2 mt-1"></i>
+<span>Maintenez une couverture de code élevée</span>
+</li>
+</ul>
+</div>
+</div>
+
+<div class="mt-8 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
+<h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+<i class="fas fa-rocket text-purple-600 mr-2"></i>
+Conseils de Production
+</h3>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-white p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Monitoring</h4>
+<p class="text-gray-600">Surveillez les performances, erreurs et métriques business en temps réel.</p>
+</div>
+<div class="bg-white p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Backup</h4>
+<p class="text-gray-600">Automatisez les sauvegardes de base de données et fichiers critiques.</p>
+</div>
+<div class="bg-white p-4 rounded-lg">
+<h4 class="font-semibold text-gray-900 mb-2">Scaling</h4>
+<p class="text-gray-600">Préparez votre architecture pour la montée en charge horizontale.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="mb-16">
+<div class="innovation-card p-8 rounded-2xl">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+<i class="fas fa-question-circle mr-3" style="color: #7D4FFE;"></i>
+Foire Aux Questions
+</h2>
+
+<div class="space-y-6">
+<div class="border-b border-gray-200 pb-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Nexa Framework est-il adapté aux gros projets ?</h3>
+<p class="text-gray-700">Absolument ! Nexa Framework a été conçu pour évoluer avec vos besoins. Il supporte les microservices, la mise en cache avancée, les queues, et dispose d'une architecture modulaire qui permet de gérer des applications complexes.</p>
+</div>
+
+<div class="border-b border-gray-200 pb-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Comment migrer depuis un autre framework PHP ?</h3>
+<p class="text-gray-700">Nexa propose des outils de migration et une documentation détaillée pour faciliter la transition depuis Laravel, Symfony ou d'autres frameworks. La migration peut être progressive grâce au support des APIs.</p>
+</div>
+
+<div class="border-b border-gray-200 pb-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Quelle est la différence avec Laravel ?</h3>
+<p class="text-gray-700">Nexa se concentre sur la performance, la simplicité et l'innovation. Il offre un support natif pour GraphQL, WebSockets, et les microservices, avec une courbe d'apprentissage plus douce et des performances optimisées.</p>
+</div>
+
+<div class="border-b border-gray-200 pb-6">
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Le support commercial est-il disponible ?</h3>
+<p class="text-gray-700">Oui, nous proposons différents niveaux de support commercial, incluant la formation, le consulting, et le support prioritaire pour les entreprises.</p>
+</div>
+
+<div>
+<h3 class="text-lg font-semibold text-gray-900 mb-2">Comment contribuer au projet ?</h3>
+<p class="text-gray-700">Nexa Framework est open source ! Vous pouvez contribuer via GitHub en soumettant des issues, des pull requests, ou en améliorant la documentation. Consultez notre guide de contribution pour plus de détails.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-12">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div>
+<h3 class="text-xl font-bold mb-4">Nexa Framework</h3>
+<p class="text-gray-300">Un framework PHP moderne et léger pour créer des applications web robustes.</p>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Liens utiles</h4>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-300 hover:text-white">GitHub</a></li>
+<li><a href="#" class="text-gray-300 hover:text-white">Communauté</a></li>
+<li><a href="#" class="text-gray-300 hover:text-white">Support</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Contact</h4>
+<p class="text-gray-300">Des questions ? Contactez-nous sur notre Discord ou GitHub.</p>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-8 pt-8 text-center">
+<p class="text-gray-400">&copy; 2025 Nexa Framework. Tous droits réservés.</p>
+</div>
+</div>
+</footer>
+
+<!-- Scripts -->
+<script>
+// Indicateur de scroll
+window.addEventListener('scroll', () => {
+const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+document.getElementById('scrollIndicator').style.transform = `scaleX(${scrolled / 100})`;
 });
 
-$server->onMessage(function($connection, $message) {
-    // Diffuser le message à tous les clients
-    $server->broadcast($message);
+// Navigation sidebar
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebar = document.getElementById('sidebar');
+
+sidebarToggle?.addEventListener('click', () => {
+sidebar.classList.toggle('open');
 });
 
-$server->onDisconnection(function($connection) {
-    echo "Déconnexion: {$connection->getId()}\n";
+// Navigation active
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar a');
+
+window.addEventListener('scroll', () => {
+let current = '';
+sections.forEach(section => {
+const sectionTop = section.offsetTop;
+const sectionHeight = section.clientHeight;
+if (scrollY >= sectionTop - 200) {
+current = section.getAttribute('id');
+}
 });
 
-$server->start();</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Client WebSocket</h3>
-                        <div class="code-block mb-6">
-                            <pre>// JavaScript côté client
-const socket = new WebSocket('ws://localhost:8080');
+navLinks.forEach(link => {
+link.classList.remove('active');
+if (link.getAttribute('href') === `#${current}`) {
+link.classList.add('active');
+}
+});
+});
 
-socket.onopen = function(event) {
-    console.log('Connexion établie');
-    socket.send('Hello Server!');
-};
-
-socket.onmessage = function(event) {
-    console.log('Message reçu:', event.data);
-};
-
-socket.onclose = function(event) {
-    console.log('Connexion fermée');
-};</pre>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Microservices -->
-                <section id="microservices" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">⚙️ Architecture Microservices</h2>
-                        <p class="text-gray-700 mb-6">
-                            Le framework supporte une architecture microservices pour des applications distribuées.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Registre de services</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\Microservices\ServiceRegistry;
-
-$registry = new ServiceRegistry();
-
-// Enregistrer un service
-$registry->register('user-service', [
-    'host' => 'localhost',
-    'port' => 3001,
-    'health_check' => '/health'
-]);
-
-// Découvrir un service
-$service = $registry->discover('user-service');
-
-// Vérifier la santé des services
-$healthStatus = $registry->healthCheck();</pre>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Client de service</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\Microservices\ServiceClient;
-
-$client = new ServiceClient();
-
-// Appel à un microservice
-$response = $client->call('user-service', 'GET', '/users/1');
-
-// Avec gestion d'erreur et retry
-$response = $client->callWithRetry('user-service', 'POST', '/users', [
-    'name' => 'John Doe',
-    'email' => 'john@example.com'
-], 3); // 3 tentatives</pre>
-                        </div>
-                    </div>
-                </section>
-                
-                <!-- CLI Interface -->
-                <section id="cli" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">💻 Interface CLI</h2>
-                        <p class="text-gray-700 mb-6">
-                            L'interface en ligne de commande facilite la gestion et le développement de votre application.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Commandes disponibles</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Gestion des queues</h4>
-                                <pre># Démarrer le worker de queue
-php nexa queue:work
-
-# Traiter un nombre limité de jobs
-php nexa queue:work --limit=10
-
-# Vider la queue
-php nexa queue:clear</pre>
-                            </div>
-                            <div class="code-block">
-                                <h4 class="text-white font-semibold mb-2">Gestion du cache</h4>
-                                <pre># Vider le cache
-php nexa cache:clear
-
-# Voir les statistiques du cache
-php nexa cache:stats
-
-# Précharger le cache
-php nexa cache:warm</pre>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Commandes personnalisées</h3>
-                        <div class="code-block mb-6">
-                            <pre>use Nexa\Console\Command;
-
-class CustomCommand extends Command {
-    protected $signature = 'app:custom {argument} {--option=}';
-    protected $description = 'Description de la commande';
-    
-    public function handle() {
-        $argument = $this->argument('argument');
-        $option = $this->option('option');
-        
-        $this->info('Commande exécutée avec succès!');
-    }
-}</pre>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Services -->
-                <section id="services" class="mb-12">
-                    <div class="bg-white rounded-lg shadow-sm p-8">
-                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Services et injection de dépendances</h2>
-                        <p class="text-gray-700 mb-6">
-                            Nexa utilise un conteneur d'injection de dépendances pour gérer les services de votre application.
-                        </p>
-                        
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Service Providers</h3>
-                        <p class="text-gray-700 mb-4">Les service providers sont enregistrés dans <code class="bg-gray-100 px-2 py-1 rounded">config/app.php</code> :</p>
-                        <div class="code-block mb-6">
-                            <pre>'providers' => [
-    Nexa\Database\DatabaseServiceProvider::class,
-    Nexa\View\ViewServiceProvider::class,
-    Nexa\Routing\RoutingServiceProvider::class,
-]</pre>
-                        </div>
-                        
-                        <div class="bg-green-50 border-l-4 border-green-400 p-4">
-                            <div class="flex">
-                                <div class="ml-3">
-                                    <p class="text-sm text-green-700">
-                                        <strong>Conseil :</strong> Créez vos propres service providers pour organiser l'initialisation de vos services personnalisés.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Nexa Framework</h3>
-                    <p class="text-gray-300">Un framework PHP moderne et léger pour créer des applications web robustes.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Liens utiles</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white">GitHub</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Communauté</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Support</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
-                    <p class="text-gray-300">Des questions ? Contactez-nous sur notre Discord ou GitHub.</p>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2025 Nexa Framework. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+// Smooth scroll pour les liens de navigation
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+});
+}
+});
+});
+</script>
 </body>
 </html>

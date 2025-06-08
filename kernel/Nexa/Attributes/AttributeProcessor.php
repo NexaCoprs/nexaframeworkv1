@@ -6,7 +6,7 @@ use ReflectionClass;
 use ReflectionMethod;
 use Nexa\Validation\Validator;
 use Nexa\Core\Cache;
-use Nexa\Attributes\Quantum;
+
 use Nexa\Attributes\Secure;
 
 class AttributeProcessor
@@ -99,14 +99,7 @@ class AttributeProcessor
                     ];
                     break;
                     
-                case Quantum::class:
-                    $metadata['quantum'][] = [
-                        'enabled' => $instance->isEnabled(),
-                        'optimization' => $instance->getOptimization(),
-                        'priority' => $instance->getPriority(),
-                        'metrics' => $instance->getMetrics()
-                    ];
-                    break;
+
                     
                 case Secure::class:
                     $metadata['security'][] = [

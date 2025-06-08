@@ -19,9 +19,9 @@ use Nexa\Validation\ValidatesRequests;
 use Nexa\Http\Middleware\AuthMiddleware;
 
 /**
- * Handler intelligent pour la gestion des utilisateurs
- * Architecture sémantique révolutionnaire avec auto-découverte
- * Intégration avec les routes de flow et optimisation quantique
+ * Handler pour la gestion des utilisateurs
+ * Architecture moderne avec auto-découverte
+ * Intégration avec les routes de flow et optimisations
  */
 // #[AutoDiscover] // Removed auto-discovery
 #[Route(prefix: '/api/users')]
@@ -32,7 +32,7 @@ class UserHandler extends Controller
 {
     use ValidatesRequests;
     /**
-     * Get all users with intelligent pagination
+     * Get all users with smart pagination
      */
     #[Route('GET', '/')]
     #[Cache(ttl: 300, key: 'users_list_{page}_{limit}')]
@@ -45,7 +45,7 @@ class UserHandler extends Controller
         
         $query = User::query();
         
-        // Intelligent search
+        // Smart search
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")
@@ -208,11 +208,11 @@ class UserHandler extends Controller
     }
     
     /**
-     * Obtenir les statistiques du tableau de bord avec IA
+     * Obtenir les statistiques du tableau de bord
      */
     #[Route('GET', '/dashboard')]
     #[Cache('user_dashboard', 300)]
-    #[API(summary: 'Données du tableau de bord utilisateur avec IA')]
+    #[API(summary: 'Données du tableau de bord utilisateur')]
     #[Middleware(['auth', 'verified'])]
     public function dashboard(Request $request)
     {
@@ -222,20 +222,20 @@ class UserHandler extends Controller
         }
         $user = User::find($user['id']);
         
-        // Statistiques intelligentes avec cache quantique
+        // Statistiques avec cache optimisé
         $stats = cache()->remember("user_stats_{$user->id}", 1800, function() use ($user) {
             return $user->getStats();
         });
         
-        // Recommandations IA
-        $recommendations = $this->getAIRecommendations($user);
+        // Recommandations personnalisées
+        $recommendations = $this->getRecommendations($user);
         
         return $this->success([
             'user' => $user->only(['id', 'name', 'email', 'avatar_url', 'full_name']),
             'stats' => $stats,
             'recommendations' => $recommendations,
             'recent_activity' => $user->activities()->latest()->limit(5)->get(),
-            'quantum_insights' => $this->getQuantumInsights($user)
+            'insights' => $this->getInsights($user)
         ]);
     }
     
@@ -265,18 +265,18 @@ class UserHandler extends Controller
     }
     
     /**
-     * Recherche intelligente avec IA
+     * Recherche avancée d'utilisateurs
      */
     #[Route('GET', '/search')]
     #[Cache('user_search', 600)]
-    #[API(summary: 'Recherche intelligente d\'utilisateurs')]
+    #[API(summary: 'Recherche avancée d\'utilisateurs')]
     #[Validate(['q' => 'required|string|min:2'])]
     public function search(Request $request)
     {
         $query = $request->get('q');
         $filters = $request->get('filters', []);
         
-        // Recherche avec IA et optimisation quantique
+        // Recherche avec optimisations avancées
         $users = User::search($query)
             ->when(isset($filters['active']), function($q) {
                 return $q->active();
@@ -298,7 +298,7 @@ class UserHandler extends Controller
     }
     
     /**
-     * Analyse comportementale avec IA
+     * Analyse comportementale utilisateur
      */
     #[Route('GET', '/{id}/analytics')]
     #[Cache('user_analytics', 3600)]
@@ -321,10 +321,10 @@ class UserHandler extends Controller
     }
     
     /**
-     * Export intelligent des données
+     * Export des données utilisateurs
      */
     #[Route('POST', '/export')]
-    #[API(summary: 'Export intelligent des données utilisateurs')]
+    #[API(summary: 'Export des données utilisateurs')]
     #[Middleware(['auth', 'admin'])]
     #[Validate(['format' => 'required|in:csv,xlsx,json,pdf'])]
     public function export(Request $request)
@@ -332,8 +332,8 @@ class UserHandler extends Controller
         $format = $request->get('format');
         $filters = $request->get('filters', []);
         
-        // Génération intelligente du rapport
-        $exportJob = $this->generateIntelligentExport($format, $filters);
+        // Génération du rapport
+        $exportJob = $this->generateExport($format, $filters);
         
         return $this->success([
             'export_id' => $exportJob->id,
@@ -394,13 +394,13 @@ class UserHandler extends Controller
     }
     
     // ========================================
-    // Méthodes utilitaires IA et Quantiques
+    // Méthodes utilitaires
     // ========================================
     
     /**
-     * Obtenir les recommandations IA pour l'utilisateur
+     * Obtenir les recommandations pour l'utilisateur
      */
-    private function getAIRecommendations(User $user): array
+    private function getRecommendations(User $user): array
     {
         return [
             'suggested_connections' => $this->getSuggestedConnections($user),
@@ -411,14 +411,14 @@ class UserHandler extends Controller
     }
     
     /**
-     * Obtenir les insights quantiques
+     * Obtenir les insights utilisateur
      */
-    private function getQuantumInsights(User $user): array
+    private function getInsights(User $user): array
     {
         return [
             'performance_score' => rand(75, 95),
             'optimization_potential' => rand(10, 30),
-            'quantum_efficiency' => rand(80, 100),
+            'efficiency_score' => rand(80, 100),
             'predictive_trends' => $this->getPredictiveTrends($user)
         ];
     }
@@ -496,7 +496,7 @@ class UserHandler extends Controller
      */
     private function getSearchSuggestions(string $query): array
     {
-        // Simulation de suggestions IA
+        // Simulation de suggestions intelligentes
         return [
             'related_terms' => ['développeur', 'designer', 'manager'],
             'popular_searches' => ['utilisateurs actifs', 'nouveaux membres'],
