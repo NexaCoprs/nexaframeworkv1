@@ -1,0 +1,567 @@
+@entity(Documentation)
+@handler(DocumentationHandler)
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title ?? 'Documentation Nexa Framework' }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            --innovation-gradient: linear-gradient(135deg, #7D4FFE 0%, #7D4FFE 100%);
+        }
+        
+        * { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth;
+        }
+        
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        
+        .innovation-bg {
+            background: #7D4FFE;
+        }
+        
+        .glass-ultra {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .innovation-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            color: #e5e7eb;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            overflow-y: auto;
+            z-index: 40;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .main-content {
+            margin-left: 0;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+        
+        @media (min-width: 1024px) {
+            .sidebar {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 280px;
+            }
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            z-index: 50;
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            height: 3px;
+            background: #7D4FFE;
+            z-index: 60;
+            transition: width 0.3s ease;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(125, 79, 254, 0.5);
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #7D4FFE, transparent);
+            margin: 3rem 0;
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- Scroll Indicator -->
+<div class="scroll-indicator" id="scrollIndicator"></div>
+
+<!-- Navigation -->
+<nav class="navbar flex items-center justify-between px-6">
+    <div class="flex items-center">
+        <button id="sidebarToggle" class="lg:hidden mr-4 p-2 rounded-lg hover:bg-gray-100">
+            <i class="fas fa-bars text-gray-600"></i>
+        </button>
+        <div class="flex items-center">
+            <div class="w-8 h-8 innovation-bg rounded-lg flex items-center justify-center mr-3">
+                <i class="fas fa-cube text-white text-sm"></i>
+            </div>
+            <span class="text-xl font-bold text-gray-900">Nexa Framework</span>
+        </div>
+    </div>
+    <div class="flex items-center space-x-4">
+        <a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">
+            <i class="fab fa-github text-xl"></i>
+        </a>
+        <a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">
+            <i class="fas fa-book text-xl"></i>
+        </a>
+    </div>
+</nav>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+    <div class="p-6">
+        <h3 class="text-lg font-bold text-gray-900 mb-4">Documentation</h3>
+        <ul class="space-y-1">
+            <li><a href="#introduction" class="active block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Introduction</a></li>
+            <li><a href="#installation" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Installation</a></li>
+            <li><a href="#demarrage-rapide" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Démarrage Rapide</a></li>
+            <li><a href="#architecture" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Architecture</a></li>
+            <li><a href="#templates-nx" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Templates .nx</a></li>
+            <li><a href="#routage" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Système de Routage</a></li>
+            <li><a href="#handlers" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Handlers</a></li>
+            <li><a href="#composants" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Composants</a></li>
+            <li><a href="#directives" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Directives</a></li>
+            <li><a href="#cli" class="block px-3 py-2 rounded-lg hover:bg-purple-50 transition-colors">Interface CLI</a></li>
+        </ul>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="main-content pt-20">
+    <!-- Introduction -->
+    <section id="introduction" class="mb-16">
+        <div class="innovation-card p-8 rounded-2xl mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-book mr-4" style="color: #7D4FFE;"></i>
+                Documentation Nexa Framework
+            </h1>
+            <p class="text-xl text-gray-700 leading-relaxed mb-6">
+                Bienvenue dans la documentation complète de Nexa Framework, le framework PHP moderne qui révolutionne le développement web avec ses templates .nx.
+            </p>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="text-center p-6 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl border border-purple-100 hover:shadow-lg transition-all duration-300">
+                    <div class="text-3xl font-bold mb-2 text-white">v2.0</div>
+                    <div class="text-white font-medium">Version Actuelle</div>
+                    <div class="text-sm text-white mt-1">
+                        Stable & Production Ready<br>
+                        avec templates .nx révolutionnaires
+                    </div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl border border-blue-100 hover:shadow-lg transition-all duration-300">
+                    <div class="text-3xl font-bold mb-2 text-white">PHP 8.1+</div>
+                    <div class="text-white font-medium">Requis</div>
+                    <div class="text-sm text-white mt-1">
+                        Moderne & Performant<br>
+                        avec support des dernières fonctionnalités
+                    </div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl border border-green-100 hover:shadow-lg transition-all duration-300">
+                    <div class="text-3xl font-bold mb-2 text-white">MIT</div>
+                    <div class="text-white font-medium">Licence</div>
+                    <div class="text-sm text-white mt-1">
+                        Open Source & Gratuit<br>
+                        pour usage commercial et personnel
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="innovation-card p-8 rounded-2xl">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Qu'est-ce que Nexa Framework ?</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">
+                Nexa Framework est un framework PHP moderne conçu pour offrir une expérience de développement exceptionnelle avec ses templates .nx révolutionnaires. 
+                Il combine la simplicité d'utilisation avec la puissance des technologies modernes.
+            </p>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Caractéristiques principales :</h3>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                <li>Templates .nx avec syntaxe moderne et composants auto-découverts</li>
+                <li>Architecture basée sur des Handlers au lieu de contrôleurs classiques</li>
+                <li>Système de routage avancé dans workspace/flows/</li>
+                <li>Composants réutilisables dans workspace/interface/components/</li>
+                <li>Directives intelligentes (@entity, @handler, @props, etc.)</li>
+                <li>Support natif de la réactivité avec :bind</li>
+                <li>Interface CLI complète avec ./nexa</li>
+                <li>Structure workspace/ pour l'organisation du code</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="installation" class="mb-16">
+        <div class="innovation-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-download mr-3" style="color: #7D4FFE;"></i>
+                Installation
+            </h2>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Prérequis</h3>
+            <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>PHP 8.1 ou supérieur</li>
+                    <li>Composer</li>
+                    <li>Extension PHP : mbstring, openssl, pdo, tokenizer</li>
+                    <li>Serveur web (Apache/Nginx) ou PHP built-in server</li>
+                </ul>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Installation via Composer</h3>
+            <div class="code-block">
+                <code>
+# Créer un nouveau projet Nexa
+composer create-project nexa/framework mon-projet
+
+# Aller dans le répertoire
+cd mon-projet
+
+# Démarrer le serveur de développement
+./nexa serve
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates .nx -->
+    <section id="templates-nx" class="mb-16">
+        <div class="innovation-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-file-code mr-3" style="color: #7D4FFE;"></i>
+                Templates .nx
+            </h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Les templates .nx sont le cœur de Nexa Framework. Ils combinent HTML, directives intelligentes et composants auto-découverts.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Structure d'un fichier .nx</h3>
+            <div class="code-block">
+                <code>
+@entity(User)
+@handler(UserHandler)
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;{{ user.name }} - Dashboard&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="dashboard-container"&gt;
+        &lt;!-- Composant auto-découvert --&gt;
+        &lt;nx:navigation user="{{ user }}" active="dashboard" /&gt;
+        
+        &lt;main class="main-content"&gt;
+            &lt;h1&gt;Bienvenue, {{ user.name }}!&lt;/h1&gt;
+            
+            &lt;!-- Composant avec propriétés réactives --&gt;
+            &lt;nx:stat-card 
+                title="Projets" 
+                :value="{{ user.projects.count() }}" 
+                icon="projects"
+                :bind="projectCount" /&gt;
+        &lt;/main&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                </code>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Directives principales</h3>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">@entity</h4>
+                    <p class="text-sm text-gray-600 mb-2">Définit l'entité principale du template</p>
+                    <div class="code-block">
+                        <code>@entity(User)</code>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">@handler</h4>
+                    <p class="text-sm text-gray-600 mb-2">Spécifie le handler à utiliser</p>
+                    <div class="code-block">
+                        <code>@handler(UserHandler)</code>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">@props</h4>
+                    <p class="text-sm text-gray-600 mb-2">Définit les propriétés d'un composant</p>
+                    <div class="code-block">
+                        <code>@props(['title', 'value', 'icon'])</code>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">:bind</h4>
+                    <p class="text-sm text-gray-600 mb-2">Liaison réactive de données</p>
+                    <div class="code-block">
+                        <code>:bind="variableName"</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Handlers -->
+    <section id="handlers" class="mb-16">
+        <div class="innovation-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-cogs mr-3" style="color: #7D4FFE;"></i>
+                Handlers
+            </h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Les Handlers remplacent les contrôleurs traditionnels dans Nexa Framework. Ils sont situés dans workspace/handlers/.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Structure d'un Handler</h3>
+            <div class="code-block">
+                <code>
+&lt;?php
+
+namespace Workspace\Handlers;
+
+use Nexa\Http\Request;
+use Nexa\Http\Response;
+
+class WelcomeHandler
+{
+    public function index(Request $request): Response
+    {
+        return view('welcome', [
+            'title' => 'Bienvenue sur Nexa Framework',
+            'user' => $request->user()
+        ]);
+    }
+    
+    public function dashboard(Request $request): Response
+    {
+        $user = $request->user();
+        
+        return view('UserDashboard', [
+            'user' => $user,
+            'projects' => $user->projects()->get(),
+            'stats' => $this->getUserStats($user)
+        ]);
+    }
+    
+    private function getUserStats($user): array
+    {
+        return [
+            'projectCount' => $user->projects()->count(),
+            'taskCount' => $user->tasks()->pending()->count(),
+            'score' => $user->getScore()
+        ];
+    }
+}
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Composants -->
+    <section id="composants" class="mb-16">
+        <div class="innovation-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-puzzle-piece mr-3" style="color: #7D4FFE;"></i>
+                Composants
+            </h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Les composants Nexa sont auto-découverts et situés dans workspace/interface/components/. Ils utilisent la syntaxe nx: pour être appelés.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Exemple : StatCard.nx</h3>
+            <div class="code-block">
+                <code>
+@props(['title', 'value', 'icon', 'color' => 'primary'])
+@cache(1800)
+
+&lt;div class="stat-card stat-card--{{ color }}" :bind="cardData"&gt;
+    &lt;div class="stat-card__header"&gt;
+        &lt;div class="stat-card__icon"&gt;
+            &lt;nx:icon :name="{{ icon }}" :color="{{ color }}" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="stat-card__content"&gt;
+        &lt;h3 class="stat-card__title"&gt;{{ title }}&lt;/h3&gt;
+        &lt;div class="stat-card__value" :bind="displayValue"&gt;
+            {{ formatValue(value) }}
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style scoped&gt;
+.stat-card {
+    @apply bg-white rounded-lg shadow-md p-6 border-l-4;
+}
+
+.stat-card--primary {
+    @apply border-blue-500;
+}
+&lt;/style&gt;
+                </code>
+            </div>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Utilisation du composant</h3>
+            <div class="code-block">
+                <code>
+&lt;!-- Dans un template .nx --&gt;
+&lt;nx:stat-card 
+    title="Projets" 
+    :value="{{ user.projects.count() }}" 
+    icon="projects"
+    color="primary"
+    :bind="projectCount" /&gt;
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLI -->
+    <section id="cli" class="mb-16">
+        <div class="innovation-card p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+                <i class="fas fa-terminal mr-3" style="color: #7D4FFE;"></i>
+                Interface CLI
+            </h2>
+
+            <p class="text-gray-700 leading-relaxed mb-6">
+                Nexa Framework inclut une interface en ligne de commande complète accessible via ./nexa.
+            </p>
+
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Commandes principales</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">Serveur de développement</h4>
+                    <div class="code-block">
+                        <code>./nexa serve</code>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">Créer un handler</h4>
+                    <div class="code-block">
+                        <code>./nexa make:handler UserHandler</code>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">Créer un composant</h4>
+                    <div class="code-block">
+                        <code>./nexa make:component StatCard</code>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">Migrations</h4>
+                    <div class="code-block">
+                        <code>./nexa migrate</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+// Scroll indicator
+window.addEventListener('scroll', () => {
+    const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scrollIndicator').style.width = scrolled + '%';
+});
+
+// Sidebar toggle
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+});
+
+// Active navigation
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('aside a[href^="#"]');
+
+window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollY >= (sectionTop - 200)) {
+            current = section.getAttribute('id');
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// Smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script>
+
+</body>
+</html>
