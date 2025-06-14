@@ -800,3 +800,22 @@
 [2025-06-09 01:27:14] info: About page accessed
 [2025-06-09 01:28:55] info: About page accessed
 [2025-06-09 01:35:08] info: About page accessed
+[2025-06-09 17:45:01] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 17:45:58] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 17:46:42] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 17:47:28] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 17:48:37] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 17:56:21] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 18:01:16] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:28:37] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:28:55] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:28:55] error: Exception: Call to protected method RouterTest::setUp() from global scope in C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Unit\RouterTest.php:254 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\tests\\Unit\\RouterTest.php","line":254,"trace":"#0 {main}"}
+[2025-06-09 16:33:48] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:33:48] error: Exception: Call to protected method RouterTest::setUp() from global scope in C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Unit\RouterTest.php:299 {"exception":"Error","file":"C:\\Users\\jeans\\Downloads\\slide\\nexaframeworkv1\\tests\\Unit\\RouterTest.php","line":299,"trace":"#0 {main}"}
+[2025-06-09 16:36:28] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:37:48] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:41:59] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:43:18] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:43:54] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:48:04] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}
+[2025-06-09 16:49:19] info: Welcome page accessed {"ip":"unknown","user_agent":"unknown"}

@@ -61,16 +61,26 @@ export function activate(context: vscode.ExtensionContext) {
         await projectGenerator.generateDocumentation();
     });
 
-    const importTemplate = vscode.commands.registerCommand('nexa.projectGenerator.importTemplate', async () => {
-        await templateManager.importTemplate();
+    const listTemplates = vscode.commands.registerCommand('nexa.projectGenerator.listTemplates', async () => {
+        const templates = templateManager.getAvailableTemplates();
+        const templateNames = templates.map(t => `${t.name} - ${t.description}`);
+        await vscode.window.showQuickPick(templateNames, {
+            placeHolder: 'Templates disponibles'
+        });
     });
 
-    const exportTemplate = vscode.commands.registerCommand('nexa.projectGenerator.exportTemplate', async () => {
-        await templateManager.exportTemplate();
-    });
-
-    const manageTemplates = vscode.commands.registerCommand('nexa.projectGenerator.manageTemplates', async () => {
-        await templateManager.manageTemplates();
+    const applyTemplate = vscode.commands.registerCommand('nexa.projectGenerator.applyTemplate', async () => {
+        const templates = templateManager.getAvailableTemplates();
+        const selected = await vscode.window.showQuickPick(templates.map(t => t.name), {
+            placeHolder: 'Choisissez un template à appliquer'
+        });
+        if (selected) {
+            const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+            if (workspaceFolder) {
+                await templateManager.applyTemplate(selected, workspaceFolder.uri.fsPath);
+                vscode.window.showInformationMessage(`Template ${selected} appliqué avec succès!`);
+            }
+        }
     });
 
     // Enregistrement des commandes
@@ -87,9 +97,8 @@ export function activate(context: vscode.ExtensionContext) {
         generateGraphQL,
         generateTests,
         generateDocs,
-        importTemplate,
-        exportTemplate,
-        manageTemplates
+        listTemplates,
+        applyTemplate
     );
 
     // Enregistrement du provider de vues

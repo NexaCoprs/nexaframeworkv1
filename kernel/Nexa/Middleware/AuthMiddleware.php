@@ -123,4 +123,28 @@ class AuthMiddleware
 
         return true;
     }
+
+    /**
+     * Hash password using secure algorithm
+     */
+    public function hashPassword(string $password): string
+    {
+        return password_hash($password, PASSWORD_ARGON2ID);
+    }
+
+    /**
+     * Verify password against hash
+     */
+    public function verifyPassword(string $password, string $hash): bool
+    {
+        return password_verify($password, $hash);
+    }
+
+    /**
+     * Generate secure token
+     */
+    public function generateSecureToken(int $length = 32): string
+    {
+        return bin2hex(random_bytes($length));
+    }
 }

@@ -988,7 +988,7 @@ export class ColorPalette {
     }
 }
 
-interface ColorPaletteData {
+export interface ColorPaletteData {
     name: string;
     type: string;
     colors: string[];

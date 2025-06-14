@@ -10,6 +10,18 @@ export class ThemeDesigner {
         this.context = context;
     }
 
+    async getCurrentTheme(): Promise<any> {
+        return this.currentTheme;
+    }
+
+    async setCurrentTheme(theme: any): Promise<void> {
+        this.currentTheme = theme;
+    }
+
+
+
+
+
     async createNewTheme(): Promise<void> {
         const themeName = await vscode.window.showInputBox({
             prompt: 'Nom du nouveau thème',
@@ -346,7 +358,7 @@ export class ThemeDesigner {
             }
         };
 
-        const templateData = templates[template] || templates['Nexa Dark Pro'];
+        const templateData = templates[template as keyof typeof templates] || templates['Nexa Dark Pro'];
         
         return {
             name: name,

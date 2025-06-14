@@ -31,7 +31,7 @@ class SendEmailJob extends Job
             throw new \InvalidArgumentException('Missing required email fields: to, subject, message');
         }
 
-        // Simulate email sending (replace with actual email service)
+        // Send email using real implementation
         $this->sendEmail($to, $subject, $message, $from);
 
         // Log successful email
@@ -47,40 +47,122 @@ class SendEmailJob extends Job
     }
 
     /**
-     * Send email (mock implementation)
+     * Send email using real implementation
      */
     private function sendEmail($to, $subject, $message, $from)
     {
-        // Mock email sending - replace with actual implementation
-        // Examples: PHPMailer, SwiftMailer, or mail() function
+        // Get email configuration
+        $config = $this->getEmailConfig();
         
+        try {
+            if ($config['driver'] === 'smtp') {
+                $this->sendViaSMTP($to, $subject, $message, $from, $config);
+            } else {
+                $this->sendViaPHPMail($to, $subject, $message, $from);
+            }
+            
+            error_log("Email sent successfully to: {$to}, from: {$from}, subject: {$subject}");
+        } catch (\Exception $e) {
+            error_log("Failed to send email to: {$to}, error: " . $e->getMessage());
+            throw new \Exception('Failed to send email: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Send email via SMTP
+     */
+    private function sendViaSMTP($to, $subject, $message, $from, $config)
+    {
+        // Create SMTP connection
+        $smtp = fsockopen($config['host'], $config['port'], $errno, $errstr, 30);
+        if (!$smtp) {
+            throw new \Exception("SMTP connection failed: {$errstr} ({$errno})");
+        }
+        
+        // SMTP conversation
+        $this->smtpCommand($smtp, null, '220'); // Wait for greeting
+        $this->smtpCommand($smtp, "EHLO {$config['host']}", '250');
+        
+        if ($config['encryption'] === 'tls') {
+            $this->smtpCommand($smtp, 'STARTTLS', '220');
+            stream_socket_enable_crypto($smtp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            $this->smtpCommand($smtp, "EHLO {$config['host']}", '250');
+        }
+        
+        if (!empty($config['username'])) {
+            $this->smtpCommand($smtp, 'AUTH LOGIN', '334');
+            $this->smtpCommand($smtp, base64_encode($config['username']), '334');
+            $this->smtpCommand($smtp, base64_encode($config['password']), '235');
+        }
+        
+        $this->smtpCommand($smtp, "MAIL FROM: <{$from}>", '250');
+        $this->smtpCommand($smtp, "RCPT TO: <{$to}>", '250');
+        $this->smtpCommand($smtp, 'DATA', '354');
+        
+        $headers = "From: {$from}\r\n";
+        $headers .= "To: {$to}\r\n";
+        $headers .= "Subject: {$subject}\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $headers .= "MIME-Version: 1.0\r\n\r\n";
+        
+        fwrite($smtp, $headers . $message . "\r\n.");
+        $this->smtpCommand($smtp, null, '250');
+        $this->smtpCommand($smtp, 'QUIT', '221');
+        
+        fclose($smtp);
+    }
+    
+    /**
+     * Send email via PHP mail() function
+     */
+    private function sendViaPHPMail($to, $subject, $message, $from)
+    {
         $headers = [
             'From: ' . $from,
             'Reply-To: ' . $from,
             'Content-Type: text/html; charset=UTF-8',
             'MIME-Version: 1.0'
         ];
-
-        // For demonstration, we'll just log the email
-        // $logger = new Logger(); // Logger class doesn't exist yet
-        // $logger->debug('Mock email sent', [
-        //     'to' => $to,
-        //     'from' => $from,
-        //     'subject' => $subject,
-        //     'message_length' => strlen($message)
-        // ]);
         
-        // Temporary logging until Logger class is implemented
-        error_log("Mock email sent to: {$to}, from: {$from}, subject: {$subject}");
-
-        // Uncomment to use PHP's mail() function
-        // $success = mail($to, $subject, $message, implode("\r\n", $headers));
-        // if (!$success) {
-        //     throw new \Exception('Failed to send email');
-        // }
-
-        // Simulate processing time
-        usleep(100000); // 0.1 seconds
+        $success = mail($to, $subject, $message, implode("\r\n", $headers));
+        if (!$success) {
+            throw new \Exception('PHP mail() function failed');
+        }
+    }
+    
+    /**
+     * Execute SMTP command
+     */
+    private function smtpCommand($smtp, $command, $expectedCode)
+    {
+        if ($command !== null) {
+            fwrite($smtp, $command . "\r\n");
+        }
+        
+        $response = fgets($smtp, 512);
+        $code = substr($response, 0, 3);
+        
+        if ($code !== $expectedCode) {
+            throw new \Exception("SMTP error: {$response}");
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * Get email configuration
+     */
+    private function getEmailConfig()
+    {
+        // Default configuration - should be loaded from config file
+        return [
+            'driver' => 'mail', // 'mail' or 'smtp'
+            'host' => 'localhost',
+            'port' => 587,
+            'encryption' => 'tls',
+            'username' => '',
+            'password' => ''
+        ];
     }
 
     /**

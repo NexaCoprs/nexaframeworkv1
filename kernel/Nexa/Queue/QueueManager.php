@@ -2,37 +2,79 @@
 
 namespace Nexa\Queue;
 
-// use Nexa\Logging\Logger; // Commented out as Logger class doesn't exist yet
+use Nexa\Support\Logger;
 use Nexa\Events\EventDispatcher;
+use Predis\Client as RedisClient;
+use Nexa\Database\DatabaseManager;
+use Nexa\Queue\Jobs\Job;
+use Nexa\Queue\Jobs\DatabaseJob;
+use Nexa\Queue\Jobs\RedisJob;
+use Nexa\Queue\Jobs\SyncJob;
+use Nexa\Queue\Drivers\DatabaseQueueDriver;
+use Nexa\Queue\Drivers\RedisQueueDriver;
+use Nexa\Queue\Drivers\SyncQueueDriver;
+use Nexa\Queue\Contracts\QueueDriverInterface;
+use Nexa\Queue\Contracts\JobInterface;
+use Nexa\Queue\Exceptions\QueueException;
+use Nexa\Queue\Exceptions\JobNotFoundException;
+use Nexa\Queue\Exceptions\DriverNotFoundException;
+use Carbon\Carbon;
+use Exception;
+use Throwable;
 
 class QueueManager
 {
     /**
      * Queue drivers
      */
-    private $drivers = [];
+    private array $drivers = [];
 
     /**
      * Default queue driver
      */
-    private $defaultDriver = 'database';
+    private string $defaultDriver = 'database';
 
     /**
      * Logger instance
      */
-    private $logger;
+    private Logger $logger;
 
     /**
      * Event dispatcher
      */
-    private $eventDispatcher;
+    private ?EventDispatcher $eventDispatcher;
 
     /**
      * Queue configuration
      */
-    private $config;
+    private array $config;
 
-    public function __construct($config = [],  $logger = null, EventDispatcher $eventDispatcher = null)
+    /**
+     * Database manager
+     */
+    private ?DatabaseManager $database;
+
+    /**
+     * Redis client
+     */
+    private ?RedisClient $redis;
+
+    /**
+     * Worker processes
+     */
+    private array $workers = [];
+
+    /**
+     * Queue statistics
+     */
+    private array $stats = [
+        'processed' => 0,
+        'failed' => 0,
+        'retried' => 0,
+        'started_at' => null,
+    ];
+
+    public function __construct(array $config = [], ?Logger $logger = null, ?EventDispatcher $eventDispatcher = null, ?DatabaseManager $database = null)
     {
         $this->config = array_merge([
             'default' => 'database',
@@ -41,13 +83,21 @@ class QueueManager
                     'driver' => 'database',
                     'table' => 'jobs',
                     'queue' => 'default',
-                    'retry_after' => 90
+                    'retry_after' => 90,
+                    'max_tries' => 3,
+                    'backoff' => [1, 5, 10],
                 ],
                 'redis' => [
                     'driver' => 'redis',
                     'connection' => 'default',
                     'queue' => 'default',
-                    'retry_after' => 90
+                    'retry_after' => 90,
+                    'max_tries' => 3,
+                    'backoff' => [1, 5, 10],
+                    'host' => env('REDIS_HOST', '127.0.0.1'),
+                    'port' => env('REDIS_PORT', 6379),
+                    'password' => env('REDIS_PASSWORD'),
+                    'database' => env('REDIS_DB', 0),
                 ],
                 'sync' => [
                     'driver' => 'sync'
@@ -56,31 +106,76 @@ class QueueManager
         ], $config);
 
         $this->defaultDriver = $this->config['default'];
-        $this->logger = $logger;
+        $this->logger = $logger ?? new Logger('queue');
         $this->eventDispatcher = $eventDispatcher;
+        $this->database = $database;
+        $this->stats['started_at'] = Carbon::now();
 
+        $this->initializeConnections();
         $this->initializeDrivers();
+    }
+
+    /**
+     * Initialize external connections
+     */
+    private function initializeConnections(): void
+    {
+        // Initialize Redis connection if configured
+        if (isset($this->config['connections']['redis'])) {
+            $redisConfig = $this->config['connections']['redis'];
+            try {
+                $this->redis = new RedisClient([
+                    'scheme' => 'tcp',
+                    'host' => $redisConfig['host'],
+                    'port' => $redisConfig['port'],
+                    'password' => $redisConfig['password'],
+                    'database' => $redisConfig['database'],
+                    'timeout' => 5.0,
+                    'read_write_timeout' => 0,
+                    'persistent' => true,
+                ]);
+                
+                // Test connection
+                $this->redis->ping();
+                $this->logger->info('Redis connection established for queue');
+            } catch (Exception $e) {
+                $this->logger->warning('Failed to connect to Redis for queue: ' . $e->getMessage());
+                $this->redis = null;
+            }
+        }
     }
 
     /**
      * Initialize queue drivers
      */
-    private function initializeDrivers()
+    private function initializeDrivers(): void
     {
         foreach ($this->config['connections'] as $name => $config) {
-            switch ($config['driver']) {
-                case 'database':
-                    $this->drivers[$name] = new DatabaseQueueDriver($config, $this->logger);
-                    break;
-                case 'redis':
-                    // Fallback to sync driver if redis is not available
-                    $this->drivers[$name] = new SyncQueueDriver($config, $this->logger);
-                    break;
-                case 'sync':
-                    $this->drivers[$name] = new SyncQueueDriver($config, $this->logger);
-                    break;
-                default:
-                    throw new \InvalidArgumentException("Unsupported queue driver: {$config['driver']}");
+            try {
+                switch ($config['driver']) {
+                    case 'database':
+                        $this->drivers[$name] = new DatabaseQueueDriver($config, $this->logger, $this->database);
+                        break;
+                    case 'redis':
+                        if ($this->redis) {
+                            $this->drivers[$name] = new RedisQueueDriver($config, $this->logger, $this->redis);
+                        } else {
+                            $this->logger->warning("Redis not available for queue '{$name}', falling back to sync driver");
+                            $this->drivers[$name] = new SyncQueueDriver($config, $this->logger);
+                        }
+                        break;
+                    case 'sync':
+                        $this->drivers[$name] = new SyncQueueDriver($config, $this->logger);
+                        break;
+                    default:
+                        throw new DriverNotFoundException("Unsupported queue driver: {$config['driver']}");
+                }
+                
+                $this->logger->info("Initialized queue driver '{$name}' with driver '{$config['driver']}'");
+             } catch (Exception $e) {
+                $this->logger->error("Failed to initialize queue driver '{$name}': " . $e->getMessage());
+                // Fallback to sync driver
+                $this->drivers[$name] = new SyncQueueDriver($config, $this->logger);
             }
         }
     }

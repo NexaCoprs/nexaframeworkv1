@@ -33,13 +33,8 @@ class ServiceClient
 
         $url = "http://{$service['host']}:{$service['port']}{$endpoint}";
         
-        // Mock implementation for testing
-        return [
-            'status' => 200,
-            'data' => ['message' => 'Mock response from ' . $serviceName],
-            'url' => $url,
-            'method' => $method
-        ];
+        // Make real HTTP request
+        return $this->makeHttpRequest($url, $method, $data, $headers);
     }
 
     /**
@@ -51,30 +46,76 @@ class ServiceClient
     }
 
     /**
-     * Mock GET request for testing
+     * Make HTTP request using cURL
      */
-    public function mockGet($serviceName, $endpoint, $mockResponse = null, $headers = [])
+    private function makeHttpRequest($url, $method = 'GET', $data = null, $headers = [])
     {
-        $service = $this->serviceRegistry->get($serviceName);
-        if (!$service) {
-            throw new \Exception("Service '{$serviceName}' not found in registry");
-        }
-
-        $url = "http://{$service['host']}:{$service['port']}{$endpoint}";
+        $ch = curl_init();
         
-        // Add tracing headers if enabled
-        $responseHeaders = [];
+        // Basic cURL options
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => $this->timeout,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 3,
+            CURLOPT_SSL_VERIFYPEER => false, // For development
+            CURLOPT_USERAGENT => 'Nexa-Framework-ServiceClient/1.0'
+        ]);
+        
+        // Set method-specific options
+        switch (strtoupper($method)) {
+            case 'POST':
+                curl_setopt($ch, CURLOPT_POST, true);
+                if ($data) {
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data) ? json_encode($data) : $data);
+                }
+                break;
+            case 'PUT':
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+                if ($data) {
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, is_array($data) ? json_encode($data) : $data);
+                }
+                break;
+            case 'DELETE':
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                break;
+        }
+        
+        // Set headers
+        $defaultHeaders = [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ];
+        
         if ($this->tracingEnabled && $this->traceId) {
-            $responseHeaders['X-Trace-Id'] = $this->traceId;
+            $defaultHeaders[] = 'X-Trace-Id: ' . $this->traceId;
         }
         
-        return $mockResponse ?: [
-            'status' => 200,
-            'data' => ['message' => 'Mock GET response from ' . $serviceName],
+        $allHeaders = array_merge($defaultHeaders, $headers);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $allHeaders);
+        
+        // Execute request
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        
+        curl_close($ch);
+        
+        if ($error) {
+            throw new \Exception("HTTP request failed: {$error}");
+        }
+        
+        // Parse response
+        $decodedResponse = json_decode($response, true);
+        
+        return [
+            'status' => $httpCode,
+            'data' => $decodedResponse ?: $response,
             'url' => $url,
-            'method' => 'GET',
-            'headers' => $responseHeaders,
-            'mock' => true
+            'method' => $method,
+            'headers' => $allHeaders
         ];
     }
 
@@ -86,27 +127,7 @@ class ServiceClient
         return $this->request($serviceName, $endpoint, 'POST', $data, $headers);
     }
 
-    /**
-     * Mock POST request for testing
-     */
-    public function mockPost($serviceName, $endpoint, $data = null, $mockResponse = null, $headers = [])
-    {
-        $service = $this->serviceRegistry->get($serviceName);
-        if (!$service) {
-            throw new \Exception("Service '{$serviceName}' not found in registry");
-        }
 
-        $url = "http://{$service['host']}:{$service['port']}{$endpoint}";
-        
-        return $mockResponse ?: [
-            'status' => 201,
-            'data' => ['message' => 'Mock POST response from ' . $serviceName, 'created' => true],
-            'url' => $url,
-            'method' => 'POST',
-            'request_data' => $data,
-            'mock' => true
-        ];
-    }
 
     /**
      * Make a PUT request
@@ -202,34 +223,7 @@ class ServiceClient
         return $this;
     }
 
-    /**
-     * Mock a failed request for testing circuit breaker
-     */
-    public function mockFailedRequest($serviceName, $endpoint)
-    {
-        $service = $this->serviceRegistry->get($serviceName);
-        if (!$service) {
-            throw new \Exception("Service '{$serviceName}' not found in registry");
-        }
 
-        // Update circuit breaker state
-        if (isset($this->circuitBreaker[$serviceName])) {
-            $this->circuitBreaker[$serviceName]['failures'] = ($this->circuitBreaker[$serviceName]['failures'] ?? 0) + 1;
-            $this->circuitBreaker[$serviceName]['last_failure'] = time();
-            
-            if ($this->circuitBreaker[$serviceName]['failures'] >= $this->circuitBreaker[$serviceName]['failure_threshold']) {
-                $this->circuitBreaker[$serviceName]['state'] = 'open';
-            }
-        }
-
-        return [
-            'status' => 500,
-            'error' => 'Service unavailable',
-            'service' => $serviceName,
-            'endpoint' => $endpoint,
-            'mock' => true
-        ];
-    }
 
     /**
      * Check if circuit breaker is open for a service
@@ -268,39 +262,7 @@ class ServiceClient
         return $this->retryPolicies[$serviceName] ?? null;
     }
 
-    /**
-     * Mock a retryable request for testing
-     */
-    public function mockRetryableRequest($serviceName, $endpoint, $shouldSucceed = false)
-    {
-        $service = $this->serviceRegistry->get($serviceName);
-        if (!$service) {
-            throw new \Exception("Service '{$serviceName}' not found in registry");
-        }
 
-        $retryPolicy = $this->getRetryPolicy($serviceName);
-        $maxAttempts = $retryPolicy['max_attempts'] ?? 3;
-        
-        if ($shouldSucceed) {
-            return [
-                'status' => 200,
-                'data' => ['message' => 'Success after retry'],
-                'attempts' => $maxAttempts,
-                'service' => $serviceName,
-                'endpoint' => $endpoint,
-                'mock' => true
-            ];
-        } else {
-            return [
-                'status' => 500,
-                'error' => 'Failed after all retry attempts',
-                'attempts' => $maxAttempts,
-                'service' => $serviceName,
-                'endpoint' => $endpoint,
-                'mock' => true
-            ];
-        }
-    }
 
     /**
      * Set load balancing strategy
@@ -420,30 +382,7 @@ class ServiceClient
         }
     }
 
-    /**
-     * Mock a slow request for timeout testing
-     */
-    public function mockSlowRequest($serviceName, $endpoint, $delay = 5)
-    {
-        $service = $this->serviceRegistry->get($serviceName);
-        if (!$service) {
-            throw new \Exception("Service '{$serviceName}' not found in registry");
-        }
 
-        // Simulate timeout if delay exceeds configured timeout
-        if ($delay > $this->timeout) {
-            throw new \Exception("Request timeout after {$this->timeout} seconds");
-        }
-        
-        return [
-            'status' => 200,
-            'data' => ['message' => 'Slow response'],
-            'delay' => $delay,
-            'service' => $serviceName,
-            'endpoint' => $endpoint,
-            'mock' => true
-        ];
-    }
 
     /**
      * Set authentication token for a service
@@ -496,36 +435,5 @@ class ServiceClient
         return $this;
     }
 
-    /**
-     * Mock an authenticated request for testing
-     */
-    public function mockAuthenticatedRequest($serviceName, $endpoint, $requiresAuth = true)
-    {
-        $service = $this->serviceRegistry->get($serviceName);
-        if (!$service) {
-            throw new \Exception("Service '{$serviceName}' not found in registry");
-        }
 
-        $token = $this->getAuthToken($serviceName);
-        
-        if ($requiresAuth && !$token) {
-            return [
-                'status' => 401,
-                'error' => 'Authentication required',
-                'service' => $serviceName,
-                'endpoint' => $endpoint,
-                'mock' => true
-            ];
-        }
-        
-        return [
-            'status' => 200,
-            'data' => ['message' => 'Authenticated response', 'user' => 'test_user'],
-            'authenticated' => true,
-            'token' => $token,
-            'service' => $serviceName,
-            'endpoint' => $endpoint,
-            'mock' => true
-        ];
-    }
 }

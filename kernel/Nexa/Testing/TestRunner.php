@@ -2,68 +2,165 @@
 
 namespace Nexa\Testing;
 
-use Nexa\Logging\Logger;
+use Nexa\Support\Logger;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\TestResult;
+use PHPUnit\TextUI\DefaultResultPrinter;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\AssertionFailedError;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestFailure;
+use PHPUnit\Framework\Warning;
+use ReflectionClass;
+use ReflectionMethod;
 
 class TestRunner
 {
-    private $logger;
-    private $testClasses = [];
-    private $results = [];
-    private $startTime;
-    private $endTime;
-    private $verbose = false;
+    private Logger $logger;
+    private array $testClasses = [];
+    private array $results = [];
+    private float $startTime;
+    private float $endTime;
+    private bool $verbose = false;
+    private TestResult $testResult;
+    private array $configuration;
     
-    public function __construct($verbose = false)
+    public function __construct(bool $verbose = false, array $configuration = [])
     {
-        // $this->logger = new Logger(); // Commenté car Logger n'existe pas encore
+        $this->logger = new Logger('testing');
         $this->verbose = $verbose;
+        $this->configuration = array_merge([
+            'stopOnFailure' => false,
+            'stopOnError' => false,
+            'stopOnIncomplete' => false,
+            'stopOnSkipped' => false,
+            'timeoutForSmallTests' => 1,
+            'timeoutForMediumTests' => 10,
+            'timeoutForLargeTests' => 60,
+            'reportUselessTests' => false,
+            'strictCoverage' => false,
+            'ignoreDeprecatedCodeUnitsFromCodeCoverage' => false,
+            'disallowTestOutput' => false,
+            'enforceTimeLimit' => false,
+            'disallowChangesToGlobalState' => false,
+            'beStrictAboutChangesToGlobalState' => false,
+            'beStrictAboutOutputDuringTests' => false,
+            'beStrictAboutTestsThatDoNotTestAnything' => false,
+            'beStrictAboutCoversAnnotation' => false,
+            'processIsolation' => false,
+        ], $configuration);
+        
+        $this->testResult = new TestResult();
+        $this->configureTestResult();
+    }
+
+    /**
+     * Configure test result with listeners and settings
+     */
+    private function configureTestResult(): void
+    {
+        if ($this->configuration['stopOnFailure']) {
+            $this->testResult->stopOnFailure(true);
+        }
+        
+        if ($this->configuration['stopOnError']) {
+            $this->testResult->stopOnError(true);
+        }
+        
+        if ($this->configuration['stopOnIncomplete']) {
+            $this->testResult->stopOnIncomplete(true);
+        }
+        
+        if ($this->configuration['stopOnSkipped']) {
+            $this->testResult->stopOnSkipped(true);
+        }
     }
 
     /**
      * Add a test class to run
      */
-    public function addTestClass($className)
+    public function addTestClass(string $className): void
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException("Test class '$className' not found");
         }
         
-        if (!is_subclass_of($className, TestCase::class)) {
-            throw new \InvalidArgumentException("Class '$className' must extend TestCase");
+        if (!is_subclass_of($className, PHPUnitTestCase::class) && !is_subclass_of($className, TestCase::class)) {
+            throw new \InvalidArgumentException("Class '$className' must extend TestCase or PHPUnit TestCase");
         }
         
         $this->testClasses[] = $className;
+        $this->logger->info("Added test class: {$className}");
     }
 
     /**
      * Discover test classes in a directory
      */
-    public function discoverTests($directory, $namespace = '')
+    public function discoverTests(string $directory, string $namespace = '', string $suffix = 'Test.php'): int
     {
         if (!is_dir($directory)) {
             throw new \InvalidArgumentException("Directory '$directory' not found");
         }
         
+        $discovered = 0;
         $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($directory)
+            new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS)
         );
         
         foreach ($iterator as $file) {
-            if ($file->isFile() && $file->getExtension() === 'php') {
-                $relativePath = str_replace($directory . DIRECTORY_SEPARATOR, '', $file->getPathname());
-                $className = $namespace . '\\' . str_replace(['/', '\\', '.php'], ['\\', '\\', ''], $relativePath);
+            if ($file->isFile() && str_ends_with($file->getFilename(), $suffix)) {
+                $className = $this->getClassNameFromFile($file->getPathname(), $namespace);
                 
-                if (class_exists($className) && is_subclass_of($className, TestCase::class)) {
-                    $this->addTestClass($className);
+                if ($className && class_exists($className)) {
+                    try {
+                        $reflection = new ReflectionClass($className);
+                        
+                        if (!$reflection->isAbstract() && 
+                            ($reflection->isSubclassOf(PHPUnitTestCase::class) || 
+                             $reflection->isSubclassOf(TestCase::class))) {
+                            
+                            $this->addTestClass($className);
+                            $discovered++;
+                        }
+                    } catch (\Exception $e) {
+                        $this->logger->warning("Failed to analyze class {$className}: " . $e->getMessage());
+                    }
                 }
             }
         }
+        
+        $this->logger->info("Discovered {$discovered} test classes in {$directory}");
+        return $discovered;
+    }
+    
+    /**
+     * Extract class name from file path
+     */
+    private function getClassNameFromFile(string $filePath, string $namespace): ?string
+    {
+        $content = file_get_contents($filePath);
+        
+        // Extract namespace from file
+        if (preg_match('/namespace\s+([^;]+);/', $content, $namespaceMatches)) {
+            $fileNamespace = trim($namespaceMatches[1]);
+        } else {
+            $fileNamespace = $namespace;
+        }
+        
+        // Extract class name from file
+        if (preg_match('/class\s+([^\s{]+)/', $content, $classMatches)) {
+            $className = trim($classMatches[1]);
+            return $fileNamespace ? $fileNamespace . '\\' . $className : $className;
+        }
+        
+        return null;
     }
 
     /**
      * Run all tests
      */
-    public function run()
+    public function run(): TestResult
     {
         $this->startTime = microtime(true);
         $this->results = [
@@ -73,25 +170,72 @@ class TestRunner
                 'total_tests' => 0,
                 'passed' => 0,
                 'failed' => 0,
+                'errors' => 0,
+                'skipped' => 0,
+                'incomplete' => 0,
                 'assertions' => 0,
                 'time' => 0
             ]
         ];
         
+        $this->logger->info("Starting test run with " . count($this->testClasses) . " test classes");
+        
         $this->output("\n" . str_repeat('=', 60));
         $this->output("NEXA FRAMEWORK TEST RUNNER");
         $this->output(str_repeat('=', 60) . "\n");
         
+        // Create test suite
+        $suite = new TestSuite('Nexa Test Suite');
+        
         foreach ($this->testClasses as $className) {
-            $this->runTestClass($className);
+            try {
+                $suite->addTestSuite($className);
+                $this->results['summary']['total_classes']++;
+            } catch (\Exception $e) {
+                $this->logger->error("Failed to add test class {$className}: " . $e->getMessage());
+                $this->output("Error adding test class {$className}: " . $e->getMessage(), 'red');
+            }
         }
+        
+        // Run the test suite
+        $suite->run($this->testResult);
         
         $this->endTime = microtime(true);
         $this->results['summary']['time'] = round($this->endTime - $this->startTime, 3);
         
-        $this->displaySummary();
+        // Update results from TestResult
+        $this->updateResultsFromTestResult();
         
-        return $this->results;
+        $this->displaySummary();
+        $this->logger->info("Test run completed", $this->results['summary']);
+        
+        return $this->testResult;
+    }
+    
+    /**
+     * Update results array from PHPUnit TestResult
+     */
+    private function updateResultsFromTestResult(): void
+    {
+        $this->results['summary']['total_tests'] = $this->testResult->count();
+        $this->results['summary']['passed'] = $this->testResult->count() - 
+            $this->testResult->errorCount() - 
+            $this->testResult->failureCount() - 
+            $this->testResult->skippedCount() - 
+            $this->testResult->notImplementedCount();
+        $this->results['summary']['failed'] = $this->testResult->failureCount();
+        $this->results['summary']['errors'] = $this->testResult->errorCount();
+        $this->results['summary']['skipped'] = $this->testResult->skippedCount();
+        $this->results['summary']['incomplete'] = $this->testResult->notImplementedCount();
+        
+        // Log failures and errors
+        foreach ($this->testResult->failures() as $failure) {
+            $this->logger->error('Test failure: ' . $failure->toString());
+        }
+        
+        foreach ($this->testResult->errors() as $error) {
+            $this->logger->error('Test error: ' . $error->toString());
+        }
     }
 
     /**

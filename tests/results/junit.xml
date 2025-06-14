@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="StressTest" file="C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Performance\StressTest.php" tests="5" assertions="5" errors="0" failures="1" skipped="0" time="97.742122">
+    <testcase name="testRouterStressTest" file="C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Performance\StressTest.php" line="43" class="StressTest" classname="StressTest" assertions="3" time="0.040462">
+      <system-out>
+=== TEST DE STRESS DU ROUTEUR ===
+Enregistrement de 10,000 routes...
+  1000 routes enregistrées - Mémoire: 2MB
+  2000 routes enregistrées - Mémoire: 6MB
+  3000 routes enregistrées - Mémoire: 8MB
+  4000 routes enregistrées - Mémoire: 12MB
+  5000 routes enregistrées - Mémoire: 14MB
+  6000 routes enregistrées - Mémoire: 18MB
+  7000 routes enregistrées - Mémoire: 20MB
+  8000 routes enregistrées - Mémoire: 24MB
+  9000 routes enregistrées - Mémoire: 26MB
+
+Test de résolution de routes...
+  0 résolutions effectuées
+  100 résolutions effectuées
+  200 résolutions effectuées
+  300 résolutions effectuées
+  400 résolutions effectuées
+  500 résolutions effectuées
+  600 résolutions effectuées
+  700 résolutions effectuées
+  800 résolutions effectuées
+  900 résolutions effectuées
+
+Résultats du stress test du routeur:
+  Routes enregistrées: 30,000
+  Temps d'enregistrement: 0.026s
+  Mémoire d'enregistrement: 30MB
+  Routes/seconde: 1158882
+  Temps de résolution: 0.001s
+  Lookups/seconde: 763434
+</system-out>
+    </testcase>
+    <testcase name="testMemoryStressTest" file="C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Performance\StressTest.php" line="137" class="StressTest" classname="StressTest" assertions="0" time="0.210996">
+      <system-out>
+=== TEST DE STRESS MÉMOIRE ===
+Test d'allocation mémoire intensive...
+  Itération 0 - Mémoire: 0MB
+  Itération 100 - Mémoire: 0MB
+  Itération 200 - Mémoire: 0MB
+  Itération 300 - Mémoire: 0MB
+  Itération 400 - Mémoire: 0MB
+  Itération 500 - Mémoire: 0MB
+  Itération 600 - Mémoire: 0MB
+  Itération 700 - Mémoire: 0MB
+  Itération 800 - Mémoire: 0MB
+  Itération 900 - Mémoire: 0MB
+
+Résultats du stress test mémoire:
+  Itérations: 1000
+  Mémoire utilisée: 0MB
+  Pic de mémoire: 0MB
+  Mémoire/itération: 0KB
+</system-out>
+    </testcase>
+    <testcase name="testConcurrentRequestsSimulation" file="C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Performance\StressTest.php" line="205" class="StressTest" classname="StressTest" assertions="2" time="0.526088">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">StressTest::testConcurrentRequestsSimulation&#13;
+Moins de 5 erreurs attendues
+Failed asserting that 900 is less than 5.
+&#13;
+C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Performance\StressTest.php:298</failure>
+      <system-out>
+=== SIMULATION DE REQUÊTES CONCURRENTES ===
+Simulation de 1000 requêtes concurrentes...
+  0 requêtes traitées
+  Erreur requête 100: Rate limit exceeded
+  Erreur requête 101: Rate limit exceeded
+  Erreur requête 102: Rate limit exceeded
+  Erreur requête 103: Rate limit exceeded
+  Erreur requête 104: Rate limit exceeded
+  Erreur requête 105: Rate limit exceeded
+  Erreur requête 106: Rate limit exceeded
+  Erreur requête 107: Rate limit exceeded
+  Erreur requête 108: Rate limit exceeded
+
+Résultats de la simulation de concurrence:
+  Requêtes traitées: 100
+  Erreurs: 900
+  Taux de succès: -800%
+  Temps total: 0.002s
+  Requêtes/seconde: 56307
+  Mémoire/requête: 0KB
+</system-out>
+    </testcase>
+    <testcase name="testDatabaseStressTest" file="C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Performance\StressTest.php" line="336" class="StressTest" classname="StressTest" assertions="0" time="96.962510">
+      <system-out>
+=== TEST DE STRESS BASE DE DONNÉES ===
+Simulation d'opérations de base de données intensives...
+  0 cycles d'opérations DB effectués
+  100 cycles d'opérations DB effectués
+  200 cycles d'opérations DB effectués
+  300 cycles d'opérations DB effectués
+  400 cycles d'opérations DB effectués
+  500 cycles d'opérations DB effectués
+  600 cycles d'opérations DB effectués
+  700 cycles d'opérations DB effectués
+  800 cycles d'opérations DB effectués
+  900 cycles d'opérations DB effectués
+
+Résultats du stress test base de données:
+  Opérations: 3100
+  Erreurs: 0
+  Temps total: 96.96s
+  Opérations/seconde: 32
+  Mémoire utilisée: 0MB
+</system-out>
+    </testcase>
+    <testcase name="testGenerateStressReport" file="C:\Users\jeans\Downloads\slide\nexaframeworkv1\tests\Performance\StressTest.php" line="419" class="StressTest" classname="StressTest" assertions="0" time="0.002067">
+      <system-out>
+=== RAPPORT DE STRESS GLOBAL ===
+
+=== SCORE GLOBAL ===
+Score de performance: 0/100
+🔴 Performances à améliorer
+
+Recommandations:
+  - Optimiser les composants les moins performants
+  - Implémenter du cache pour améliorer les performances
+  - Considérer l'utilisation d'un pool de connexions DB
+  - Monitorer les performances en production
+  - Implémenter des métriques de performance
+</system-out>
+    </testcase>
+  </testsuite>
+</testsuites>

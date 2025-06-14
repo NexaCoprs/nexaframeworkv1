@@ -4,7 +4,7 @@ export class SnippetProvider {
     async insertHandlerSnippet(): Promise<void> {
         const name = await vscode.window.showInputBox({
             prompt: 'Nom du Handler',
-            placeholder: 'UserHandler'
+            placeHolder: 'UserHandler'
         });
 
         if (!name) return;
@@ -16,7 +16,7 @@ export class SnippetProvider {
     async insertEntitySnippet(): Promise<void> {
         const name = await vscode.window.showInputBox({
             prompt: 'Nom de l\'Entité',
-            placeholder: 'User'
+            placeHolder: 'User'
         });
 
         if (!name) return;
@@ -28,7 +28,7 @@ export class SnippetProvider {
     async insertMiddlewareSnippet(): Promise<void> {
         const name = await vscode.window.showInputBox({
             prompt: 'Nom du Middleware',
-            placeholder: 'AuthMiddleware'
+            placeHolder: 'AuthMiddleware'
         });
 
         if (!name) return;
@@ -40,7 +40,7 @@ export class SnippetProvider {
     async insertWebSocketSnippet(): Promise<void> {
         const name = await vscode.window.showInputBox({
             prompt: 'Nom du WebSocket Handler',
-            placeholder: 'ChatHandler'
+            placeHolder: 'ChatHandler'
         });
 
         if (!name) return;
@@ -63,7 +63,7 @@ export class SnippetProvider {
 
         const name = await vscode.window.showInputBox({
             prompt: `Nom du ${type.label}`,
-            placeholder: `User${type.label}`
+            placeHolder: `User${type.label}`
         });
 
         if (!name) return;
@@ -75,7 +75,7 @@ export class SnippetProvider {
     async insertMicroserviceSnippet(): Promise<void> {
         const name = await vscode.window.showInputBox({
             prompt: 'Nom du Microservice',
-            placeholder: 'UserService'
+            placeHolder: 'UserService'
         });
 
         if (!name) return;
@@ -97,7 +97,7 @@ export class SnippetProvider {
 
         const name = await vscode.window.showInputBox({
             prompt: `Nom du ${type.label}`,
-            placeholder: `User${type.label.replace(' ', '')}Test`
+            placeHolder: `User${type.label.replace(' ', '')}Test`
         });
 
         if (!name) return;
@@ -109,7 +109,7 @@ export class SnippetProvider {
     async insertValidationSnippet(): Promise<void> {
         const name = await vscode.window.showInputBox({
             prompt: 'Nom de la classe de validation',
-            placeholder: 'UserValidation'
+            placeHolder: 'UserValidation'
         });
 
         if (!name) return;
@@ -157,7 +157,7 @@ export class SnippetProvider {
             return;
         }
 
-        await editor.edit(editBuilder => {
+        await editor.edit((editBuilder: vscode.TextEditorEdit) => {
             editBuilder.insert(editor.selection.active, snippet);
         });
 

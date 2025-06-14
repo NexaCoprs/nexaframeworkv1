@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title ?? 'Dashboard Intelligent Nexa' }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .performance-badge {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+        .smart-card {
+            transition: transform 0.2s;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .smart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+    <!-- Badge de performance en temps réel -->
+    <div class="performance-badge">
+        <span class="badge bg-success">
+            <i class="fas fa-tachometer-alt"></i> 
+            Performance: {{ $performance_score ?? '95%' }}
+        </span>
+    </div>
+
+    <div class="container-fluid py-4">
+        <!-- Header avec authentification -->
+        <div class="row mb-4">
+            <div class="col-12">
+                @auth
+                    <nx:alert type="success" dismissible>
+                        <i class="fas fa-user-check"></i>
+                        Bienvenue {{ auth()->user()->name ?? 'Utilisateur' }}! 
+                        Votre session est sécurisée.
+                    </nx:alert>
+                @endauth
+                
+                @guest
+                    <nx:alert type="warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Vous n'êtes pas connecté. Certaines fonctionnalités sont limitées.
+                    </nx:alert>
+                @endguest
+            </div>
+        </div>
+
+        <!-- Statistiques principales -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <nx:card title="Produits" class="smart-card text-center">
+                    <h2 class="text-primary">{{ $stats['products'] ?? 0 }}</h2>
+                    <p class="text-muted">Total des produits</p>
+                    <small class="text-success">
+                        <i class="fas fa-arrow-up"></i> +12% ce mois
+                    </small>
+                </nx:card>
+            </div>
+            
+            <div class="col-md-3">
+                <nx:card title="Utilisateurs" class="smart-card text-center">
+                    <h2 class="text-info">{{ $stats['users'] ?? 0 }}</h2>
+                    <p class="text-muted">Utilisateurs actifs</p>
+                    <small class="text-success">
+                        <i class="fas fa-arrow-up"></i> +8% ce mois
+                    </small>
+                </nx:card>
+            </div>
+            
+            <div class="col-md-3">
+                <nx:card title="Commandes" class="smart-card text-center">
+                    <h2 class="text-warning">{{ $stats['orders'] ?? 0 }}</h2>
+                    <p class="text-muted">Commandes aujourd'hui</p>
+                    <small class="text-success">
+                        <i class="fas fa-arrow-up"></i> +25% aujourd'hui
+                    </small>
+                </nx:card>
+            </div>
+            
+            <div class="col-md-3">
+                <nx:card title="Revenus" class="smart-card text-center">
+                    <h2 class="text-success">{{ $stats['revenue'] ?? '0€' }}</h2>
+                    <p class="text-muted">Revenus du mois</p>
+                    <small class="text-success">
+                        <i class="fas fa-arrow-up"></i> +18% ce mois
+                    </small>
+                </nx:card>
+            </div>
+        </div>
+
+        <!-- Formulaire de création rapide -->
+        @auth
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <nx:card title="Création Rapide de Produit" class="smart-card">
+                    <nx:form action="/api/products" method="POST" class="needs-validation">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Nom du produit</label>
+                            <nx:input 
+                                type="text" 
+                                name="name" 
+                                placeholder="Entrez le nom du produit"
+                                class="form-control"
+                                required
+                            />
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Prix</label>
+                            <nx:input 
+                                type="number" 
+                                name="price" 
+                                placeholder="0.00"
+                                class="form-control"
+                                required
+                            />
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="productCategory" class="form-label">Catégorie</label>
+                            <select name="category_id" class="form-select" required>
+                                <option value="">Sélectionner une catégorie</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <nx:button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-plus"></i> Créer le produit
+                        </nx:button>
+                    </nx:form>
+                </nx:card>
+            </div>
+            
+            <div class="col-md-6">
+                <nx:card title="Métriques de Performance" class="smart-card">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <h4 class="text-primary">{{ $performance['response_time'] ?? '120ms' }}</h4>
+                            <small class="text-muted">Temps de réponse moyen</small>
+                        </div>
+                        <div class="col-6">
+                            <h4 class="text-success">{{ $performance['cache_hit'] ?? '94%' }}</h4>
+                            <small class="text-muted">Taux de cache hit</small>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <h4 class="text-info">{{ $performance['queries'] ?? '12' }}</h4>
+                            <small class="text-muted">Requêtes par page</small>
+                        </div>
+                        <div class="col-6">
+                            <h4 class="text-warning">{{ $performance['memory'] ?? '8.2MB' }}</h4>
+                            <small class="text-muted">Utilisation mémoire</small>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <nx:button class="btn btn-outline-primary btn-sm w-100" onclick="refreshMetrics()">
+                            <i class="fas fa-sync-alt"></i> Actualiser les métriques
+                        </nx:button>
+                    </div>
+                </nx:card>
+            </div>
+        </div>
+        @endauth
+
+        <!-- Liste des produits récents -->
+        <div class="row">
+            <div class="col-12">
+                <nx:card title="Produits Récents" class="smart-card">
+                    @if(count($recent_products ?? []) > 0)
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nom</th>
+                                        <th>Prix</th>
+                                        <th>Catégorie</th>
+                                        <th>Créé le</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($recent_products as $product)
+                                        <tr>
+                                            <td>{{ $product->id }}</td>
+                                            <td>{{ $product->name }}</td>
+                                            <td class="text-success fw-bold">{{ $product->price }}€</td>
+                                            <td>
+                                                <span class="badge bg-secondary">{{ $product->category->name ?? 'N/A' }}</span>
+                                            </td>
+                                            <td>{{ $product->created_at->format('d/m/Y H:i') }}</td>
+                                            <td>
+                                                <nx:button class="btn btn-sm btn-outline-primary" onclick="editProduct({{ $product->id }})">
+                                                    <i class="fas fa-edit"></i>
+                                                </nx:button>
+                                                <nx:button class="btn btn-sm btn-outline-danger" onclick="deleteProduct({{ $product->id }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </nx:button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="text-center py-4">
+                            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Aucun produit récent</h5>
+                            <p class="text-muted">Créez votre premier produit pour commencer!</p>
+                            @auth
+                                <nx:button class="btn btn-primary" onclick="document.querySelector('input[name=\"name\"]').focus()">
+                                    <i class="fas fa-plus"></i> Créer un produit
+                                </nx:button>
+                            @endauth
+                        </div>
+                    @endif
+                </nx:card>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fonctions JavaScript pour l'interactivité
+        function refreshMetrics() {
+            // Simulation du rafraîchissement des métriques
+            const button = event.target;
+            const icon = button.querySelector('i');
+            
+            icon.classList.add('fa-spin');
+            button.disabled = true;
+            
+            setTimeout(() => {
+                icon.classList.remove('fa-spin');
+                button.disabled = false;
+                
+                // Simulation de nouvelles métriques
+                const metrics = document.querySelectorAll('.col-6 h4');
+                metrics[0].textContent = Math.floor(Math.random() * 50 + 100) + 'ms';
+                metrics[1].textContent = Math.floor(Math.random() * 10 + 90) + '%';
+                metrics[2].textContent = Math.floor(Math.random() * 20 + 5);
+                metrics[3].textContent = (Math.random() * 5 + 5).toFixed(1) + 'MB';
+            }, 1000);
+        }
+        
+        function editProduct(id) {
+            alert(`Édition du produit #${id} - Fonctionnalité à implémenter`);
+        }
+        
+        function deleteProduct(id) {
+            if (confirm(`Êtes-vous sûr de vouloir supprimer le produit #${id}?`)) {
+                alert(`Produit #${id} supprimé - Fonctionnalité à implémenter`);
+            }
+        }
+        
+        // Auto-refresh des métriques toutes les 30 secondes
+        setInterval(() => {
+            const performanceBadge = document.querySelector('.performance-badge .badge');
+            const score = Math.floor(Math.random() * 10 + 90);
+            performanceBadge.innerHTML = `<i class="fas fa-tachometer-alt"></i> Performance: ${score}%`;
+            
+            // Changer la couleur selon le score
+            performanceBadge.className = score > 95 ? 'badge bg-success' : 
+                                       score > 85 ? 'badge bg-warning' : 'badge bg-danger';
+        }, 30000);
+    </script>
+</body>
+</html>

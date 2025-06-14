@@ -2,15 +2,22 @@ import * as vscode from 'vscode';
 import { ThemeDesigner } from './themeDesigner';
 import { ColorPalette } from './colorPalette';
 import { ThemePreview } from './themePreview';
+import { ThemeGenerator } from './themeGenerator';
 import { ThemeExporter } from './themeExporter';
 
-export function activate(context: vscode.ExtensionContext) {
-    console.log('Extension Nexa Theme Designer activée');
+let themeDesigner: ThemeDesigner;
+let colorPalette: ColorPalette;
+let themePreview: ThemePreview;
+let themeGenerator: ThemeGenerator;
+let themeExporter: ThemeExporter;
 
-    const themeDesigner = new ThemeDesigner(context);
-    const colorPalette = new ColorPalette(context);
-    const themePreview = new ThemePreview(context);
-    const themeExporter = new ThemeExporter(context);
+export function activate(context: vscode.ExtensionContext) {
+    // Initialize components
+    colorPalette = new ColorPalette(context);
+    themeGenerator = new ThemeGenerator(colorPalette);
+    themeExporter = new ThemeExporter();
+    themeDesigner = new ThemeDesigner(context);
+    themePreview = new ThemePreview(context);
 
     // Commandes principales
     const createTheme = vscode.commands.registerCommand('nexa.theme.create', async () => {
@@ -22,11 +29,33 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     const previewTheme = vscode.commands.registerCommand('nexa.theme.preview', async () => {
-        await themePreview.showPreview();
+        if (themeDesigner.getCurrentTheme) {
+                const currentTheme = await themeDesigner.getCurrentTheme();
+                if (currentTheme) {
+                    await themePreview.showPreview(currentTheme);
+                } else {
+                    vscode.window.showWarningMessage('Aucun thème actif à prévisualiser');
+                }
+            } else {
+                vscode.window.showWarningMessage('Aucun thème actif à prévisualiser');
+            }
     });
 
     const exportTheme = vscode.commands.registerCommand('nexa.theme.export', async () => {
-        await themeExporter.exportTheme();
+        try {
+            const currentTheme = await themeDesigner.getCurrentTheme();
+            if (currentTheme) {
+                const exportOptions = await themeExporter.showExportDialog(currentTheme);
+                if (exportOptions) {
+                    const outputPath = await themeExporter.exportTheme(currentTheme, exportOptions);
+                    vscode.window.showInformationMessage(`Thème exporté avec succès: ${outputPath}`);
+                }
+            } else {
+                vscode.window.showWarningMessage('Aucun thème à exporter. Créez d\'abord un thème.');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Erreur lors de l'export: ${error}`);
+        }
     });
 
     const importTheme = vscode.commands.registerCommand('nexa.theme.import', async () => {
@@ -41,12 +70,101 @@ export function activate(context: vscode.ExtensionContext) {
         await themeDesigner.deleteTheme();
     });
 
-    const openColorPicker = vscode.commands.registerCommand('nexa.theme.colorPicker', async () => {
-        await colorPalette.openColorPicker();
+    const openColorPicker = vscode.commands.registerCommand('nexa.theme.openColorPicker', async () => {
+        await colorPalette.createPalette();
     });
 
     const generatePalette = vscode.commands.registerCommand('nexa.theme.generatePalette', async () => {
-        await colorPalette.generateColorPalette();
+        await colorPalette.createPalette();
+    });
+
+    const generateFromTemplate = vscode.commands.registerCommand('nexa.theme.generateFromTemplate', async () => {
+        try {
+            const templates = themeGenerator.getBuiltInTemplates();
+            const selectedTemplate = await vscode.window.showQuickPick(
+                templates.map(t => ({
+                    label: t.name,
+                    description: t.description,
+                    detail: `Type: ${t.type}`,
+                    template: t
+                })),
+                {
+                    placeHolder: 'Sélectionnez un template de thème',
+                    title: 'Générer un thème à partir d\'un template'
+                }
+            );
+            
+            if (selectedTemplate) {
+                const theme = themeGenerator.generateTheme(selectedTemplate.template);
+                await themeDesigner.setCurrentTheme(theme);
+                vscode.window.showInformationMessage(`Thème "${theme.name}" généré avec succès!`);
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Erreur lors de la génération: ${error}`);
+        }
+    });
+
+    const generateFromPalette = vscode.commands.registerCommand('nexa.theme.generateFromPalette', async () => {
+        try {
+            const palettes = colorPalette.getPalettes();
+            if (palettes.size === 0) {
+                vscode.window.showWarningMessage('Aucune palette disponible. Créez d\'abord une palette.');
+                return;
+            }
+            const paletteNames = Array.from(palettes.keys());
+            const selectedPaletteName = await vscode.window.showQuickPick(paletteNames, {
+                placeHolder: 'Choisissez une palette'
+            });
+            if (!selectedPaletteName) return;
+            const palette = colorPalette.getPalette(selectedPaletteName);
+            if (!palette) {
+                vscode.window.showWarningMessage('Aucune palette disponible. Créez d\'abord une palette de couleurs.');
+                return;
+            }
+            
+            const themeName = await vscode.window.showInputBox({
+                prompt: 'Nom du thème',
+                placeHolder: 'Mon Thème Personnalisé'
+            });
+            
+            if (!themeName) {
+                return;
+            }
+            
+            const themeType = await vscode.window.showQuickPick(
+                [
+                    { label: 'Sombre', value: 'dark' as const },
+                    { label: 'Clair', value: 'light' as const }
+                ],
+                {
+                    placeHolder: 'Type de thème'
+                }
+            );
+            
+            if (!themeType) {
+                return;
+            }
+            
+            const theme = themeGenerator.generateFromColorPalette(palette, themeName, themeType.value);
+            await themeDesigner.setCurrentTheme(theme);
+            vscode.window.showInformationMessage(`Thème "${theme.name}" généré à partir de la palette!`);
+        } catch (error) {
+            vscode.window.showErrorMessage(`Erreur lors de la génération: ${error}`);
+        }
+    });
+
+    const installTheme = vscode.commands.registerCommand('nexa.theme.install', async () => {
+        try {
+            const currentTheme = await themeDesigner.getCurrentTheme();
+            if (currentTheme) {
+                await themeGenerator.installTheme(currentTheme);
+                vscode.window.showInformationMessage('Thème installé avec succès!');
+            } else {
+                vscode.window.showWarningMessage('Aucun thème à installer. Créez d\'abord un thème.');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Erreur lors de l'installation: ${error}`);
+        }
     });
 
     const applyTemplate = vscode.commands.registerCommand('nexa.theme.applyTemplate', async () => {
@@ -70,11 +188,41 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     const shareTheme = vscode.commands.registerCommand('nexa.theme.share', async () => {
-        await themeExporter.shareTheme();
+        try {
+            const currentTheme = await themeDesigner.getCurrentTheme();
+            if (currentTheme) {
+                const exportOptions = {
+                    format: 'json' as const,
+                    includeMetadata: true,
+                    minify: false
+                };
+                const outputPath = await themeExporter.exportTheme(currentTheme, exportOptions);
+                vscode.window.showInformationMessage(`Thème partagé: ${outputPath}`);
+            } else {
+                vscode.window.showWarningMessage('Aucun thème à partager.');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Erreur lors du partage: ${error}`);
+        }
     });
 
     const publishTheme = vscode.commands.registerCommand('nexa.theme.publish', async () => {
-        await themeExporter.publishTheme();
+        try {
+            const currentTheme = await themeDesigner.getCurrentTheme();
+            if (currentTheme) {
+                const exportOptions = {
+                    format: 'vsix' as const,
+                    includeMetadata: true,
+                    minify: false
+                };
+                const outputPath = await themeExporter.exportTheme(currentTheme, exportOptions);
+                vscode.window.showInformationMessage(`Package VSIX créé: ${outputPath}`);
+            } else {
+                vscode.window.showWarningMessage('Aucun thème à publier.');
+            }
+        } catch (error) {
+            vscode.window.showErrorMessage(`Erreur lors de la publication: ${error}`);
+        }
     });
 
     // Enregistrement des commandes
@@ -88,6 +236,9 @@ export function activate(context: vscode.ExtensionContext) {
         deleteTheme,
         openColorPicker,
         generatePalette,
+        generateFromTemplate,
+        generateFromPalette,
+        installTheme,
         applyTemplate,
         customizeColors,
         customizeTokens,
@@ -141,6 +292,9 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
+    if (themeExporter) {
+        themeExporter.dispose();
+    }
     console.log('Extension Nexa Theme Designer désactivée');
 }
 

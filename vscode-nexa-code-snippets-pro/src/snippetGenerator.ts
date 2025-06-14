@@ -28,7 +28,7 @@ export class SnippetGenerator {
         const generatedSnippet = await this.generateContextualSnippet(snippetType, projectContext, selectedText);
 
         if (generatedSnippet) {
-            await editor.edit(editBuilder => {
+            await editor.edit((editBuilder: vscode.TextEditorEdit) => {
                 if (selection.isEmpty) {
                     editBuilder.insert(selection.start, generatedSnippet);
                 } else {
@@ -40,7 +40,7 @@ export class SnippetGenerator {
         }
     }
 
-    private async analyzeProjectContext(): Promise<any> {
+    private async analyzeProjectContext(): Promise<{hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}> {
         const context = {
             hasHandlers: false,
             hasEntities: false,
@@ -99,7 +99,7 @@ export class SnippetGenerator {
         return 'generic';
     }
 
-    private async generateContextualSnippet(type: string, context: any, selectedText: string): Promise<string> {
+    private async generateContextualSnippet(type: string, context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): Promise<string> {
         const snippets: { [key: string]: string } = {
             handler: this.generateHandlerSnippet(context, selectedText),
             entity: this.generateEntitySnippet(context, selectedText),
@@ -113,7 +113,7 @@ export class SnippetGenerator {
         return snippets[type] || snippets.generic;
     }
 
-    private generateHandlerSnippet(context: any, selectedText: string): string {
+    private generateHandlerSnippet(context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): string {
         const className = selectedText || 'NewHandler';
         return `<?php
 
@@ -143,7 +143,7 @@ class ${className} extends Handler
 }`;
     }
 
-    private generateEntitySnippet(context: any, selectedText: string): string {
+    private generateEntitySnippet(context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): string {
         const className = selectedText || 'NewEntity';
         return `<?php
 
@@ -177,7 +177,7 @@ class ${className} extends Entity
 }`;
     }
 
-    private generateMiddlewareSnippet(context: any, selectedText: string): string {
+    private generateMiddlewareSnippet(context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): string {
         const className = selectedText || 'NewMiddleware';
         return `<?php
 
@@ -203,7 +203,7 @@ class ${className} extends Middleware
 }`;
     }
 
-    private generateWebSocketSnippet(context: any, selectedText: string): string {
+    private generateWebSocketSnippet(context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): string {
         const className = selectedText || 'NewWebSocketHandler';
         return `<?php
 
@@ -246,7 +246,7 @@ class ${className} extends WebSocketHandler
 }`;
     }
 
-    private generateGraphQLSnippet(context: any, selectedText: string): string {
+    private generateGraphQLSnippet(context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): string {
         const className = selectedText || 'NewResolver';
         return `<?php
 
@@ -282,7 +282,7 @@ class ${className} extends Resolver
 }`;
     }
 
-    private generateTestSnippet(context: any, selectedText: string): string {
+    private generateTestSnippet(context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): string {
         const className = selectedText || 'NewTest';
         return `<?php
 
@@ -313,7 +313,7 @@ class ${className} extends NexaTestCase
 }`;
     }
 
-    private generateGenericSnippet(context: any, selectedText: string): string {
+    private generateGenericSnippet(context: {hasHandlers: boolean, hasEntities: boolean, hasMiddleware: boolean, hasWebSockets: boolean, hasGraphQL: boolean, hasMicroservices: boolean, framework: string}, selectedText: string): string {
         return `<?php
 
 // TODO: Snippet générique généré automatiquement

@@ -138,7 +138,7 @@
             "editor/title": [
                 {
                     "command": "nexa.test.runTestFile",
-                    "when": "resourceFilename =~ /Test\.php$/ && nexaProject",
+                    "when": "resourceFilename =~ /Test\\.php$/ && nexaProject",
                     "group": "navigation"
                 }
             ]
@@ -163,7 +163,11 @@
                 },
                 "nexa.test.coverageFormat": {
                     "type": "string",
-                    "enum": ["html", "clover", "text"],
+                    "enum": [
+                        "html",
+                        "clover",
+                        "text"
+                    ],
                     "default": "html",
                     "description": "Format de rapport de couverture"
                 },
@@ -179,7 +183,11 @@
                 },
                 "nexa.test.mockFramework": {
                     "type": "string",
-                    "enum": ["phpunit", "mockery", "prophecy"],
+                    "enum": [
+                        "phpunit",
+                        "mockery",
+                        "prophecy"
+                    ],
                     "default": "phpunit",
                     "description": "Framework de mocking à utiliser"
                 }
@@ -192,14 +200,14 @@
         "watch": "tsc -watch -p ./"
     },
     "devDependencies": {
-        "@types/vscode": "^1.74.0",
         "@types/node": "16.x",
+        "@types/vscode": "^1.100.0",
         "typescript": "^4.9.4"
     },
     "dependencies": {
-        "xml2js": "^0.6.2",
         "chokidar": "^3.5.3",
-        "lcov-parse": "^1.0.0"
+        "lcov-parse": "^1.0.0",
+        "xml2js": "^0.6.2"
     },
     "repository": {
         "type": "git",

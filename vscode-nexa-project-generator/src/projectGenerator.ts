@@ -14,7 +14,7 @@ export class ProjectGenerator {
     async createNewProject(): Promise<void> {
         const projectName = await vscode.window.showInputBox({
             prompt: 'Nom du projet Nexa',
-            placeholder: 'mon-projet-nexa'
+            placeHolder: 'mon-projet-nexa'
         });
 
         if (!projectName) return;
@@ -94,7 +94,7 @@ export class ProjectGenerator {
     async addModule(): Promise<void> {
         const moduleName = await vscode.window.showInputBox({
             prompt: 'Nom du module',
-            placeholder: 'UserModule'
+            placeHolder: 'UserModule'
         });
 
         if (!moduleName) return;
@@ -122,7 +122,7 @@ export class ProjectGenerator {
     async generateAPI(): Promise<void> {
         const entityName = await vscode.window.showInputBox({
             prompt: 'Nom de l\'entité pour l\'API',
-            placeholder: 'User'
+            placeHolder: 'User'
         });
 
         if (!entityName) return;
@@ -148,14 +148,14 @@ export class ProjectGenerator {
     async generateCRUD(): Promise<void> {
         const entityName = await vscode.window.showInputBox({
             prompt: 'Nom de l\'entité CRUD',
-            placeholder: 'Product'
+            placeHolder: 'Product'
         });
 
         if (!entityName) return;
 
         const fields = await vscode.window.showInputBox({
             prompt: 'Champs (séparés par des virgules)',
-            placeholder: 'name:string,price:float,description:text'
+            placeHolder: 'name:string,price:float,description:text'
         });
 
         if (!fields) return;
@@ -171,7 +171,7 @@ export class ProjectGenerator {
     async generateMicroservice(): Promise<void> {
         const serviceName = await vscode.window.showInputBox({
             prompt: 'Nom du microservice',
-            placeholder: 'UserService'
+            placeHolder: 'UserService'
         });
 
         if (!serviceName) return;
@@ -198,14 +198,14 @@ export class ProjectGenerator {
     async generateWebSocket(): Promise<void> {
         const handlerName = await vscode.window.showInputBox({
             prompt: 'Nom du handler WebSocket',
-            placeholder: 'ChatHandler'
+            placeHolder: 'ChatHandler'
         });
 
         if (!handlerName) return;
 
         const events = await vscode.window.showInputBox({
             prompt: 'Événements (séparés par des virgules)',
-            placeholder: 'message,join,leave'
+            placeHolder: 'message,join,leave'
         });
 
         try {
@@ -219,7 +219,7 @@ export class ProjectGenerator {
     async generateGraphQL(): Promise<void> {
         const schemaName = await vscode.window.showInputBox({
             prompt: 'Nom du schéma GraphQL',
-            placeholder: 'UserSchema'
+            placeHolder: 'UserSchema'
         });
 
         if (!schemaName) return;

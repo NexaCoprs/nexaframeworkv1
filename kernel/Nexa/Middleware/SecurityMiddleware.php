@@ -64,8 +64,10 @@ class SecurityMiddleware
         // 4. Traitement normal de la requête
         $response = $next($request);
         
-        // 5. Ajout des headers de sécurité
-        $this->addSecurityHeaders($response);
+        // 5. Ajout des headers de sécurité (seulement si c'est une Response)
+        if ($response instanceof Response) {
+            $this->addSecurityHeaders($response);
+        }
         
         return $response;
     }
@@ -124,5 +126,45 @@ class SecurityMiddleware
             (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on') ||
             (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
         );
+    }
+
+    /**
+     * Generate CSRF token
+     */
+    public function generateCSRFToken(): string
+    {
+        return $this->csrf->generateToken();
+    }
+
+    /**
+     * Sanitize input to prevent XSS
+     */
+    public function sanitizeInput(string $input): string
+    {
+        return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Check rate limit for IP and endpoint
+     */
+    public function checkRateLimit(string $clientIP, int $maxAttempts = 60, int $decayMinutes = 1): bool
+    {
+        return $this->rateLimiter->attempt($clientIP, $maxAttempts, $decayMinutes);
+    }
+
+    /**
+     * Sanitize SQL input
+     */
+    public function sanitizeSqlInput(string $input): string
+    {
+        return addslashes(trim($input));
+    }
+
+    /**
+     * Escape HTML content
+     */
+    public function escapeHtml(string $content): string
+    {
+        return htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
     }
 }

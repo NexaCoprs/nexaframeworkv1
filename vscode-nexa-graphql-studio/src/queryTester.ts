@@ -681,7 +681,7 @@ export class QueryTester {
 
             // Simuler une requête HTTP (dans un vrai environnement, vous utiliseriez fetch ou axios)
             // Pour cette démo, nous simulons une réponse
-            const mockResponse = await this.simulateGraphQLRequest(requestBody, endpoint);
+            const response = await this.executeGraphQLRequest(requestBody, endpoint);
             
             const responseTime = Date.now() - startTime;
             
@@ -700,38 +700,71 @@ export class QueryTester {
         }
     }
 
-    private async simulateGraphQLRequest(requestBody: any, endpoint: string): Promise<any> {
-        // Simulation d'une réponse GraphQL
-        // Dans un vrai environnement, vous feriez un appel HTTP réel
-        
-        await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 500)); // Simuler la latence
-        
-        if (requestBody.query.includes('users')) {
-            return {
-                data: {
-                    users: [
-                        { id: 1, name: 'John Doe', email: 'john@example.com', createdAt: '2023-01-01T00:00:00Z' },
-                        { id: 2, name: 'Jane Smith', email: 'jane@example.com', createdAt: '2023-01-02T00:00:00Z' },
-                        { id: 3, name: 'Bob Johnson', email: 'bob@example.com', createdAt: '2023-01-03T00:00:00Z' }
-                    ]
-                }
+    private async executeGraphQLRequest(requestBody: any, endpoint: string): Promise<any> {
+        try {
+            const axios = require('axios');
+            
+            // Get authentication headers if available
+            const headers: any = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             };
-        } else if (requestBody.query.includes('createUser')) {
-            return {
-                data: {
-                    createUser: {
-                        id: 4,
-                        name: requestBody.variables.input?.name || 'Nouvel utilisateur',
-                        email: requestBody.variables.input?.email || 'nouveau@example.com'
-                    }
-                }
-            };
-        } else {
-            return {
-                data: {
-                    message: 'Requête exécutée avec succès (simulation)'
-                }
-            };
+            
+            // Add authorization header if token is available
+            const config = vscode.workspace.getConfiguration('nexa.graphql');
+            const authToken = config.get<string>('authToken');
+            if (authToken) {
+                headers['Authorization'] = `Bearer ${authToken}`;
+            }
+            
+            // Add custom headers if configured
+            const customHeaders = config.get<object>('customHeaders');
+            if (customHeaders) {
+                Object.assign(headers, customHeaders);
+            }
+            
+            const response = await axios.post(endpoint, requestBody, {
+                headers,
+                timeout: config.get<number>('timeout') || 30000,
+                validateStatus: (status: number) => status < 500 // Accept 4xx errors as valid responses
+            });
+            
+            return response.data;
+        } catch (error: any) {
+            if (error.response) {
+                // Server responded with error status
+                return {
+                    errors: [{
+                        message: `HTTP ${error.response.status}: ${error.response.statusText}`,
+                        extensions: {
+                            code: 'HTTP_ERROR',
+                            status: error.response.status,
+                            response: error.response.data
+                        }
+                    }]
+                };
+            } else if (error.request) {
+                // Network error
+                return {
+                    errors: [{
+                        message: 'Network error: Unable to reach GraphQL endpoint',
+                        extensions: {
+                            code: 'NETWORK_ERROR',
+                            details: error.message
+                        }
+                    }]
+                };
+            } else {
+                // Other error
+                return {
+                    errors: [{
+                        message: `Request error: ${error.message}`,
+                        extensions: {
+                            code: 'REQUEST_ERROR'
+                        }
+                    }]
+                };
+            }
         }
     }
 

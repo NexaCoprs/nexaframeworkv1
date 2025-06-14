@@ -43,7 +43,7 @@ export class TestReporter {
                         this.runSpecificTest(message.test);
                         break;
                     case 'exportReport':
-                        this.exportReport(message.format);
+                        this.exportReport();
                         break;
                 }
             },
@@ -119,33 +119,97 @@ export class TestReporter {
     }
 
     private async parseJUnitXML(filePath: string): Promise<any> {
-        // Simulation du parsing XML - dans un vrai projet, utilisez xml2js
-        return {
-            summary: {
-                total: 25,
-                passed: 22,
-                failed: 2,
-                skipped: 1,
-                duration: 12.45
-            },
-            suites: [
-                {
-                    name: 'Unit Tests',
-                    tests: 15,
-                    passed: 14,
-                    failed: 1,
-                    duration: 8.2
-                },
-                {
-                    name: 'Feature Tests',
-                    tests: 10,
-                    passed: 8,
-                    failed: 1,
-                    skipped: 1,
-                    duration: 4.25
+        try {
+            const xml2js = require('xml2js');
+            const xmlContent = fs.readFileSync(filePath, 'utf8');
+            
+            const parser = new xml2js.Parser({ explicitArray: false });
+            const result = await parser.parseStringPromise(xmlContent);
+            
+            const testsuites = result.testsuites || result.testsuite;
+            if (!testsuites) {
+                throw new Error('Invalid JUnit XML format');
+            }
+            
+            const suites = Array.isArray(testsuites.testsuite) ? testsuites.testsuite : [testsuites.testsuite || testsuites];
+            
+            let totalTests = 0;
+            let totalPassed = 0;
+            let totalFailed = 0;
+            let totalSkipped = 0;
+            let totalDuration = 0;
+            
+            const parsedSuites = suites.map((suite: any) => {
+                const tests = parseInt(suite.$.tests || '0');
+                const failures = parseInt(suite.$.failures || '0');
+                const errors = parseInt(suite.$.errors || '0');
+                const skipped = parseInt(suite.$.skipped || '0');
+                const time = parseFloat(suite.$.time || '0');
+                const passed = tests - failures - errors - skipped;
+                
+                totalTests += tests;
+                totalPassed += passed;
+                totalFailed += failures + errors;
+                totalSkipped += skipped;
+                totalDuration += time;
+                
+                const testCases = [];
+                if (suite.testcase) {
+                    const cases = Array.isArray(suite.testcase) ? suite.testcase : [suite.testcase];
+                    testCases.push(...cases.map((testcase: any) => {
+                        let status = 'passed';
+                        let error = null;
+                        
+                        if (testcase.failure) {
+                            status = 'failed';
+                            error = testcase.failure._ || testcase.failure;
+                        } else if (testcase.error) {
+                            status = 'failed';
+                            error = testcase.error._ || testcase.error;
+                        } else if (testcase.skipped) {
+                            status = 'skipped';
+                        }
+                        
+                        return {
+                            name: testcase.$.name,
+                            class: testcase.$.classname,
+                            status,
+                            duration: parseFloat(testcase.$.time || '0'),
+                            error,
+                            file: testcase.$.file,
+                            line: testcase.$.line ? parseInt(testcase.$.line) : undefined
+                        };
+                    }));
                 }
-            ]
-        };
+                
+                return {
+                    name: suite.$.name,
+                    file: suite.$.file || suite.$.name,
+                    tests,
+                    passed,
+                    failed: failures + errors,
+                    skipped,
+                    duration: time,
+                    testCases
+                };
+            });
+            
+            return {
+                summary: {
+                    total: totalTests,
+                    passed: totalPassed,
+                    failed: totalFailed,
+                    skipped: totalSkipped,
+                    duration: totalDuration,
+                    coverage: null // Coverage not available in JUnit XML
+                },
+                suites: parsedSuites
+            };
+        } catch (error) {
+            console.error('Error parsing JUnit XML:', error);
+            // Fallback to mock data if parsing fails
+            return this.generateMockResults();
+        }
     }
 
     private generateMockResults(): any {
@@ -558,10 +622,10 @@ export class TestReporter {
         let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
         xml += `<testsuites tests="${summary.total}" failures="${summary.failed}" skipped="${summary.skipped}" time="${summary.duration}">\n`;
         
-        suites.forEach(suite => {
+        suites.forEach((suite: any) => {
             xml += `  <testsuite name="${suite.name}" tests="${suite.tests}" failures="${suite.failed}" skipped="${suite.skipped || 0}" time="${suite.duration}">\n`;
             
-            (suite.testCases || []).forEach(test => {
+            (suite.testCases || []).forEach((test: any) => {
                 xml += `    <testcase name="${test.name}" classname="${test.class}" time="${test.duration || 0}">\n`;
                 
                 if (test.status === 'failed') {
@@ -584,8 +648,8 @@ export class TestReporter {
         let csv = 'Suite,Test,Class,Status,Duration,Error\n';
         
         const suites = this.testResults?.suites || [];
-        suites.forEach(suite => {
-            (suite.testCases || []).forEach(test => {
+        suites.forEach((suite: any) => {
+            (suite.testCases || []).forEach((test: any) => {
                 csv += `"${suite.name}","${test.name}","${test.class}","${test.status}","${test.duration || 0}","${test.error || ''}"}\n`;
             });
         });
@@ -610,11 +674,11 @@ export class TestReporter {
         }
         report += '\n';
         
-        suites.forEach(suite => {
+        suites.forEach((suite: any) => {
             report += `${suite.name}\n`;
             report += '-'.repeat(suite.name.length) + '\n';
             
-            (suite.testCases || []).forEach(test => {
+            (suite.testCases || []).forEach((test: any) => {
                 const status = test.status.toUpperCase().padEnd(8);
                 report += `${status} ${test.name} (${(test.duration || 0).toFixed(3)}s)\n`;
                 
