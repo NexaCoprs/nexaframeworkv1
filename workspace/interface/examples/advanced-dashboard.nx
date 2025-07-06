@@ -1,0 +1,301 @@
+@extends('layouts.app')
+
+@section('title', 'Dashboard Avancé - ' . $user->name)
+
+@section('body-class', 'dashboard-page')
+
+@push('styles')
+    <link href="/assets/css/dashboard.css" rel="stylesheet">
+    <link href="/assets/css/charts.css" rel="stylesheet">
+@endpush
+
+@section('content')
+    <div class="dashboard-container">
+        <!-- Header avec informations utilisateur -->
+        <header class="dashboard-header">
+            <div class="user-welcome">
+                <h1>{{ __('dashboard.welcome', ['name' => $user->name | ucfirst]) }}</h1>
+                <p class="text-muted">{{ __('dashboard.last_login') }}: {{ $user->last_login_at | date('d/m/Y H:i') }}</p>
+            </div>
+            
+            <div class="header-actions">
+                @can('create', 'App\Models\Project')
+                    <nx:button @click="createProject" variant="primary" icon="plus">
+                        {{ __('dashboard.new_project') }}
+                    </nx:button>
+                @endcan
+                
+                <nx:dropdown>
+                    <template #trigger>
+                        <nx:avatar :src="$user->avatar" :name="$user->name" size="md" />
+                    </template>
+                    
+                    <nx:dropdown-item @click="editProfile">
+                        <nx:icon name="user" /> {{ __('profile.edit') }}
+                    </nx:dropdown-item>
+                    
+                    <nx:dropdown-item @click="logout">
+                        <nx:icon name="logout" /> {{ __('auth.logout') }}
+                    </nx:dropdown-item>
+                </nx:dropdown>
+            </div>
+        </header>
+        
+        <!-- Statistiques rapides -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                @use('stat-card', [
+                    'title' => __('dashboard.projects'),
+                    'value' => $user->projects->count(),
+                    'icon' => 'folder',
+                    'trend' => $projectsTrend,
+                    'color' => 'blue'
+                ])
+                
+                @use('stat-card', [
+                    'title' => __('dashboard.tasks'),
+                    'value' => $user->tasks->where('status', 'pending')->count(),
+                    'icon' => 'check-circle',
+                    'trend' => $tasksTrend,
+                    'color' => 'green'
+                ])
+                
+                @use('stat-card', [
+                    'title' => __('dashboard.revenue'),
+                    'value' => $totalRevenue | currency('EUR'),
+                    'icon' => 'dollar-sign',
+                    'trend' => $revenueTrend,
+                    'color' => 'purple'
+                ])
+                
+                @use('stat-card', [
+                    'title' => __('dashboard.performance'),
+                    'value' => $performanceScore . '%',
+                    'icon' => 'trending-up',
+                    'trend' => $performanceTrend,
+                    'color' => 'orange'
+                ])
+            </div>
+        </section>
+        
+        <!-- Projets récents -->
+        <section class="projects-section">
+            <div class="section-header">
+                <h2>{{ __('dashboard.recent_projects') }}</h2>
+                <nx:button variant="outline" @click="viewAllProjects">
+                    {{ __('dashboard.view_all') }}
+                </nx:button>
+            </div>
+            
+            @forelse($user->projects->take(6) as $project)
+                <nx:project-card 
+                    :project="$project"
+                    :show-actions="true"
+                    @updated="refreshProjects"
+                    @deleted="handleProjectDeleted"
+                    :cache="'project_' . $project->id"
+                />
+            @empty
+                <nx:empty-state 
+                    title="{{ __('dashboard.no_projects') }}"
+                    description="{{ __('dashboard.create_first_project') }}"
+                    action="createProject"
+                    icon="folder-plus"
+                />
+            @endforelse
+        </section>
+        
+        <!-- Analytics et graphiques -->
+        <section class="analytics-section">
+            <div class="charts-grid">
+                <nx:card title="{{ __('dashboard.performance_chart') }}" class="chart-card">
+                    <nx:chart 
+                        type="line"
+                        :data="$performanceData"
+                        :options="{
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'top' }
+                            },
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }"
+                    />
+                </nx:card>
+                
+                <nx:card title="{{ __('dashboard.task_distribution') }}" class="chart-card">
+                    <nx:chart 
+                        type="doughnut"
+                        :data="$taskDistribution"
+                        :options="{
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            }
+                        }"
+                    />
+                </nx:card>
+            </div>
+        </section>
+        
+        <!-- Activité récente -->
+        <section class="activity-section">
+            <nx:card title="{{ __('dashboard.recent_activity') }}">
+                <nx:timeline>
+                    @foreach($recentActivities as $activity)
+                        <nx:timeline-item 
+                            :time="$activity->created_at | date('H:i')"
+                            :icon="$activity->icon"
+                            :color="$activity->type | activityColor"
+                        >
+                            <div class="activity-content">
+                                <p class="activity-description">
+                                    {{ $activity->description | markdown }}
+                                </p>
+                                
+                                @if($activity->metadata)
+                                    <div class="activity-metadata">
+                                        @switch($activity->type)
+                                            @case('project_created')
+                                                <nx:badge variant="success">{{ __('activity.new_project') }}</nx:badge>
+                                                @break
+                                            @case('task_completed')
+                                                <nx:badge variant="info">{{ __('activity.task_done') }}</nx:badge>
+                                                @break
+                                            @case('file_uploaded')
+                                                <nx:badge variant="warning">{{ __('activity.file_upload') }}</nx:badge>
+                                                @break
+                                            @default
+                                                <nx:badge>{{ $activity->type | ucfirst }}</nx:badge>
+                                        @endswitch
+                                    </div>
+                                @endif
+                            </div>
+                        </nx:timeline-item>
+                    @endforeach
+                </nx:timeline>
+                
+                @if($recentActivities->isEmpty())
+                    <div class="empty-activity">
+                        <nx:icon name="activity" size="lg" class="text-gray-400" />
+                        <p class="text-gray-500">{{ __('dashboard.no_recent_activity') }}</p>
+                    </div>
+                @endif
+            </nx:card>
+        </section>
+        
+        <!-- Tâches en cours -->
+        <section class="tasks-section">
+            <div class="section-header">
+                <h2>{{ __('dashboard.pending_tasks') }}</h2>
+                <nx:task-filter 
+                    :bind="taskFilter"
+                    @change="filterTasks"
+                    :options="[
+                        { value: 'all', label: __('tasks.all') },
+                        { value: 'high', label: __('tasks.high_priority') },
+                        { value: 'medium', label: __('tasks.medium_priority') },
+                        { value: 'low', label: __('tasks.low_priority') }
+                    ]"
+                />
+            </div>
+            
+            <nx:task-list 
+                :tasks="$pendingTasks"
+                :filter="taskFilter"
+                @task-completed="handleTaskCompleted"
+                @task-updated="refreshTasks"
+                :validate="{
+                    title: 'required|string|max:255',
+                    priority: 'required|in:low,medium,high',
+                    due_date: 'nullable|date|after:today'
+                }"
+                :cache="'user_tasks_' . $user->id"
+            />
+        </section>
+        
+        <!-- Widgets personnalisables -->
+        <section class="widgets-section">
+            <div class="widgets-grid">
+                @foreach($user->dashboardWidgets as $widget)
+                    @includeFirst([
+                        'widgets.' . $widget->type . '-' . $widget->variant,
+                        'widgets.' . $widget->type,
+                        'widgets.default'
+                    ], ['widget' => $widget])
+                @endforeach
+            </div>
+        </section>
+    </div>
+    
+    <!-- Modales -->
+    <nx:modal 
+        :show="showCreateProject"
+        title="{{ __('projects.create_new') }}"
+        @close="showCreateProject = false"
+        size="lg"
+    >
+        <nx:form 
+            :model="newProject"
+            :validation="projectValidation"
+            @submit="saveProject"
+        >
+            @use('form-input', [
+                'name' => 'name',
+                'label' => __('projects.name'),
+                'required' => true,
+                'placeholder' => __('projects.name_placeholder')
+            ])
+            
+            @use('form-textarea', [
+                'name' => 'description',
+                'label' => __('projects.description'),
+                'rows' => 4,
+                'placeholder' => __('projects.description_placeholder')
+            ])
+            
+            @use('form-select', [
+                'name' => 'category_id',
+                'label' => __('projects.category'),
+                'options' => $projectCategories,
+                'required' => true
+            ])
+            
+            @use('form-date', [
+                'name' => 'due_date',
+                'label' => __('projects.due_date'),
+                'min' => now()->format('Y-m-d')
+            ])
+            
+            <template #footer>
+                <nx:button type="submit" variant="primary" :loading="saving">
+                    {{ __('projects.create') }}
+                </nx:button>
+                <nx:button @click="showCreateProject = false" variant="outline">
+                    {{ __('common.cancel') }}
+                </nx:button>
+            </template>
+        </nx:form>
+    </nx:modal>
+@endsection
+
+@push('scripts')
+    <script src="/assets/js/dashboard.js"></script>
+    <script src="/assets/js/charts.js"></script>
+    <script>
+        // Configuration du dashboard
+        window.dashboardConfig = {
+            userId: {{ $user->id }},
+            locale: '{{ app()->getLocale() }}',
+            timezone: '{{ $user->timezone ?? config('app.timezone') }}',
+            refreshInterval: {{ config('dashboard.refresh_interval', 30000) }},
+            realtime: {{ config('dashboard.realtime', 'true') }}
+        };
+        
+        // Initialisation du dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            new AdvancedDashboard(window.dashboardConfig);
+        });
+    </script>
+@endpush

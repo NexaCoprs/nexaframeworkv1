@@ -10,6 +10,7 @@ $webRouter = new Router();
 $webRouter->get('/', [WelcomeHandler::class, 'index']);
 $webRouter->get('/about', [WelcomeHandler::class, 'about']);
 $webRouter->get('/documentation', [WelcomeHandler::class, 'documentation']);
+$webRouter->get('/template', [WelcomeHandler::class, 'template']);
 $webRouter->get('/contact', [WelcomeHandler::class, 'contact']);
 $webRouter->post('/contact', [WelcomeHandler::class, 'contact']);
 

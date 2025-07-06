@@ -78,6 +78,7 @@
                         <a href="/" class="text-white/80 hover:text-white transition-colors">Accueil</a>
                         <a href="/about" class="text-white/80 hover:text-white transition-colors">À propos</a>
                         <a href="/documentation" class="text-white/80 hover:text-white transition-colors">Documentation</a>
+                        <a href="/template" class="text-white/80 hover:text-white transition-colors">Templates NX</a>
                         <a href="/contact" class="text-white hover:text-white transition-colors border-b border-white/30">Contact</a>
                     </div>
                 </div>

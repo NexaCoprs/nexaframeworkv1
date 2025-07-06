@@ -50,3 +50,4 @@ composer.phar
 !/storage/framework/sessions/.gitkeep
 !/storage/framework/views/.gitkeep
 !/bootstrap/cache/.gitkeep
+node_modules

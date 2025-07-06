@@ -1,0 +1,373 @@
+{{-- Macros pour les formulaires --}}
+
+@macro('form-input', ['name', 'type' => 'text', 'label', 'placeholder' => '', 'required' => false, 'value' => '', 'class' => 'form-control', 'help' => ''])
+    <div class="form-group mb-4">
+        @if($label)
+            <label for="{{ $name }}" class="form-label">
+                {{ $label }}
+                @if($required)
+                    <span class="text-danger">*</span>
+                @endif
+            </label>
+        @endif
+        
+        <input 
+            type="{{ $type }}" 
+            name="{{ $name }}" 
+            id="{{ $name }}"
+            class="{{ $class }} @error($name) is-invalid @enderror"
+            value="{{ old($name, $value) }}"
+            placeholder="{{ $placeholder }}"
+            @if($required) required @endif
+            @if($type === 'email') autocomplete="email" @endif
+            @if($type === 'password') autocomplete="current-password" @endif
+        >
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('form-textarea', ['name', 'label', 'placeholder' => '', 'required' => false, 'value' => '', 'rows' => 4, 'class' => 'form-control', 'help' => ''])
+    <div class="form-group mb-4">
+        @if($label)
+            <label for="{{ $name }}" class="form-label">
+                {{ $label }}
+                @if($required)
+                    <span class="text-danger">*</span>
+                @endif
+            </label>
+        @endif
+        
+        <textarea 
+            name="{{ $name }}" 
+            id="{{ $name }}"
+            class="{{ $class }} @error($name) is-invalid @enderror"
+            rows="{{ $rows }}"
+            placeholder="{{ $placeholder }}"
+            @if($required) required @endif
+        >{{ old($name, $value) }}</textarea>
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('form-select', ['name', 'label', 'options' => [], 'required' => false, 'value' => '', 'placeholder' => '', 'class' => 'form-select', 'help' => ''])
+    <div class="form-group mb-4">
+        @if($label)
+            <label for="{{ $name }}" class="form-label">
+                {{ $label }}
+                @if($required)
+                    <span class="text-danger">*</span>
+                @endif
+            </label>
+        @endif
+        
+        <select 
+            name="{{ $name }}" 
+            id="{{ $name }}"
+            class="{{ $class }} @error($name) is-invalid @enderror"
+            @if($required) required @endif
+        >
+            @if($placeholder)
+                <option value="">{{ $placeholder }}</option>
+            @endif
+            
+            @foreach($options as $optionValue => $optionLabel)
+                <option 
+                    value="{{ $optionValue }}" 
+                    @if(old($name, $value) == $optionValue) selected @endif
+                >
+                    {{ $optionLabel }}
+                </option>
+            @endforeach
+        </select>
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('form-checkbox', ['name', 'label', 'value' => '1', 'checked' => false, 'class' => 'form-check-input', 'help' => ''])
+    <div class="form-check mb-4">
+        <input 
+            type="checkbox" 
+            name="{{ $name }}" 
+            id="{{ $name }}"
+            class="{{ $class }} @error($name) is-invalid @enderror"
+            value="{{ $value }}"
+            @if(old($name, $checked)) checked @endif
+        >
+        
+        <label for="{{ $name }}" class="form-check-label">
+            {{ $label }}
+        </label>
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('form-radio-group', ['name', 'label', 'options' => [], 'required' => false, 'value' => '', 'inline' => false, 'help' => ''])
+    <div class="form-group mb-4">
+        @if($label)
+            <label class="form-label">
+                {{ $label }}
+                @if($required)
+                    <span class="text-danger">*</span>
+                @endif
+            </label>
+        @endif
+        
+        <div class="@if($inline) form-check-inline @endif">
+            @foreach($options as $optionValue => $optionLabel)
+                <div class="form-check @if($inline) form-check-inline @endif">
+                    <input 
+                        type="radio" 
+                        name="{{ $name }}" 
+                        id="{{ $name }}_{{ $optionValue }}"
+                        class="form-check-input @error($name) is-invalid @enderror"
+                        value="{{ $optionValue }}"
+                        @if(old($name, $value) == $optionValue) checked @endif
+                        @if($required) required @endif
+                    >
+                    
+                    <label for="{{ $name }}_{{ $optionValue }}" class="form-check-label">
+                        {{ $optionLabel }}
+                    </label>
+                </div>
+            @endforeach
+        </div>
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('form-file', ['name', 'label', 'accept' => '', 'multiple' => false, 'required' => false, 'help' => '', 'preview' => false])
+    <div class="form-group mb-4">
+        @if($label)
+            <label for="{{ $name }}" class="form-label">
+                {{ $label }}
+                @if($required)
+                    <span class="text-danger">*</span>
+                @endif
+            </label>
+        @endif
+        
+        <input 
+            type="file" 
+            name="{{ $name }}@if($multiple)[]@endif" 
+            id="{{ $name }}"
+            class="form-control @error($name) is-invalid @enderror"
+            @if($accept) accept="{{ $accept }}" @endif
+            @if($multiple) multiple @endif
+            @if($required) required @endif
+            @if($preview) onchange="previewFile(this, '{{ $name }}_preview')" @endif
+        >
+        
+        @if($preview)
+            <div id="{{ $name }}_preview" class="file-preview mt-2"></div>
+        @endif
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('form-date', ['name', 'label', 'required' => false, 'value' => '', 'min' => '', 'max' => '', 'class' => 'form-control', 'help' => ''])
+    <div class="form-group mb-4">
+        @if($label)
+            <label for="{{ $name }}" class="form-label">
+                {{ $label }}
+                @if($required)
+                    <span class="text-danger">*</span>
+                @endif
+            </label>
+        @endif
+        
+        <input 
+            type="date" 
+            name="{{ $name }}" 
+            id="{{ $name }}"
+            class="{{ $class }} @error($name) is-invalid @enderror"
+            value="{{ old($name, $value) }}"
+            @if($min) min="{{ $min }}" @endif
+            @if($max) max="{{ $max }}" @endif
+            @if($required) required @endif
+        >
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('form-range', ['name', 'label', 'min' => '0', 'max' => '100', 'step' => '1', 'value' => '50', 'required' => false, 'help' => '', 'show-value' => true])
+    <div class="form-group mb-4">
+        @if($label)
+            <label for="{{ $name }}" class="form-label">
+                {{ $label }}
+                @if($required)
+                    <span class="text-danger">*</span>
+                @endif
+                @if($show-value)
+                    <span class="range-value" id="{{ $name }}_value">{{ old($name, $value) }}</span>
+                @endif
+            </label>
+        @endif
+        
+        <input 
+            type="range" 
+            name="{{ $name }}" 
+            id="{{ $name }}"
+            class="form-range @error($name) is-invalid @enderror"
+            min="{{ $min }}"
+            max="{{ $max }}"
+            step="{{ $step }}"
+            value="{{ old($name, $value) }}"
+            @if($required) required @endif
+            @if($show-value) oninput="document.getElementById('{{ $name }}_value').textContent = this.value" @endif
+        >
+        
+        @if($help)
+            <div class="form-text text-muted">{{ $help }}</div>
+        @endif
+        
+        @error($name)
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
+    </div>
+@endmacro
+
+@macro('stat-card', ['title', 'value', 'icon' => '', 'trend' => null, 'color' => 'primary', 'link' => ''])
+    <div class="stat-card stat-card-{{ $color }}">
+        @if($link)
+            <a href="{{ $link }}" class="stat-card-link">
+        @endif
+        
+        <div class="stat-card-body">
+            <div class="stat-card-content">
+                <div class="stat-card-header">
+                    @if($icon)
+                        <div class="stat-card-icon">
+                            <nx:icon name="{{ $icon }}" size="lg" />
+                        </div>
+                    @endif
+                    
+                    <div class="stat-card-info">
+                        <h3 class="stat-card-title">{{ $title }}</h3>
+                        <div class="stat-card-value">{{ $value }}</div>
+                    </div>
+                </div>
+                
+                @if($trend)
+                    <div class="stat-card-trend">
+                        @if($trend > 0)
+                            <span class="trend-up">
+                                <nx:icon name="trending-up" size="sm" />
+                                +{{ $trend }}%
+                            </span>
+                        @elseif($trend < 0)
+                            <span class="trend-down">
+                                <nx:icon name="trending-down" size="sm" />
+                                {{ $trend }}%
+                            </span>
+                        @else
+                            <span class="trend-neutral">
+                                <nx:icon name="minus" size="sm" />
+                                {{ $trend }}%
+                            </span>
+                        @endif
+                    </div>
+                @endif
+            </div>
+        </div>
+        
+        @if($link)
+            </a>
+        @endif
+    </div>
+@endmacro
+
+@macro('breadcrumb', ['items' => []])
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach($items as $item)
+                @if($loop->last)
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ $item['title'] }}
+                    </li>
+                @else
+                    <li class="breadcrumb-item">
+                        @if(isset($item['url']))
+                            <a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
+                        @else
+                            {{ $item['title'] }}
+                        @endif
+                    </li>
+                @endif
+            @endforeach
+        </ol>
+    </nav>
+@endmacro
+
+@macro('pagination-info', ['paginator'])
+    <div class="pagination-info">
+        <span class="text-muted">
+            {{ __('pagination.showing') }}
+            <strong>{{ $paginator->firstItem() ?? 0 }}</strong>
+            {{ __('pagination.to') }}
+            <strong>{{ $paginator->lastItem() ?? 0 }}</strong>
+            {{ __('pagination.of') }}
+            <strong>{{ $paginator->total() }}</strong>
+            {{ __('pagination.results') }}
+        </span>
+    </div>
+@endmacro
+
+@macro('loading-spinner', ['size' => 'md', 'color' => 'primary', 'text' => ''])
+    <div class="loading-spinner loading-spinner-{{ $size }} text-{{ $color }}">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">{{ $text ?: __('common.loading') }}</span>
+        </div>
+        @if($text)
+            <div class="loading-text mt-2">{{ $text }}</div>
+        @endif
+    </div>
+@endmacro

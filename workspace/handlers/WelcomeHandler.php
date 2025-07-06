@@ -50,6 +50,16 @@ class WelcomeHandler extends Controller
         
         return $this->view('documentation');
     }
+
+    public function template()
+    {
+        Logger::info('Template page accessed');
+        
+        return $this->view('template', [
+            'title' => 'Templates NX - Nexa Framework',
+            'description' => 'Découvrez le système de templates moderne de Nexa Framework'
+        ]);
+    }
     
     /**
      * Exemple d'utilisation de la validation
