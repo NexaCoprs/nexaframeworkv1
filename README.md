@@ -272,7 +272,7 @@ use Workspace\Handlers\{UserHandler, PostHandler};
 
 // Routes simples avec auto-découverte
 Route::get('/', fn() => view('welcome'));
-Route::get('/dashboard', [UserHandler::class, 'dashboard'])->middleware('auth');
+Route::get('/dashboard', [UserController::class, 'dashboard'])->middleware('auth');
 
 // Groupes de routes avec middleware et préfixes
 Route::group(['prefix' => 'api/v1', 'middleware' => ['auth:jwt', 'throttle:60,1']], function() {
@@ -698,35 +698,44 @@ return [
 ### 💾 Cache Intelligent
 
 ```php
+use Nexa\Core\Cache;
+
 // Cache simple
 Cache::put('key', 'value', 3600); // 1 heure
 $value = Cache::get('key', 'default');
 
 // Remember pattern
-$users = Cache::remember('active_users', 3600, function() {
+$users = Cache::remember('active_users', function() {
     return User::where('active', true)->get();
-});
+}, 3600);
 
-// Cache permanent
-Cache::forever('settings', $settings);
+// Vérifier l'existence
+if (Cache::has('key')) {
+    $value = Cache::get('key');
+}
 ```
 
 ### Système d'événements
 
 ```php
+use Nexa\Events\EventDispatcher;
+use Nexa\Events\UserRegistered;
+
+// Créer le dispatcher
+$dispatcher = new EventDispatcher();
+
 // Déclencher un événement
-Event::dispatch('user.created', $user);
+$event = new UserRegistered($user);
+$dispatcher->dispatch($event);
 
 // Écouter un événement
-Event::listen('user.created', function($user) {
-    // Envoyer un email de bienvenue
-    Mail::send('welcome', $user);
+$dispatcher->listen('user.registered', function($event) {
+    $user = $event->get('user');
+    // Traitement de l'événement
 });
 
-// Wildcards
-Event::listen('user.*', function($event, $data) {
-    Log::info("Événement utilisateur: {$event}");
-});
+// Listener avec priorité
+$dispatcher->listen('user.registered', $callback, 100);
 ```
 
 ## 🛠️ Installation
